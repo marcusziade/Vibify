@@ -9,7 +9,7 @@ final class PlaylistGenerator {
     func fetchPlaylistSuggestion(prompt: String) async throws -> String {
         let url = URL(string: "https://api.openai.com/v1/engines/text-davinci-004/completions")!
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(Keys.openAIKey)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let requestBody: [String: Any] = [
@@ -22,6 +22,4 @@ final class PlaylistGenerator {
         let decodedResponse = try JSONDecoder().decode(OpenAIResponse.self, from: data)
         return decodedResponse.text
     }
-    
-    private let apiKey = "YOUR_OPENAI_API_KEY"
 }
