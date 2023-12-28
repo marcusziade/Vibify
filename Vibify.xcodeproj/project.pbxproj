@@ -11,6 +11,7 @@
 		5A1CD9782B3D1CA200AF0192 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9772B3D1CA200AF0192 /* ContentView.swift */; };
 		5A1CD97A2B3D1CA300AF0192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */; };
 		5A1CD97D2B3D1CA300AF0192 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A1CD97C2B3D1CA300AF0192 /* Preview Assets.xcassets */; };
+		5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		5A1CD9772B3D1CA200AF0192 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5A1CD97C2B3D1CA300AF0192 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */,
 				5A1CD9772B3D1CA200AF0192 /* ContentView.swift */,
+				5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */,
 				5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */,
 				5A1CD97B2B3D1CA300AF0192 /* Preview Content */,
 			);
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A1CD9782B3D1CA200AF0192 /* ContentView.swift in Sources */,
+				5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */,
 				5A1CD9762B3D1CA200AF0192 /* VibifyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
