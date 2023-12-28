@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var prompt: String = ""
+    @State private var prompt: String = "Give me 3 dance songs from 2010"
     @State private var playlistSuggestion: String = ""
     @State private var isLoading: Bool = false
     
@@ -32,6 +32,10 @@ struct ContentView: View {
                 } else {
                     Text(playlistSuggestion)
                         .padding()
+                    
+                    Button {} label: {
+                        Text("Add to Apple Music")
+                    }
                 }
             }
             .navigationBarTitle("Playlist Generator")

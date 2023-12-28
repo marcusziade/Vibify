@@ -1,25 +1,87 @@
 import Foundation
 
+struct OpenAIRequest: Codable {
+    let model: String
+    let prompt: String
+    let maxTokens: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case model
+        case prompt
+        case maxTokens = "max_tokens"
+    }
+}
+
 struct OpenAIResponse: Codable {
-    let text: String
+    let choices: [Choice]
+    
+    struct Choice: Codable {
+        let text: String
+    }
+}
+
+enum PlaylistGeneratorError: Error {
+    case urlSessionError(Error)
+    case dataDecodingError(Error)
+    case invalidResponse
+    case unauthorized
+    case rateLimitExceeded
 }
 
 final class PlaylistGenerator {
     
     func fetchPlaylistSuggestion(prompt: String) async throws -> String {
-        let url = URL(string: "https://api.openai.com/v1/engines/text-davinci-004/completions")!
+        guard let url = URL(string: "https://api.openai.com/v1/completions") else {
+            throw PlaylistGeneratorError.invalidResponse
+        }
+        
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(Keys.openAIKey)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        let requestBody: [String: Any] = [
-            "prompt": prompt,
-            "max_tokens": 100
-        ]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: requestBody)
+        request.addValue("Bearer \(Keys.openAIKey)", forHTTPHeaderField: "Authorization")
         
-        let (data, _) = try await URLSession.shared.data(for: request)
-        let decodedResponse = try JSONDecoder().decode(OpenAIResponse.self, from: data)
-        return decodedResponse.text
+        let body = OpenAIRequest(model: "text-davinci-003", prompt: prompt, maxTokens: 100)
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(body)
+        } catch {
+            debugPrint("JSON Serialization Error: \(error)")
+            throw PlaylistGeneratorError.dataDecodingError(error)
+        }
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                debugPrint("Invalid response")
+                throw PlaylistGeneratorError.invalidResponse
+            }
+            
+            switch httpResponse.statusCode {
+            case 200:
+                do {
+                    let decodedResponse = try JSONDecoder().decode(OpenAIResponse.self, from: data)
+                    guard let firstChoice = decodedResponse.choices.first else {
+                        throw PlaylistGeneratorError.invalidResponse
+                    }
+                    return firstChoice.text
+                } catch {
+                    debugPrint("Error decoding response: \(error)")
+                    throw PlaylistGeneratorError.dataDecodingError(error)
+                }
+            case 401:
+                debugPrint("Unauthorized: Invalid API Key")
+                throw PlaylistGeneratorError.unauthorized
+            case 429:
+                debugPrint("Rate limit exceeded")
+                throw PlaylistGeneratorError.rateLimitExceeded
+            default:
+                debugPrint("Invalid status code: \(httpResponse.statusCode)")
+                throw PlaylistGeneratorError.invalidResponse
+            }
+        } catch {
+            debugPrint("URL Session error: \(error)")
+            throw PlaylistGeneratorError.urlSessionError(error)
+        }
     }
 }
