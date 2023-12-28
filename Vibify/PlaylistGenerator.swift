@@ -30,7 +30,7 @@ enum PlaylistGeneratorError: Error {
 
 final class PlaylistGenerator {
     
-    func fetchPlaylistSuggestion(prompt: String) async throws -> String {
+    func fetchPlaylistSuggestion(prompt: String) async throws -> [String] {
 #if targetEnvironment(simulator)
         return "\n\n1. Blah Blah Blah - Ke$ha \n2. Club Can\'t Handle Me - Flo Rida ft. David Guetta \n3. Tik Tok - Ke$ha"
 #else
@@ -67,7 +67,7 @@ final class PlaylistGenerator {
                     guard let firstChoice = decodedResponse.choices.first else {
                         throw PlaylistGeneratorError.invalidResponse
                     }
-                    return firstChoice.text
+                    return parseSongTitles(from: firstChoice.text)
                 } catch {
                     debugPrint("Error decoding response: \(error)")
                     throw PlaylistGeneratorError.dataDecodingError(error)
@@ -87,5 +87,31 @@ final class PlaylistGenerator {
             throw PlaylistGeneratorError.urlSessionError(error)
         }
 #endif
+    }
+    
+    private func parseSongTitles(from playlistString: String) -> [String] {
+        // Split the string into lines
+        let lines = playlistString.components(separatedBy: .newlines)
+        
+        // Extract the song titles and artists
+        let songTitles = lines.compactMap { line -> String? in
+            // Look for the pattern "number. title - artist"
+            let components = line.split(separator: ".")
+                .map { $0.trimmingCharacters(in: .whitespaces) }
+            
+            guard components.count >= 2 else { return nil }
+            
+            // The song title and artist are after the period
+            let titleArtistPart = components.dropFirst().joined(separator: ".")
+            
+            // Further split to isolate the title if needed
+            let titleArtistComponents = titleArtistPart.split(separator: "-")
+                .map { $0.trimmingCharacters(in: .whitespaces) }
+            
+            // Here we return the full title with artist as it increases the chance to match the correct song in Apple Music
+            return titleArtistComponents.joined(separator: " - ")
+        }
+        
+        return songTitles
     }
 }
