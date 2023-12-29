@@ -37,12 +37,16 @@ struct ContentView: View {
                 
                 if !viewModel.playlistSuggestion.isEmpty {
                     Button(
-                        viewModel.isAuthorizedForAppleMusic
-                        ? "Add to Apple Music"
-                        : "Authorize Apple Music",
-                        action: viewModel.isAuthorizedForAppleMusic
-                        ? viewModel.createAndAddPlaylistToAppleMusic
-                        : viewModel.requestAppleMusicAuthorization
+                        viewModel.isAuthorizedForAppleMusic ? "Add to Apple Music" : "Authorize Apple Music",
+                        action: {
+                            if viewModel.isAuthorizedForAppleMusic {
+                                viewModel.createAndAddPlaylistToAppleMusic()
+                            } else {
+                                Task {
+                                    await viewModel.requestAppleMusicAuthorization()
+                                }
+                            }
+                        }
                     )
                     .buttonStyle(.borderedProminent)
                     .padding()
