@@ -1,17 +1,21 @@
 import Foundation
+import Observation
 
-final class PlaylistViewModel: ObservableObject {
-    @Published var prompt: String = "Give me 3 dance songs from 2010"
-    @Published var playlistSuggestion: [String] = []
-    @Published var isLoading: Bool = false
-    @Published var isAuthorizedForAppleMusic: Bool = false
-    @Published var showingAlert: Bool = false
-    @Published var alertMessage: String = ""
+@Observable
+final class PlaylistViewModel {
     
-    private let playlistGenerator = PlaylistGenerator()
-    private let appleMusicImporter = AppleMusicImporter()
+    var prompt: String = "Give me 3 dance songs from 2010"
+    var playlistSuggestion: [String] = []
+    var isLoading: Bool = false
+    var isAuthorizedForAppleMusic: Bool = false
+    var showingAlert: Bool = false
+    var alertMessage: String = ""
     
-    func fetchPlaylistSuggestion() {
+    init() {
+        requestAppleMusicAuthorization()
+    }
+    
+    @MainActor func fetchPlaylistSuggestion() {
         isLoading = true
         Task {
             do {
@@ -57,6 +61,9 @@ final class PlaylistViewModel: ObservableObject {
             }
         }
     }
+    
+    private let playlistGenerator = PlaylistGenerator()
+    private let appleMusicImporter = AppleMusicImporter()
     
     private func presentAlert(with message: String) {
         alertMessage = message

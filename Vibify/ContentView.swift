@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var viewModel = PlaylistViewModel()
+    
+    @Bindable var viewModel = PlaylistViewModel()
     
     var body: some View {
         NavigationView {
@@ -10,14 +11,16 @@ struct ContentView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal)
                 
-                Button(action: viewModel.fetchPlaylistSuggestion) {
+                Button {
+                    Task { viewModel.fetchPlaylistSuggestion() }
+                } label: {
                     Text("Get Playlist Suggestion")
                         .bold()
                         .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(PrimaryButtonStyle())
+                .buttonStyle(.borderedProminent)
                 .disabled(viewModel.isLoading)
-                .padding(.horizontal)
+                .padding()
                 
                 if viewModel.isLoading {
                     ProgressView()
@@ -32,14 +35,17 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                if viewModel.isAuthorizedForAppleMusic {
-                    Button("Add to Apple Music", action: viewModel.createAndAddPlaylistToAppleMusic)
-                        .buttonStyle(PrimaryButtonStyle())
-                        .padding(.horizontal)
-                } else {
-                    Button("Authorize Apple Music", action: viewModel.requestAppleMusicAuthorization)
-                        .buttonStyle(SecondaryButtonStyle())
-                        .padding(.horizontal)
+                if !viewModel.playlistSuggestion.isEmpty {
+                    Button(
+                        viewModel.isAuthorizedForAppleMusic
+                        ? "Add to Apple Music"
+                        : "Authorize Apple Music",
+                        action: viewModel.isAuthorizedForAppleMusic
+                        ? viewModel.createAndAddPlaylistToAppleMusic
+                        : viewModel.requestAppleMusicAuthorization
+                    )
+                    .buttonStyle(.borderedProminent)
+                    .padding()
                 }
             }
             .navigationBarTitle("Playlist Generator", displayMode: .large)
