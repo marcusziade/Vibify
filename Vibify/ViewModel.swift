@@ -23,6 +23,7 @@ final class PlaylistViewModel {
                 playlistSuggestion = suggestions
             } catch {
                 // Handle errors appropriately
+                await presentAlert(with: "Failed to generate playlist: \(error.localizedDescription)")
             }
             isLoading = false
         }
