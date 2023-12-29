@@ -32,7 +32,7 @@ final class PlaylistGenerator {
     
     func fetchPlaylistSuggestion(prompt: String) async throws -> [String] {
 #if targetEnvironment(simulator)
-        return "\n\n1. Blah Blah Blah - Ke$ha \n2. Club Can\'t Handle Me - Flo Rida ft. David Guetta \n3. Tik Tok - Ke$ha"
+        return parseSongTitles(from: "\n\n1. Blah Blah Blah - Ke$ha \n2. Club Can\'t Handle Me - Flo Rida ft. David Guetta \n3. Tik Tok - Ke$ha")
 #else
         guard let url = URL(string: "https://api.openai.com/v1/completions") else {
             throw PlaylistGeneratorError.invalidResponse

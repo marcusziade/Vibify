@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A0158012B3F4A6600048E79 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0158002B3F4A6600048E79 /* ViewModel.swift */; };
+		5A0158032B3F4BC800048E79 /* View-Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0158022B3F4BC800048E79 /* View-Components.swift */; };
 		5A1CD9762B3D1CA200AF0192 /* VibifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */; };
 		5A1CD9782B3D1CA200AF0192 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9772B3D1CA200AF0192 /* ContentView.swift */; };
 		5A1CD97A2B3D1CA300AF0192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5A0158002B3F4A6600048E79 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		5A0158022B3F4BC800048E79 /* View-Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View-Components.swift"; sourceTree = "<group>"; };
 		5A1CD9722B3D1CA200AF0192 /* Vibify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vibify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibifyApp.swift; sourceTree = "<group>"; };
 		5A1CD9772B3D1CA200AF0192 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,6 +61,8 @@
 			children = (
 				5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */,
 				5A1CD9772B3D1CA200AF0192 /* ContentView.swift */,
+				5A0158002B3F4A6600048E79 /* ViewModel.swift */,
+				5A0158022B3F4BC800048E79 /* View-Components.swift */,
 				5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */,
 				5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */,
 				5A1CD9882B3D234A00AF0192 /* Resources */,
@@ -144,8 +150,10 @@
 			files = (
 				5A1CD9782B3D1CA200AF0192 /* ContentView.swift in Sources */,
 				5A1CD9922B3D28AA00AF0192 /* Keys.swift in Sources */,
+				5A0158032B3F4BC800048E79 /* View-Components.swift in Sources */,
 				5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */,
 				5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */,
+				5A0158012B3F4A6600048E79 /* ViewModel.swift in Sources */,
 				5A1CD9762B3D1CA200AF0192 /* VibifyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
