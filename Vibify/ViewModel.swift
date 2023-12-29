@@ -22,8 +22,7 @@ final class PlaylistViewModel {
                 let suggestions = try await playlistGenerator.fetchPlaylistSuggestion(prompt: prompt)
                 playlistSuggestion = suggestions
             } catch {
-                // Handle errors appropriately
-                await presentAlert(with: "Failed to generate playlist: \(error.localizedDescription)")
+                presentAlert(with: "Failed to generate playlist: \(error.localizedDescription)")
             }
             isLoading = false
         }
