@@ -31,12 +31,12 @@ enum PlaylistGeneratorError: Error {
 
 final class PlaylistGenerator {
     
-    private var openAIKey: String {
-        ProcessInfo.processInfo.environment["OPENAI_KEY"] ?? ""
+    private var openAIKey: String? {
+        ProcessInfo.processInfo.environment["API_KEY"]
     }
     
     func fetchPlaylistSuggestion(prompt: String) async throws -> [String] {
-        guard !openAIKey.isEmpty else {
+        guard let apiKey = openAIKey else {
             throw PlaylistGeneratorError.missingAPIKey
         }
         
@@ -50,7 +50,7 @@ final class PlaylistGenerator {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer \(openAIKey)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         
         let body = OpenAIRequest(model: "text-davinci-003", prompt: prompt, maxTokens: 100)
         
