@@ -86,10 +86,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5A1CD9802B3D1CA300AF0192 /* Build configuration list for PBXNativeTarget "Vibify" */;
 			buildPhases = (
+				5A4523722B3F72080026494C /* ShellScript */,
 				5A1CD96E2B3D1CA200AF0192 /* Sources */,
 				5A1CD96F2B3D1CA200AF0192 /* Frameworks */,
 				5A1CD9702B3D1CA200AF0192 /* Resources */,
-				5A4523722B3F72080026494C /* ShellScript */,
 			);
 			buildRules = (
 			);
