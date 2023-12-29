@@ -89,6 +89,7 @@
 				5A1CD96E2B3D1CA200AF0192 /* Sources */,
 				5A1CD96F2B3D1CA200AF0192 /* Frameworks */,
 				5A1CD9702B3D1CA200AF0192 /* Resources */,
+				5A4523722B3F72080026494C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -142,6 +143,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5A4523722B3F72080026494C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# Check if running in CI/CD environment\nif [ \"$CI\" = \"true\" ]; then\n    # Define the output file path\n    OUTPUT_FILE=\"${SRCROOT}/Vibify/Resources/Keys.swift\"\n\n    # Begin writing to the Keys.swift file\n    echo \"import Foundation\" > \"$OUTPUT_FILE\"\n    echo \"\" >> \"$OUTPUT_FILE\"\n    echo \"struct Keys {\" >> \"$OUTPUT_FILE\"\n\n    # You would replace ENV_VAR_NAME with the actual name of your environment variable\n    echo \"    static let apiKey = \\\"${ENV_VAR_NAME}\\\"\" >> \"$OUTPUT_FILE\"\n\n    # Add other keys similarly\n    # echo \"    static let anotherKey = \\\"${ANOTHER_ENV_VAR}\\\"\" >> \"$OUTPUT_FILE\"\n\n    echo \"}\" >> \"$OUTPUT_FILE\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5A1CD96E2B3D1CA200AF0192 /* Sources */ = {
