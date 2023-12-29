@@ -26,11 +26,20 @@ enum PlaylistGeneratorError: Error {
     case invalidResponse
     case unauthorized
     case rateLimitExceeded
+    case missingAPIKey
 }
 
 final class PlaylistGenerator {
     
+    private var openAIKey: String {
+        ProcessInfo.processInfo.environment["OPENAI_KEY"] ?? ""
+    }
+    
     func fetchPlaylistSuggestion(prompt: String) async throws -> [String] {
+        guard !openAIKey.isEmpty else {
+            throw PlaylistGeneratorError.missingAPIKey
+        }
+        
 #if targetEnvironment(simulator)
         return parseSongTitles(from: "\n\n1. Blah Blah Blah - Ke$ha \n2. Club Can\'t Handle Me - Flo Rida ft. David Guetta \n3. Tik Tok - Ke$ha")
 #else
@@ -41,7 +50,7 @@ final class PlaylistGenerator {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer \(Keys.openAIKey)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(openAIKey)", forHTTPHeaderField: "Authorization")
         
         let body = OpenAIRequest(model: "text-davinci-003", prompt: prompt, maxTokens: 100)
         

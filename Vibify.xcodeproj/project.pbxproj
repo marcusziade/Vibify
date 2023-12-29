@@ -13,7 +13,6 @@
 		5A1CD9782B3D1CA200AF0192 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9772B3D1CA200AF0192 /* ContentView.swift */; };
 		5A1CD97A2B3D1CA300AF0192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */; };
 		5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */; };
-		5A1CD9922B3D28AA00AF0192 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9912B3D28AA00AF0192 /* Keys.swift */; };
 		5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,7 +24,6 @@
 		5A1CD9772B3D1CA200AF0192 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistGenerator.swift; sourceTree = "<group>"; };
-		5A1CD9912B3D28AA00AF0192 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicImporter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,7 +72,6 @@
 			isa = PBXGroup;
 			children = (
 				5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */,
-				5A1CD9912B3D28AA00AF0192 /* Keys.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -171,7 +168,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A1CD9782B3D1CA200AF0192 /* ContentView.swift in Sources */,
-				5A1CD9922B3D28AA00AF0192 /* Keys.swift in Sources */,
 				5A0158032B3F4BC800048E79 /* View-Components.swift in Sources */,
 				5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */,
 				5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */,
