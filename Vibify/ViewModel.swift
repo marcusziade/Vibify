@@ -7,9 +7,10 @@ import MusicKit
 @Observable
 final class PlaylistViewModel {
     
-    var prompt: String = "Give me 3 dance songs from 2010"
+    var prompt: String = "Give me 20 rock songs from the 90s"
     var playlistSuggestion: [SongMetadata] = []
     var isLoading: Bool = false
+    var progress: Double = 0.0
     @MainActor var isAuthorizedForAppleMusic: Bool = false
     var showingAlert: Bool = false
     var alertMessage: String = ""
@@ -47,14 +48,21 @@ final class PlaylistViewModel {
             }
             
             let playlistName = "Playlist \(Date.now.formatted(date: .abbreviated, time: .shortened))"
+            isLoading = true
+            progress = 0.0
             
             do {
                 let playlist = try await appleMusicImporter.createPlaylist(named: playlistName)
+                
                 let result = await appleMusicImporter.addSongsToPlaylist(
                     playlist: playlist,
-                    songs: self.playlistSuggestion
+                    songs: self.playlistSuggestion,
+                    progressHandler: { [unowned self] newProgress in
+                        progress = newProgress
+                    }
                 )
                 
+                isLoading = false
                 switch result {
                 case .success():
                     await presentAlert(with: "Songs added to the playlist successfully.")
@@ -62,6 +70,7 @@ final class PlaylistViewModel {
                     await presentAlert(with: "Failed to add songs to the playlist: \(error.localizedDescription)")
                 }
             } catch {
+                isLoading = false
                 await presentAlert(with: "Failed to create playlist: \(error.localizedDescription)")
             }
         }

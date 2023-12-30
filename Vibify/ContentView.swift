@@ -25,10 +25,12 @@ struct ContentView: View {
                 .disabled(viewModel.isLoading)
                 .padding(.horizontal)
                 
+                // Custom Progress View
                 if viewModel.isLoading {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                        .scaleEffect(1.5)
+                    CustomProgressView(progress: $viewModel.progress)
+                        .frame(width: 80, height: 80)
+                        .padding()
+                        .transition(.scale)
                 } else {
                     ScrollView {
                         ForEach(viewModel.playlistSuggestion, id: \.title) { song in
@@ -58,4 +60,8 @@ struct ContentView: View {
             }
         }
     }
+}
+
+#Preview {
+    ContentView(viewModel: PlaylistViewModel())
 }
