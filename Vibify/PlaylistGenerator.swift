@@ -114,9 +114,9 @@ final class PlaylistGenerator {
         for line in lines {
             logger.debug("Processing line: \(line)")
             
-            // Removing initial numbering and trimming extra spaces
+            // Remove initial numbering and trim spaces
             let trimmedLine = line
-                .drop(while: { !$0.isLetter }) // Drop the numbering and periods
+                .drop(while: { !$0.isLetter })  // Drop the numbering and periods
                 .trimmingCharacters(in: .whitespacesAndNewlines)
             
             guard !trimmedLine.isEmpty else {
@@ -126,7 +126,7 @@ final class PlaylistGenerator {
             
             // Splitting the line based on the hyphen
             let titleArtistComponents = trimmedLine
-                .split(separator: "-", maxSplits: 1)
+                .split(separator: "–", maxSplits: 1)
                 .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
                 .map { $0.replacingOccurrences(of: "\"", with: "") } // Remove quotes
             
@@ -149,16 +149,23 @@ final class PlaylistGenerator {
             if let song = response.songs.first {
                 let artworkURL = song.artwork?.url(width: 300, height: 300)
                 let album = song.albumTitle ?? "Unknown Album"
+                let releaseDate = song.releaseDate
+                let genreNames = song.genreNames
+                let isExplicit = song.contentRating == .explicit
+                let appleMusicID = song.id
                 
                 let songMetadata = SongMetadata(
-                    title: title,
-                    artist: artist,
+                    title: song.title,
+                    artist: song.artistName,
                     album: album,
-                    artworkURL: artworkURL
+                    artworkURL: artworkURL,
+                    releaseDate: releaseDate,
+                    genreNames: genreNames,
+                    isExplicit: isExplicit,
+                    appleMusicID: appleMusicID
                 )
                 
-                songMetadatas.append(songMetadata)
-            } else {
+                songMetadatas.append(songMetadata)            } else {
                 logger.warning("No song found for title: \(title), artist: \(artist)")
             }
         }

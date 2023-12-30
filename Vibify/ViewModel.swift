@@ -4,14 +4,6 @@ import StoreKit
 import MediaPlayer
 import MusicKit
 
-struct SongMetadata: Identifiable {
-    let id: UUID = UUID()
-    let title: String
-    let artist: String
-    let album: String
-    let artworkURL: URL?
-}
-
 @Observable
 final class PlaylistViewModel {
     
@@ -34,14 +26,7 @@ final class PlaylistViewModel {
         Task {
             do {
                 let suggestions = try await playlistGenerator.fetchPlaylistSuggestion(prompt: prompt)
-                playlistSuggestion = suggestions.map { suggestion in
-                    SongMetadata(
-                        title: suggestion.title,
-                        artist: suggestion.artist,
-                        album: suggestion.album,
-                        artworkURL: suggestion.artworkURL
-                    )
-                }
+                playlistSuggestion = suggestions
             } catch {
                 debugPrint(error)
                 presentAlert(with: "Failed to generate playlist: \(error.localizedDescription)")

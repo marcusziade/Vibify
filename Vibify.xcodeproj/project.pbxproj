@@ -15,6 +15,8 @@
 		5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */; };
 		5A4523742B3FCC530026494C /* SongCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4523732B3FCC530026494C /* SongCardView.swift */; };
 		5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */; };
+		5AD5A4B12B408BE7005FC577 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD5A4B02B408BE7005FC577 /* String+Ext.swift */; };
+		5AD5A4B32B408D88005FC577 /* SongMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD5A4B22B408D88005FC577 /* SongMetaData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistGenerator.swift; sourceTree = "<group>"; };
 		5A4523732B3FCC530026494C /* SongCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCardView.swift; sourceTree = "<group>"; };
 		5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicImporter.swift; sourceTree = "<group>"; };
+		5AD5A4B02B408BE7005FC577 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
+		5AD5A4B22B408D88005FC577 /* SongMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongMetaData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,8 +67,10 @@
 				5A1CD9772B3D1CA200AF0192 /* ContentView.swift */,
 				5A4523732B3FCC530026494C /* SongCardView.swift */,
 				5A0158002B3F4A6600048E79 /* ViewModel.swift */,
+				5AD5A4B22B408D88005FC577 /* SongMetaData.swift */,
 				5A0158022B3F4BC800048E79 /* View-Components.swift */,
 				5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */,
+				5AD5A4B02B408BE7005FC577 /* String+Ext.swift */,
 				5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */,
 				5A1CD9882B3D234A00AF0192 /* Resources */,
 			);
@@ -176,6 +182,8 @@
 				5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */,
 				5A0158012B3F4A6600048E79 /* ViewModel.swift in Sources */,
 				5A1CD9762B3D1CA200AF0192 /* VibifyApp.swift in Sources */,
+				5AD5A4B12B408BE7005FC577 /* String+Ext.swift in Sources */,
+				5AD5A4B32B408D88005FC577 /* SongMetaData.swift in Sources */,
 				5A4523742B3FCC530026494C /* SongCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
