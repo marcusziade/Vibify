@@ -1,15 +1,29 @@
 import Foundation
 import Observation
+import StoreKit
+import MediaPlayer
+import MusicKit
+
+struct SongMetadata: Identifiable {
+    let id: UUID = UUID()
+    let title: String
+    let artist: String
+    let album: String
+    let artworkURL: URL?
+}
 
 @Observable
 final class PlaylistViewModel {
     
     var prompt: String = "Give me 3 dance songs from 2010"
-    var playlistSuggestion: [String] = []
+    var playlistSuggestion: [SongMetadata] = []
     var isLoading: Bool = false
     @MainActor var isAuthorizedForAppleMusic: Bool = false
     var showingAlert: Bool = false
     var alertMessage: String = ""
+    
+    private let playlistGenerator = PlaylistGenerator()
+    private let appleMusicImporter = AppleMusicImporter()
     
     init() {
         Task { await requestAppleMusicAuthorization() }
@@ -20,8 +34,16 @@ final class PlaylistViewModel {
         Task {
             do {
                 let suggestions = try await playlistGenerator.fetchPlaylistSuggestion(prompt: prompt)
-                playlistSuggestion = suggestions
+                playlistSuggestion = suggestions.map { suggestion in
+                    SongMetadata(
+                        title: suggestion.title,
+                        artist: suggestion.artist,
+                        album: suggestion.album,
+                        artworkURL: suggestion.artworkURL
+                    )
+                }
             } catch {
+                debugPrint(error)
                 presentAlert(with: "Failed to generate playlist: \(error.localizedDescription)")
             }
             isLoading = false
@@ -34,7 +56,6 @@ final class PlaylistViewModel {
     
     func createAndAddPlaylistToAppleMusic() {
         Task {
-            // Ensure we have song titles to add.
             guard !playlistSuggestion.isEmpty else {
                 await presentAlert(with: "No songs to add to the playlist.")
                 return
@@ -43,12 +64,10 @@ final class PlaylistViewModel {
             let playlistName = "Playlist \(Date.now.formatted(date: .abbreviated, time: .shortened))"
             
             do {
-                let playlist = try await appleMusicImporter.createPlaylist(
-                    named: playlistName
-                )
+                let playlist = try await appleMusicImporter.createPlaylist(named: playlistName)
                 let result = await appleMusicImporter.addSongsToPlaylist(
                     playlist: playlist,
-                    songTitles: self.playlistSuggestion
+                    songs: self.playlistSuggestion
                 )
                 
                 switch result {
@@ -62,9 +81,6 @@ final class PlaylistViewModel {
             }
         }
     }
-    
-    private let playlistGenerator = PlaylistGenerator()
-    private let appleMusicImporter = AppleMusicImporter()
     
     @MainActor private func presentAlert(with message: String) {
         alertMessage = message

@@ -6,50 +6,50 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading, spacing: 20) {
+            VStack {
                 TextField("Enter your music preference", text: $viewModel.prompt)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal)
+                    .padding()
                 
-                Button {
+                Button(action: {
                     Task { viewModel.fetchPlaylistSuggestion() }
-                } label: {
-                    Text("Get Playlist Suggestion")
-                        .bold()
+                }) {
+                    Label("Get Playlist Suggestion", systemImage: "music.note.list")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
                         .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .cornerRadius(10)
                 }
-                .buttonStyle(.borderedProminent)
                 .disabled(viewModel.isLoading)
-                .padding()
+                .padding(.horizontal)
                 
                 if viewModel.isLoading {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                         .scaleEffect(1.5)
                 } else {
-                    ForEach(viewModel.playlistSuggestion, id: \.self) { song in
-                        Text(song)
-                            .padding(.horizontal)
+                    ScrollView {
+                        ForEach(viewModel.playlistSuggestion, id: \.title) { song in
+                            SongCardView(song: song)
+                        }
                     }
                 }
                 
                 Spacer()
                 
-                if !viewModel.playlistSuggestion.isEmpty {
-                    Button(
-                        viewModel.isAuthorizedForAppleMusic ? "Add to Apple Music" : "Authorize Apple Music",
-                        action: {
-                            if viewModel.isAuthorizedForAppleMusic {
-                                viewModel.createAndAddPlaylistToAppleMusic()
-                            } else {
-                                Task {
-                                    await viewModel.requestAppleMusicAuthorization()
-                                }
-                            }
-                        }
-                    )
-                    .buttonStyle(.borderedProminent)
-                    .padding()
+                if !viewModel.playlistSuggestion.isEmpty && viewModel.isAuthorizedForAppleMusic {
+                    Button(action: viewModel.createAndAddPlaylistToAppleMusic) {
+                        Text("Add to Apple Music")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.green)
+                            .cornerRadius(10)
+                    }
+                    .padding(.horizontal)
                 }
             }
             .navigationBarTitle("Playlist Generator", displayMode: .large)
