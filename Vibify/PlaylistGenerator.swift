@@ -49,7 +49,7 @@ final class PlaylistGenerator {
         
 #if targetEnvironment(simulator) || DEBUG
         let simulatedResponse = "\n\n1. \"Only Girl (In the World)\" – Rihanna\n2. \"Dynamite\" – Taio Cruz \n3. \"California Gurls\" – Katy Perry ft. Snoop Dogg\n4. \"Club Can\'t Handle Me\" – Flo Rida ft. David Guetta\n5. \"Hey, Soul Sister\" – Train\n6. \"Tik Tok\" – Kesha\n7. \"Like a G6\" – Far East Movement ft. The Cataracs & Dev\n8. \"DJ Got Us Fallin\' in Love\" – Usher ft. Pitbull\n9. \"Grenade\" – Bruno Mars\n10. \"OMG\" – Usher ft. Will.i.am\n11. \"Only\" – Nicki Minaj\n12. \"Just the Way You Are\" – Bruno Mars\n13. \"We No Speak Americano\" – Yolanda Be Cool & DCUP \n14. \"Bad Romance\" – Lady Gaga\n15. \"Nothin\' on You\" – B.o.B ft. Bruno Mars\n16. \"Firework\" – Katy Perry\n17. \"Unstoppable\" – Foxy Brown ft. Swizz Beatz\n18. \"Airplanes\" – B.o.B ft. Hayley Williams\n19. \"On the Floor\" – Jennifer Lopez ft. Pitbull\n20. \"Teenage Dream\" – Katy Perry\n21. \"Love the Way You Lie\" – Eminem ft. Rihanna\n22. \"Give Me Everything\" – Pitbull ft. Ne-Yo\n23. \"E.T.\" – Katy Perry ft. Kanye West\n24. \"Rolling in the Deep\" – Adele\n25. \"Hey Baby (Drop It to the Floor)\" – Pitbull ft. T-Pain"
-        return try await parseSongMetadata(from: simulatedResponse)
+        return try await metadataParser.parse(from: simulatedResponse)
 #else
         guard let url = URL(string: "https://api.openai.com/v1/completions") else {
             logger.error("Invalid URL for API request")
@@ -108,6 +108,7 @@ final class PlaylistGenerator {
             logger.error("URL Session error: \(error.localizedDescription)")
             throw PlaylistGeneratorError.urlSessionError(error)
         }
+#endif
     }
     
     private var openAIKey: String? {
