@@ -32,6 +32,12 @@ enum PlaylistGeneratorError: Error {
 }
 
 final class PlaylistGenerator {
+    private let metadataParser: SongMetadataParser
+    private let logger = Logger(subsystem: "com.marcusziade.Vibify.app", category: "Networking")
+    
+    init() {
+        self.metadataParser = SongMetadataParser(logger: logger)
+    }
     
     func fetchPlaylistSuggestion(prompt: String) async throws -> [SongMetadata] {
         logger.info("Starting fetchPlaylistSuggestion for prompt: \(prompt)")
@@ -83,8 +89,7 @@ final class PlaylistGenerator {
                         logger.error("No choices found in response")
                         throw PlaylistGeneratorError.invalidResponse
                     }
-                    debugPrint(firstChoice.text)
-                    return try await parseSongMetadata(from: firstChoice.text)
+                    return try await metadataParser.parse(from: firstChoice.text)
                 } catch {
                     logger.error("Error decoding response: \(error.localizedDescription)")
                     throw PlaylistGeneratorError.dataDecodingError(error)
@@ -103,81 +108,9 @@ final class PlaylistGenerator {
             logger.error("URL Session error: \(error.localizedDescription)")
             throw PlaylistGeneratorError.urlSessionError(error)
         }
-#endif
     }
-    
-    private func parseSongMetadata(from playlistString: String) async throws -> [SongMetadata] {
-        logger.info("Parsing song metadata from string")
-        let lines = playlistString.components(separatedBy: .newlines)
-        var songMetadatas: [SongMetadata] = []
-        
-        for line in lines {
-            logger.debug("Processing line: \(line)")
-            
-            // Remove initial numbering and trim spaces
-            let trimmedLine = line
-                .drop(while: { !$0.isLetter })  // Drop the numbering and periods
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-            
-            guard !trimmedLine.isEmpty else {
-                logger.error("Invalid line format: \(line)")
-                continue
-            }
-            
-            // Splitting the line based on the hyphen
-            let titleArtistComponents = trimmedLine
-                .split(separator: "–", maxSplits: 1)
-                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-                .map { $0.replacingOccurrences(of: "\"", with: "") } // Remove quotes
-            
-            guard titleArtistComponents.count == 2 else {
-                logger.error("Invalid title-artist format: \(trimmedLine)")
-                continue
-            }
-            
-            let title = String(titleArtistComponents[0])
-            let artist = String(titleArtistComponents[1])
-            
-            logger.debug("Fetching song metadata for title: \(title), artist: \(artist)")
-            let searchRequest = MusicCatalogSearchRequest(
-                term: "\(title) \(artist)",
-                types: [Song.self]
-            )
-            let response = try await searchRequest.response()
-            logger.debug("MusicKit search response received")
-            
-            if let song = response.songs.first {
-                let artworkURL = song.artwork?.url(width: 300, height: 300)
-                let album = song.albumTitle ?? "Unknown Album"
-                let releaseDate = song.releaseDate
-                let genreNames = song.genreNames
-                let isExplicit = song.contentRating == .explicit
-                let appleMusicID = song.id
-                
-                let songMetadata = SongMetadata(
-                    title: song.title,
-                    artist: song.artistName,
-                    album: album,
-                    artworkURL: artworkURL,
-                    releaseDate: releaseDate,
-                    genreNames: genreNames,
-                    isExplicit: isExplicit,
-                    appleMusicID: appleMusicID
-                )
-                
-                songMetadatas.append(songMetadata)            } else {
-                logger.warning("No song found for title: \(title), artist: \(artist)")
-            }
-        }
-        
-        logger.info("Parsed song metadata successfully, count: \(songMetadatas.count)")
-        return songMetadatas
-    }
-    
     
     private var openAIKey: String? {
         ProcessInfo.processInfo.environment["API_KEY"]
     }
-    
-    private let logger = Logger(subsystem: "com.marcusziade.Vibify.app", category: "Networking")
 }
