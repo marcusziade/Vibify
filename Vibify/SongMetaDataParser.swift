@@ -34,15 +34,28 @@ final class SongMetadataParser {
             return nil
         }
         
-        if let metadata = parseFormattedLine(cleanedLine, format: #"^\d+\.\s*"#, separator: "–") {
+        if let metadata = parseFormattedLine(
+            cleanedLine,
+            format: #"^\d+\.\s*"#,
+            separator: "–"
+        ) {
             return metadata
         }
         
-        if let metadata = parseFormattedLine(cleanedLine, format: nil, separator: "-") {
+        if let metadata = parseFormattedLine(
+            cleanedLine,
+            format: nil,
+            separator: "-"
+        ) {
             return metadata
         }
         
-        if let metadata = parseFormattedLine(cleanedLine, format: nil, separator: "ft.", artistFirst: false) {
+        if let metadata = parseFormattedLine(
+            cleanedLine,
+            format: nil,
+            separator: "ft.",
+            artistFirst: false
+        ) {
             return metadata
         }
         
@@ -51,20 +64,34 @@ final class SongMetadataParser {
     }
     
     private func cleanLine(_ line: String) -> String {
-        return line.replacingOccurrences(of: "\"", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
+        return line
+            .replacingOccurrences(of: "\"", with: "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
-    private func parseFormattedLine(_ line: String, format: String?, separator: String, artistFirst: Bool = true) -> (artist: String, title: String)? {
+    private func parseFormattedLine(
+        _ line: String,
+        format: String?,
+        separator: String,
+        artistFirst: Bool = true
+    ) -> (artist: String, title: String)? {
         var modifiedLine = line
         
-        if let format = format, let range = line.range(of: format, options: .regularExpression) {
+        if let format = format, let range = line.range(
+            of: format,
+            options: .regularExpression
+        ) {
             modifiedLine = String(line[range.upperBound...])
         }
         
-        let components = modifiedLine.split(separator: Substring(separator), maxSplits: 1).map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+        let components = modifiedLine
+            .split(separator: Substring(separator), maxSplits: 1)
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
         guard components.count == 2 else { return nil }
         
-        return artistFirst ? (String(components[0]), String(components[1])) : (String(components[1]), String(components[0]))
+        return artistFirst
+        ? (String(components[0]), String(components[1]))
+        : (String(components[1]), String(components[0]))
     }
     
     private func fetchSongMetadata(artist: String, title: String) async -> SongMetadata? {
