@@ -11,4 +11,5 @@ struct SongMetadata: Identifiable {
     let genreNames: [String]
     let isExplicit: Bool
     let appleMusicID: MusicItemID
+    let previewURL: URL?
 }

@@ -34,7 +34,11 @@ struct ContentView: View {
                 } else {
                     ScrollView {
                         ForEach(viewModel.playlistSuggestion, id: \.title) { song in
-                            SongCardView(song: song)
+                            SongCardView(
+                                song: song,
+                                togglePlayback: viewModel.togglePlayback,
+                                isPlaying: viewModel.isCurrentlyPlaying(song: song)
+                            )
                         }
                     }
                 }

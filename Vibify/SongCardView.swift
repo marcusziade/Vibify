@@ -1,7 +1,10 @@
+import AVFoundation
 import SwiftUI
 
 struct SongCardView: View {
     let song: SongMetadata
+    var togglePlayback: (SongMetadata) -> Void
+    var isPlaying: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -40,6 +43,16 @@ struct SongCardView: View {
                 }
                 
                 Spacer()
+                
+                Button {
+                    UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+                    togglePlayback(song)
+                } label: {
+                    Image(systemName: isPlaying ? "pause.circle" : "play.circle")
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(.blue)
+                }
             }
             
             if let releaseDate = song.releaseDate {
@@ -70,6 +83,7 @@ struct SongCardView: View {
         releaseDate: Date(),
         genreNames: ["Pop", "Dance"],
         isExplicit: false,
-        appleMusicID: "1234567890"
-    ))
+        appleMusicID: "1234567890",
+        previewURL: nil
+    ), togglePlayback: {_ in }, isPlaying: false)
 }

@@ -106,13 +106,13 @@ final class SongMetadataParser {
             logger.debug("MusicKit search response received")
             
             if let song = response.songs.first {
-                // Construct and return SongMetadata from the song
                 let artworkURL = song.artwork?.url(width: 300, height: 300)
                 let album = song.albumTitle ?? "Unknown Album"
                 let releaseDate = song.releaseDate
                 let genreNames = song.genreNames
                 let isExplicit = song.contentRating == .explicit
                 let appleMusicID = song.id
+                let previewURL = song.previewAssets?.first?.url
                 
                 let songMetadata = SongMetadata(
                     title: song.title,
@@ -122,7 +122,8 @@ final class SongMetadataParser {
                     releaseDate: releaseDate,
                     genreNames: genreNames,
                     isExplicit: isExplicit,
-                    appleMusicID: appleMusicID
+                    appleMusicID: appleMusicID, 
+                    previewURL: previewURL
                 )
                 
                 return songMetadata

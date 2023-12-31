@@ -3,9 +3,12 @@ import Observation
 import StoreKit
 import MediaPlayer
 import MusicKit
+import UIKit
 
 @Observable
 final class PlaylistViewModel {
+    
+    var isPlaying: Bool = false
     
     var prompt: String = "Give me 20 rock songs from the 90s"
     var playlistSuggestion: [SongMetadata] = []
@@ -15,11 +18,13 @@ final class PlaylistViewModel {
     var showingAlert: Bool = false
     var alertMessage: String = ""
     
-    private let playlistGenerator = PlaylistGenerator()
-    private let appleMusicImporter = AppleMusicImporter()
-    
     init() {
         Task { await requestAppleMusicAuthorization() }
+    }
+    
+    /// Method to check if the song is the currently playing one
+    func isCurrentlyPlaying(song: SongMetadata) -> Bool {
+        return currentlyPlayingSong?.title == song.title && isPlaying
     }
     
     @MainActor func fetchPlaylistSuggestion() {
@@ -76,8 +81,33 @@ final class PlaylistViewModel {
         }
     }
     
+    func togglePlayback(for song: SongMetadata) {
+        if currentlyPlayingSong?.title == song.title && isPlaying {
+            player.pause()
+            isPlaying = false
+        } else {
+            playSong(song)
+        }
+    }
+    
+    private let playlistGenerator = PlaylistGenerator()
+    private let appleMusicImporter = AppleMusicImporter()
+    private let player = AVPlayer()
+    private var currentlyPlayingSong: SongMetadata?
+    
     @MainActor private func presentAlert(with message: String) {
         alertMessage = message
         showingAlert = true
+    }
+    
+    private func playSong(_ song: SongMetadata) {
+        guard let url = song.previewURL else { return }
+        if player.rate != 0 {
+            player.pause()
+        }
+        player.replaceCurrentItem(with: AVPlayerItem(url: url))
+        player.play()
+        currentlyPlayingSong = song
+        isPlaying = true
     }
 }
