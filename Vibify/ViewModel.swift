@@ -22,7 +22,6 @@ final class PlaylistViewModel {
         Task { await requestAppleMusicAuthorization() }
     }
     
-    /// Method to check if the song is the currently playing one
     func isCurrentlyPlaying(song: SongMetadata) -> Bool {
         return currentlyPlayingSong?.title == song.title && isPlaying
     }
