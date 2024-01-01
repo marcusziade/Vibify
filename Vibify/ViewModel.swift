@@ -1,24 +1,38 @@
 import Foundation
-import Observation
+import Combine
 import StoreKit
 import MediaPlayer
 import MusicKit
-import UIKit
+import Observation
 
 @Observable
 final class PlaylistViewModel {
     
     var isPlaying: Bool = false
-    
-    var prompt: String = "Give me 20 rock songs from the 90s"
     var playlistSuggestion: [SongMetadata] = []
     var isLoading: Bool = false
     var progress: Double = 0.0
-    @MainActor var isAuthorizedForAppleMusic: Bool = false
+    var isAuthorizedForAppleMusic: Bool = false
     var showingAlert: Bool = false
     var alertMessage: String = ""
+    var searchCriteria = SongSearchCriteria()
     
-    init() {
+    let genreList = ["Rock", "Pop", "Jazz", "Classical", "Hip-Hop", "Electronic"]
+    let decadeRange: ClosedRange<Double> = 1950...2020
+    
+    private var currentlyPlayingSong: SongMetadata?
+    private let playlistGenerator: PlaylistGenerator
+    private let appleMusicImporter: AppleMusicImporter
+    private let player: AVPlayer
+    
+    init(
+        playlistGenerator: PlaylistGenerator = PlaylistGenerator(),
+        appleMusicImporter: AppleMusicImporter = AppleMusicImporter(),
+        player: AVPlayer = AVPlayer()
+    ) {
+        self.playlistGenerator = playlistGenerator
+        self.appleMusicImporter = appleMusicImporter
+        self.player = player
         Task { await requestAppleMusicAuthorization() }
     }
     
@@ -30,8 +44,7 @@ final class PlaylistViewModel {
         isLoading = true
         Task {
             do {
-                let suggestions = try await playlistGenerator.fetchPlaylistSuggestion(prompt: prompt)
-                playlistSuggestion = suggestions
+                playlistSuggestion = try await playlistGenerator.fetchPlaylistSuggestion(criteria: searchCriteria)
             } catch {
                 debugPrint(error)
                 presentAlert(with: "Failed to generate playlist: \(error.localizedDescription)")
@@ -50,22 +63,19 @@ final class PlaylistViewModel {
                 await presentAlert(with: "No songs to add to the playlist.")
                 return
             }
-            
-            let playlistName = "Playlist \(Date.now.formatted(date: .abbreviated, time: .shortened))"
             isLoading = true
             progress = 0.0
             
             do {
+                let playlistName = "Playlist \(Date.now.formatted(date: .abbreviated, time: .shortened))"
                 let playlist = try await appleMusicImporter.createPlaylist(named: playlistName)
-                
                 let result = await appleMusicImporter.addSongsToPlaylist(
                     playlist: playlist,
-                    songs: self.playlistSuggestion,
-                    progressHandler: { [unowned self] newProgress in
-                        progress = newProgress
+                    songs: playlistSuggestion,
+                    progressHandler: { [weak self] newProgress in
+                        self?.progress = newProgress
                     }
                 )
-                
                 isLoading = false
                 switch result {
                 case .success():
@@ -81,18 +91,13 @@ final class PlaylistViewModel {
     }
     
     func togglePlayback(for song: SongMetadata) {
-        if currentlyPlayingSong?.title == song.title && isPlaying {
+        if isCurrentlyPlaying(song: song) {
             player.pause()
             isPlaying = false
         } else {
             playSong(song)
         }
     }
-    
-    private let playlistGenerator = PlaylistGenerator()
-    private let appleMusicImporter = AppleMusicImporter()
-    private let player = AVPlayer()
-    private var currentlyPlayingSong: SongMetadata?
     
     @MainActor private func presentAlert(with message: String) {
         alertMessage = message

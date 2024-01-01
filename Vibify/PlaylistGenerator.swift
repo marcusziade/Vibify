@@ -39,15 +39,17 @@ final class PlaylistGenerator {
         self.metadataParser = SongMetadataParser(logger: logger)
     }
     
-    func fetchPlaylistSuggestion(prompt: String) async throws -> [SongMetadata] {
-        logger.info("Starting fetchPlaylistSuggestion for prompt: \(prompt)")
+    func fetchPlaylistSuggestion(criteria: SongSearchCriteria) async throws -> [SongMetadata] {
+        logger.info("Starting fetchPlaylistSuggestion with criteria: \(criteria.toPrompt())")
         
         guard let apiKey = openAIKey else {
             logger.error("Missing API key")
             throw PlaylistGeneratorError.missingAPIKey
         }
         
-#if targetEnvironment(simulator) || DEBUG
+        let openAIPrompt = buildOpenAIPrompt(with: criteria)
+        
+#if targetEnvironment(simulator)
         let simulatedResponse = "\n\n1. \"Only Girl (In the World)\" – Rihanna\n2. \"Dynamite\" – Taio Cruz \n3. \"California Gurls\" – Katy Perry ft. Snoop Dogg\n4. \"Club Can\'t Handle Me\" – Flo Rida ft. David Guetta\n5. \"Hey, Soul Sister\" – Train\n6. \"Tik Tok\" – Kesha\n7. \"Like a G6\" – Far East Movement ft. The Cataracs & Dev\n8. \"DJ Got Us Fallin\' in Love\" – Usher ft. Pitbull\n9. \"Grenade\" – Bruno Mars\n10. \"OMG\" – Usher ft. Will.i.am\n11. \"Only\" – Nicki Minaj\n12. \"Just the Way You Are\" – Bruno Mars\n13. \"We No Speak Americano\" – Yolanda Be Cool & DCUP \n14. \"Bad Romance\" – Lady Gaga\n15. \"Nothin\' on You\" – B.o.B ft. Bruno Mars\n16. \"Firework\" – Katy Perry\n17. \"Unstoppable\" – Foxy Brown ft. Swizz Beatz\n18. \"Airplanes\" – B.o.B ft. Hayley Williams\n19. \"On the Floor\" – Jennifer Lopez ft. Pitbull\n20. \"Teenage Dream\" – Katy Perry\n21. \"Love the Way You Lie\" – Eminem ft. Rihanna\n22. \"Give Me Everything\" – Pitbull ft. Ne-Yo\n23. \"E.T.\" – Katy Perry ft. Kanye West\n24. \"Rolling in the Deep\" – Adele\n25. \"Hey Baby (Drop It to the Floor)\" – Pitbull ft. T-Pain"
         return try await metadataParser.parse(from: simulatedResponse)
 #else
@@ -61,7 +63,7 @@ final class PlaylistGenerator {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         
-        let body = OpenAIRequest(model: "text-davinci-003", prompt: prompt, maxTokens: 500)
+        let body = OpenAIRequest(model: "text-davinci-003", prompt: openAIPrompt, maxTokens: 500)
         
         do {
             request.httpBody = try JSONEncoder().encode(body)
@@ -113,5 +115,15 @@ final class PlaylistGenerator {
     
     private var openAIKey: String? {
         ProcessInfo.processInfo.environment["API_KEY"]
+    }
+}
+
+extension PlaylistGenerator {
+    
+    private func buildOpenAIPrompt(with criteria: SongSearchCriteria) -> String {
+        let defaultInstructions = "Generate a playlist and number the result based on the following criteria. Only list out the songs. Don't explain anything:"
+        let criteriaPrompt = criteria.toPrompt()
+        let combinedPrompt = "\(defaultInstructions)\n\n\(criteriaPrompt)"
+        return combinedPrompt
     }
 }
