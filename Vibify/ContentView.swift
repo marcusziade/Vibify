@@ -25,7 +25,6 @@ struct ContentView: View {
                 .disabled(viewModel.isLoading)
                 .padding(.horizontal)
                 
-                // Custom Progress View
                 if viewModel.isLoading {
                     CustomProgressView(progress: $viewModel.progress)
                         .frame(width: 80, height: 80)
