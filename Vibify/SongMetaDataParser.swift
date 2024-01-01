@@ -34,37 +34,27 @@ final class SongMetadataParser {
             return nil
         }
         
-        if let metadata = parseFormattedLine(
-            cleanedLine,
-            format: #"^\d+\.\s*\""#,
-            separator: "\" by "
-        ) {
-            return metadata
-        }
+        // Define a type for the parsing options to clear the ambiguity
+        typealias ParsingOption = (format: String?, separator: String, artistFirst: Bool)
         
-        if let metadata = parseFormattedLine(
-            cleanedLine,
-            format: #"^\d+\.\s*"#,
-            separator: "–"
-        ) {
-            return metadata
-        }
+        // Try parsing the line with various formats and separators
+        let parsingOptions: [ParsingOption] = [
+            (format: #"^\d+\.\s*\""#, separator: "\" by ", artistFirst: true),
+            (format: #"^\d+\.\s*"#, separator: " by ", artistFirst: true),
+            (format: #"^\d+\.\s*"#, separator: "–", artistFirst: true),
+            (format: nil, separator: "-", artistFirst: true),
+            (format: nil, separator: "ft.", artistFirst: false)
+        ]
         
-        if let metadata = parseFormattedLine(
-            cleanedLine,
-            format: nil,
-            separator: "-"
-        ) {
-            return metadata
-        }
-        
-        if let metadata = parseFormattedLine(
-            cleanedLine,
-            format: nil,
-            separator: "ft.",
-            artistFirst: false
-        ) {
-            return metadata
+        for option in parsingOptions {
+            if let metadata = parseFormattedLine(
+                cleanedLine,
+                format: option.format,
+                separator: option.separator,
+                artistFirst: option.artistFirst
+            ) {
+                return metadata
+            }
         }
         
         logger.error("Could not parse line into a valid format: \(cleanedLine)")
@@ -104,6 +94,7 @@ final class SongMetadataParser {
         ? (String(components[0]), String(components[1]))
         : (String(components[1]), String(components[0]))
     }
+    
     private func fetchSongMetadata(artist: String, title: String) async -> SongMetadata? {
         logger.debug("Fetching song metadata for title: \(title), artist: \(artist)")
         let searchRequest = MusicCatalogSearchRequest(
@@ -132,7 +123,7 @@ final class SongMetadataParser {
                     releaseDate: releaseDate,
                     genreNames: genreNames,
                     isExplicit: isExplicit,
-                    appleMusicID: appleMusicID, 
+                    appleMusicID: appleMusicID,
                     previewURL: previewURL
                 )
                 
