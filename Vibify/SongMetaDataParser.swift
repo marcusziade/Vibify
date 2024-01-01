@@ -36,6 +36,14 @@ final class SongMetadataParser {
         
         if let metadata = parseFormattedLine(
             cleanedLine,
+            format: #"^\d+\.\s*\""#,
+            separator: "\" by "
+        ) {
+            return metadata
+        }
+        
+        if let metadata = parseFormattedLine(
+            cleanedLine,
             format: #"^\d+\.\s*"#,
             separator: "–"
         ) {
@@ -86,14 +94,16 @@ final class SongMetadataParser {
         
         let components = modifiedLine
             .split(separator: Substring(separator), maxSplits: 1)
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .map {
+                $0.trimmingCharacters(in: .whitespacesAndNewlines)
+                    .replacingOccurrences(of: "\"", with: "")
+            }
         guard components.count == 2 else { return nil }
         
         return artistFirst
         ? (String(components[0]), String(components[1]))
         : (String(components[1]), String(components[0]))
     }
-    
     private func fetchSongMetadata(artist: String, title: String) async -> SongMetadata? {
         logger.debug("Fetching song metadata for title: \(title), artist: \(artist)")
         let searchRequest = MusicCatalogSearchRequest(
