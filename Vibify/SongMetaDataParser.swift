@@ -39,10 +39,8 @@ final class SongMetadataParser {
             return nil
         }
         
-        // Define a type for the parsing options to clear the ambiguity
         typealias ParsingOption = (format: String?, separator: String, artistFirst: Bool)
         
-        // Try parsing the line with various formats and separators
         let parsingOptions: [ParsingOption] = [
             (format: #"^\d+\.\s*\""#, separator: "\" by ", artistFirst: true),
             (format: #"^\d+\.\s*"#, separator: " by ", artistFirst: true),

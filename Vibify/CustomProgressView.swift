@@ -36,7 +36,6 @@ struct CustomProgressView: View {
         .padding()
     }
     
-    // Adjust the size to fit your design, this is just an example size.
     private let loaderSize: CGFloat = 300
 }
 
