@@ -19,7 +19,7 @@ final class PlaylistViewModel {
     var searchCriteria = SongSearchCriteria()
     
     let genreList = ["Rock", "Pop", "Jazz", "Classical", "Hip-Hop", "Electronic"]
-    let decadeRange: ClosedRange<Double> = 1950...2020
+    let decadeRange: ClosedRange<Double> = 1860...Double(Date().year)
     
     private var currentlyPlayingSong: SongMetadata?
     private let playlistGenerator: PlaylistGenerator
@@ -42,10 +42,18 @@ final class PlaylistViewModel {
     }
     
     @MainActor func fetchPlaylistSuggestion() {
+        guard !isLoading else { return }
+        playlistSuggestion = []
         isLoading = true
+        progress = .zero
+        
         Task {
             do {
-                playlistSuggestion = try await playlistGenerator.fetchPlaylistSuggestion(criteria: searchCriteria)
+                playlistSuggestion = try await playlistGenerator.fetchPlaylistSuggestion(
+                    criteria: searchCriteria
+                ) { [unowned self] newProgress in
+                    progress = Double(newProgress) / 100.0
+                }
             } catch {
                 debugPrint(error)
                 presentAlert(with: "Failed to generate playlist: \(error.localizedDescription)")
@@ -64,6 +72,7 @@ final class PlaylistViewModel {
                 await presentAlert(with: "No songs to add to the playlist.")
                 return
             }
+            isLoading = true
             isImporting = true
             progress = 0.0
             
@@ -73,11 +82,11 @@ final class PlaylistViewModel {
                 let result = await appleMusicImporter.addSongsToPlaylist(
                     playlist: playlist,
                     songs: playlistSuggestion,
-                    progressHandler: { [weak self] newProgress in
-                        self?.progress = newProgress
+                    progressHandler: { [unowned self] newProgress in
+                        progress = newProgress
                     }
                 )
-                isImporting = false
+                isLoading = false
                 switch result {
                 case .success():
                     await presentAlert(with: "Songs added to the playlist successfully.")
@@ -85,9 +94,11 @@ final class PlaylistViewModel {
                     await presentAlert(with: "Failed to add songs to the playlist: \(error.localizedDescription)")
                 }
             } catch {
-                isImporting = false
+                isLoading = false
                 await presentAlert(with: "Failed to create playlist: \(error.localizedDescription)")
             }
+            
+            isImporting = false
         }
     }
     

@@ -9,23 +9,27 @@ final class SongMetadataParser {
         self.logger = logger
     }
     
-    #warning("Add progress handler to update UI")
-    func parse(from playlistString: String) async throws -> [SongMetadata] {
+    func parse(
+        from playlistString: String,
+        progressHandler: ((Int) -> Void)? = nil
+    ) async throws -> [SongMetadata] {
         logger.info("Parsing song metadata from string")
         let lines = playlistString.components(separatedBy: .newlines)
         var songMetadatas: [SongMetadata] = []
         
-        for line in lines {
+        for (index, line) in lines.enumerated() {
             guard let (artist, title) = parseLine(line) else { continue }
             if let songMetadata = await fetchSongMetadata(artist: artist, title: title) {
                 songMetadatas.append(songMetadata)
             }
+            let progress = (index + 1) * 100 / lines.count
+            progressHandler?(progress)
         }
         
         logger.info("Parsed song metadata successfully, count: \(songMetadatas.count)")
         return songMetadatas
     }
-    
+
     private func parseLine(_ line: String) -> (artist: String, title: String)? {
         logger.debug("Processing line: \(line)")
         

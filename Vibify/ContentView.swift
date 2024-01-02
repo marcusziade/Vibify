@@ -5,25 +5,46 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
-                    genrePicker
-                    decadeSlider
-                    numberOfSongsSlider
-                    specificPreferencesTextField
-                    getSuggestionButton
-                    loadingView
-                    songCardListView
-                    addToAppleMusicButton
+            ZStack(alignment: .top) {
+                ScrollView {
+                    VStack(spacing: 20) {
+                        genrePicker
+                        decadeSlider
+                        numberOfSongsSlider
+                        specificPreferencesTextField
+                        getSuggestionButton
+                        songCardListView
+                        addToAppleMusicButton
+                    }
+                    .disabled(viewModel.isLoading)
                 }
+                .blur(radius: viewModel.isLoading ? 5 : 0)
+                .animation(.easeInOut(duration: 0.3), value: viewModel.isLoading)
+                
+                loaderView
             }
-            .navigationBarTitle("Playlist Generator", displayMode: .inline)
             .alert(isPresented: $viewModel.showingAlert, content: alert)
         }
     }
 }
 
 private extension ContentView {
+    
+    var loaderView: some View {
+        Group {
+            if viewModel.isLoading {
+                CustomProgressView(
+                    progress: $viewModel.progress,
+                    title: viewModel.isImporting ? "Importing" : "Generating"
+                )
+                .background(Color.white)
+                .cornerRadius(8)
+                .shadow(radius: 8)
+            }
+        }
+        .transition(.move(edge: .top))
+        .animation(.snappy, value: viewModel.isLoading)
+    }
     
     var genrePicker: some View {
         VStack {
@@ -72,30 +93,18 @@ private extension ContentView {
                 .background(Color.blue)
                 .cornerRadius(10)
         }
-        .disabled(viewModel.isImporting)
+        .disabled(viewModel.isLoading)
         .padding(.horizontal)
-    }
-    
-    var loadingView: some View {
-        Group {
-            if viewModel.isImporting {
-                ImportProgressView(progress: $viewModel.progress)
-            } else if viewModel.isLoading {
-                LoadingProgressView()
-            }
-        }
     }
     
     var songCardListView: some View {
         Group {
-            if !viewModel.isImporting {
-                ForEach(viewModel.playlistSuggestion, id: \.title) { song in
-                    SongCardView(
-                        song: song,
-                        togglePlayback: viewModel.togglePlayback,
-                        isPlaying: viewModel.isCurrentlyPlaying(song: song)
-                    )
-                }
+            ForEach(viewModel.playlistSuggestion, id: \.title) { song in
+                SongCardView(
+                    song: song,
+                    togglePlayback: viewModel.togglePlayback,
+                    isPlaying: viewModel.isCurrentlyPlaying(song: song)
+                )
             }
         }
     }
@@ -124,4 +133,8 @@ private extension ContentView {
     func alert() -> Alert {
         Alert(title: Text("Playlist Generator"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
     }
+}
+
+#Preview {
+    ContentView(viewModel: PlaylistViewModel())
 }
