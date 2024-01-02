@@ -24,6 +24,7 @@ struct ContentView: View {
 }
 
 private extension ContentView {
+    
     var genrePicker: some View {
         VStack {
             Text("Genre").font(.headline)
@@ -71,23 +72,23 @@ private extension ContentView {
                 .background(Color.blue)
                 .cornerRadius(10)
         }
-        .disabled(viewModel.isLoading)
+        .disabled(viewModel.isImporting)
         .padding(.horizontal)
     }
     
     var loadingView: some View {
         Group {
-            if viewModel.isLoading {
-                CustomProgressView(progress: $viewModel.progress)
-                    .frame(width: 80, height: 80)
-                    .padding()
+            if viewModel.isImporting {
+                ImportProgressView(progress: $viewModel.progress)
+            } else if viewModel.isLoading {
+                LoadingProgressView()
             }
         }
     }
     
     var songCardListView: some View {
         Group {
-            if !viewModel.isLoading {
+            if !viewModel.isImporting {
                 ForEach(viewModel.playlistSuggestion, id: \.title) { song in
                     SongCardView(
                         song: song,

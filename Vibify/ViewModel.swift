@@ -11,6 +11,7 @@ final class PlaylistViewModel {
     var isPlaying: Bool = false
     var playlistSuggestion: [SongMetadata] = []
     var isLoading: Bool = false
+    var isImporting: Bool = false
     var progress: Double = 0.0
     var isAuthorizedForAppleMusic: Bool = false
     var showingAlert: Bool = false
@@ -63,7 +64,7 @@ final class PlaylistViewModel {
                 await presentAlert(with: "No songs to add to the playlist.")
                 return
             }
-            isLoading = true
+            isImporting = true
             progress = 0.0
             
             do {
@@ -76,7 +77,7 @@ final class PlaylistViewModel {
                         self?.progress = newProgress
                     }
                 )
-                isLoading = false
+                isImporting = false
                 switch result {
                 case .success():
                     await presentAlert(with: "Songs added to the playlist successfully.")
@@ -84,7 +85,7 @@ final class PlaylistViewModel {
                     await presentAlert(with: "Failed to add songs to the playlist: \(error.localizedDescription)")
                 }
             } catch {
-                isLoading = false
+                isImporting = false
                 await presentAlert(with: "Failed to create playlist: \(error.localizedDescription)")
             }
         }
