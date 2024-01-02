@@ -9,6 +9,7 @@ final class SongMetadataParser {
         self.logger = logger
     }
     
+    #warning("Add progress handler to update UI")
     func parse(from playlistString: String) async throws -> [SongMetadata] {
         logger.info("Parsing song metadata from string")
         let lines = playlistString.components(separatedBy: .newlines)
