@@ -2,7 +2,7 @@ import Foundation
 import MusicKit
 import os.log
 
-final class SongMetadataParser {
+final class DBSongMetadataParser {
     private let logger: Logger
     
     init(logger: Logger) {
@@ -11,25 +11,30 @@ final class SongMetadataParser {
     
     func parse(
         from playlistString: String,
+        playlistID: String,
         progressHandler: ((Int) -> Void)? = nil
-    ) async throws -> [SongMetadata] {
+    ) async throws -> [DBSongMetadata] {
         logger.info("Parsing song metadata from string")
         let lines = playlistString.components(separatedBy: .newlines)
-        var songMetadatas: [SongMetadata] = []
+        var DBSongMetadatas: [DBSongMetadata] = []
         
         for (index, line) in lines.enumerated() {
             guard let (artist, title) = parseLine(line) else { continue }
-            if let songMetadata = await fetchSongMetadata(artist: artist, title: title) {
-                songMetadatas.append(songMetadata)
+            if let DBSongMetadata = await fetchDBSongMetadata(
+                artist: artist,
+                title: title,
+                playlistID: playlistID
+            ) {
+                DBSongMetadatas.append(DBSongMetadata)
             }
             let progress = (index + 1) * 100 / lines.count
             progressHandler?(progress)
         }
         
-        logger.info("Parsed song metadata successfully, count: \(songMetadatas.count)")
-        return songMetadatas
+        logger.info("Parsed song metadata successfully, count: \(DBSongMetadatas.count)")
+        return DBSongMetadatas
     }
-
+    
     private func parseLine(_ line: String) -> (artist: String, title: String)? {
         logger.debug("Processing line: \(line)")
         
@@ -98,7 +103,11 @@ final class SongMetadataParser {
         : (String(components[1]), String(components[0]))
     }
     
-    private func fetchSongMetadata(artist: String, title: String) async -> SongMetadata? {
+    private func fetchDBSongMetadata(
+        artist: String,
+        title: String,
+        playlistID: String
+    ) async -> DBSongMetadata? {
         logger.debug("Fetching song metadata for title: \(title), artist: \(artist)")
         let searchRequest = MusicCatalogSearchRequest(
             term: "\(artist) \(title)",
@@ -115,10 +124,11 @@ final class SongMetadataParser {
                 let releaseDate = song.releaseDate
                 let genreNames = song.genreNames
                 let isExplicit = song.contentRating == .explicit
-                let appleMusicID = song.id
+                let appleMusicID = song.id.rawValue
                 let previewURL = song.previewAssets?.first?.url
                 
-                let songMetadata = SongMetadata(
+                let DBSongMetadata = DBSongMetadata(
+                    id: appleMusicID,
                     title: song.title,
                     artist: song.artistName,
                     album: album,
@@ -127,10 +137,11 @@ final class SongMetadataParser {
                     genreNames: genreNames,
                     isExplicit: isExplicit,
                     appleMusicID: appleMusicID,
-                    previewURL: previewURL
+                    previewURL: previewURL,
+                    playlistID: playlistID
                 )
                 
-                return songMetadata
+                return DBSongMetadata
             } else {
                 logger.warning("No song found for title: \(title), artist: \(artist)")
                 return nil

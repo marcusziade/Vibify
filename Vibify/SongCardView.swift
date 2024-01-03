@@ -2,8 +2,8 @@ import AVFoundation
 import SwiftUI
 
 struct SongCardView: View {
-    let song: SongMetadata
-    var togglePlayback: (SongMetadata) -> Void
+    let song: DBSongMetadata
+    var togglePlayback: (DBSongMetadata) -> Void
     var isPlaying: Bool
     
     var body: some View {
@@ -75,7 +75,8 @@ struct SongCardView: View {
 }
 
 #Preview {
-    SongCardView(song: SongMetadata(
+    SongCardView(song: DBSongMetadata(
+        id: UUID().uuidString,
         title: "Song Title",
         artist: "Song Artist",
         album: "Song Album",

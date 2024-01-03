@@ -9,9 +9,10 @@ import Observation
 final class PlaylistViewModel {
     
     var isPlaying: Bool = false
-    var playlistSuggestion: [SongMetadata] = []
+    var playlistSuggestion: [DBSongMetadata] = []
     var isLoading: Bool = false
     var isImporting: Bool = false
+    var showHistory: Bool = false
     var progress: Double = 0.0
     var isAuthorizedForAppleMusic: Bool = false
     var showingAlert: Bool = false
@@ -21,23 +22,27 @@ final class PlaylistViewModel {
     let genreList = ["Rock", "Pop", "Jazz", "Classical", "Hip-Hop", "Electronic"]
     let decadeRange: ClosedRange<Double> = 1860...Double(Date().year)
     
-    private var currentlyPlayingSong: SongMetadata?
+    private var currentlyPlayingSong: DBSongMetadata?
+    
+    private let databaseManager: DatabaseManager
     private let playlistGenerator: PlaylistGenerator
     private let appleMusicImporter: AppleMusicImporter
     private let player: AVPlayer
     
     init(
+        databaseManager: DatabaseManager = DatabaseManager(),
         playlistGenerator: PlaylistGenerator = PlaylistGenerator(),
         appleMusicImporter: AppleMusicImporter = AppleMusicImporter(),
         player: AVPlayer = AVPlayer()
     ) {
+        self.databaseManager = databaseManager
         self.playlistGenerator = playlistGenerator
         self.appleMusicImporter = appleMusicImporter
         self.player = player
         Task { await requestAppleMusicAuthorization() }
     }
     
-    func isCurrentlyPlaying(song: SongMetadata) -> Bool {
+    func isCurrentlyPlaying(song: DBSongMetadata) -> Bool {
         return currentlyPlayingSong?.title == song.title && isPlaying
     }
     
@@ -47,13 +52,20 @@ final class PlaylistViewModel {
         isLoading = true
         progress = .zero
         
-        Task {
+        Task { [unowned self] in
             do {
                 playlistSuggestion = try await playlistGenerator.fetchPlaylistSuggestion(
                     criteria: searchCriteria
                 ) { [unowned self] newProgress in
                     progress = Double(newProgress) / 100.0
                 }
+                
+                let playlist = DBPlaylist(
+                    playlistID: UUID().uuidString,
+                    createdAt: Date.now,
+                    songs: playlistSuggestion
+                )
+                try databaseManager.insert(playlist: playlist)
             } catch {
                 debugPrint(error)
                 presentAlert(with: "Failed to generate playlist: \(error.localizedDescription)")
@@ -102,7 +114,7 @@ final class PlaylistViewModel {
         }
     }
     
-    func togglePlayback(for song: SongMetadata) {
+    func togglePlayback(for song: DBSongMetadata) {
         if isCurrentlyPlaying(song: song) {
             player.pause()
             isPlaying = false
@@ -116,7 +128,7 @@ final class PlaylistViewModel {
         showingAlert = true
     }
     
-    private func playSong(_ song: SongMetadata) {
+    private func playSong(_ song: DBSongMetadata) {
         guard let url = song.previewURL else { return }
         if player.rate != 0 {
             player.pause()
