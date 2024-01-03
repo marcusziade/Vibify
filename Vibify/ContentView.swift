@@ -23,7 +23,17 @@ struct ContentView: View {
                 
                 loaderView
             }
+            .toolbar {
+                Button {
+                    viewModel.showHistory = true
+                } label: {
+                    Image(systemName: "clock")
+                }
+            }
             .alert(isPresented: $viewModel.showingAlert, content: alert)
+            .sheet(isPresented: $viewModel.showHistory) {
+                PlaylistHistoryView(viewModel: PlaylistHistoryViewModel())
+            }
         }
     }
 }

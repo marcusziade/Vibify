@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		5A0158012B3F4A6600048E79 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0158002B3F4A6600048E79 /* ViewModel.swift */; };
 		5A0158032B3F4BC800048E79 /* View-Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0158022B3F4BC800048E79 /* View-Components.swift */; };
+		5A0D89542B450964003420A8 /* PlaylistHistoryVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0D89532B450964003420A8 /* PlaylistHistoryVM.swift */; };
+		5A0D89562B450ACC003420A8 /* DBPlaylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0D89552B450ACC003420A8 /* DBPlaylist.swift */; };
+		5A0D89582B45160E003420A8 /* PlaylistHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0D89572B45160E003420A8 /* PlaylistHistoryView.swift */; };
 		5A1CD9762B3D1CA200AF0192 /* VibifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */; };
 		5A1CD9782B3D1CA200AF0192 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9772B3D1CA200AF0192 /* ContentView.swift */; };
 		5A1CD97A2B3D1CA300AF0192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */; };
@@ -19,13 +22,18 @@
 		5A4BFB2F2B40AFDC00988D0E /* SongMetaDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BFB2E2B40AFDC00988D0E /* SongMetaDataParser.swift */; };
 		5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */; };
 		5AB8FC3B2B4332EE008AC7C4 /* SongSearchCriteria.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */; };
+		5AC0B7D42B45065C00971FF9 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 5AC0B7D32B45065C00971FF9 /* GRDB */; };
+		5AC0B7D62B45069E00971FF9 /* DBSongMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */; };
+		5AC0B7D82B4506EA00971FF9 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */; };
 		5AD5A4B12B408BE7005FC577 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD5A4B02B408BE7005FC577 /* String+Ext.swift */; };
-		5AD5A4B32B408D88005FC577 /* SongMetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD5A4B22B408D88005FC577 /* SongMetaData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5A0158002B3F4A6600048E79 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		5A0158022B3F4BC800048E79 /* View-Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View-Components.swift"; sourceTree = "<group>"; };
+		5A0D89532B450964003420A8 /* PlaylistHistoryVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHistoryVM.swift; sourceTree = "<group>"; };
+		5A0D89552B450ACC003420A8 /* DBPlaylist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBPlaylist.swift; sourceTree = "<group>"; };
+		5A0D89572B45160E003420A8 /* PlaylistHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHistoryView.swift; sourceTree = "<group>"; };
 		5A1CD9722B3D1CA200AF0192 /* Vibify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vibify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibifyApp.swift; sourceTree = "<group>"; };
 		5A1CD9772B3D1CA200AF0192 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -37,8 +45,9 @@
 		5A4BFB2E2B40AFDC00988D0E /* SongMetaDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongMetaDataParser.swift; sourceTree = "<group>"; };
 		5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicImporter.swift; sourceTree = "<group>"; };
 		5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongSearchCriteria.swift; sourceTree = "<group>"; };
+		5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBSongMetadata.swift; sourceTree = "<group>"; };
+		5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		5AD5A4B02B408BE7005FC577 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
-		5AD5A4B22B408D88005FC577 /* SongMetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongMetaData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AC0B7D42B45065C00971FF9 /* GRDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,10 +86,14 @@
 				5A4BFB2C2B40A43100988D0E /* CustomProgressView.swift */,
 				5A4523732B3FCC530026494C /* SongCardView.swift */,
 				5A0158002B3F4A6600048E79 /* ViewModel.swift */,
+				5A0D89532B450964003420A8 /* PlaylistHistoryVM.swift */,
+				5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */,
+				5A0D89572B45160E003420A8 /* PlaylistHistoryView.swift */,
+				5A0D89552B450ACC003420A8 /* DBPlaylist.swift */,
+				5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */,
 				5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */,
 				5A4BFB2E2B40AFDC00988D0E /* SongMetaDataParser.swift */,
 				5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */,
-				5AD5A4B22B408D88005FC577 /* SongMetaData.swift */,
 				5A0158022B3F4BC800048E79 /* View-Components.swift */,
 				5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */,
 				5A4BFB2A2B4096EF00988D0E /* Date+Ext.swift */,
@@ -114,6 +128,9 @@
 			dependencies = (
 			);
 			name = Vibify;
+			packageProductDependencies = (
+				5AC0B7D32B45065C00971FF9 /* GRDB */,
+			);
 			productName = Vibify;
 			productReference = 5A1CD9722B3D1CA200AF0192 /* Vibify.app */;
 			productType = "com.apple.product-type.application";
@@ -142,6 +159,9 @@
 				Base,
 			);
 			mainGroup = 5A1CD9692B3D1CA200AF0192;
+			packageReferences = (
+				5AC0B7D22B45065C00971FF9 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
+			);
 			productRefGroup = 5A1CD9732B3D1CA200AF0192 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -190,15 +210,19 @@
 			files = (
 				5A1CD9782B3D1CA200AF0192 /* ContentView.swift in Sources */,
 				5A0158032B3F4BC800048E79 /* View-Components.swift in Sources */,
+				5AC0B7D82B4506EA00971FF9 /* DatabaseManager.swift in Sources */,
 				5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */,
 				5A4BFB2D2B40A43100988D0E /* CustomProgressView.swift in Sources */,
 				5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */,
 				5A0158012B3F4A6600048E79 /* ViewModel.swift in Sources */,
 				5A1CD9762B3D1CA200AF0192 /* VibifyApp.swift in Sources */,
 				5AD5A4B12B408BE7005FC577 /* String+Ext.swift in Sources */,
+				5A0D89542B450964003420A8 /* PlaylistHistoryVM.swift in Sources */,
 				5A4BFB2F2B40AFDC00988D0E /* SongMetaDataParser.swift in Sources */,
-				5AD5A4B32B408D88005FC577 /* SongMetaData.swift in Sources */,
+				5AC0B7D62B45069E00971FF9 /* DBSongMetadata.swift in Sources */,
+				5A0D89562B450ACC003420A8 /* DBPlaylist.swift in Sources */,
 				5A4523742B3FCC530026494C /* SongCardView.swift in Sources */,
+				5A0D89582B45160E003420A8 /* PlaylistHistoryView.swift in Sources */,
 				5A4BFB2B2B4096EF00988D0E /* Date+Ext.swift in Sources */,
 				5AB8FC3B2B4332EE008AC7C4 /* SongSearchCriteria.swift in Sources */,
 			);
@@ -406,6 +430,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5AC0B7D22B45065C00971FF9 /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5AC0B7D32B45065C00971FF9 /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5AC0B7D22B45065C00971FF9 /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5A1CD96A2B3D1CA200AF0192 /* Project object */;
 }

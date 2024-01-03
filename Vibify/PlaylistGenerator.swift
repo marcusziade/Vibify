@@ -32,17 +32,17 @@ enum PlaylistGeneratorError: Error {
 }
 
 final class PlaylistGenerator {
-    private let metadataParser: SongMetadataParser
-    private let logger = Logger(subsystem: "com.marcusziade.Vibify.app", category: "Networking")
+    private let metadataParser: DBSongMetadataParser
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "Networking")
     
     init() {
-        self.metadataParser = SongMetadataParser(logger: logger)
+        self.metadataParser = DBSongMetadataParser(logger: logger)
     }
     
     func fetchPlaylistSuggestion(
         criteria: SongSearchCriteria,
         progressHandler: ((Int) -> Void)? = nil
-    ) async throws -> [SongMetadata] {
+    ) async throws -> [DBSongMetadata] {
         logger.info("Starting fetchPlaylistSuggestion with criteria: \(criteria.toPrompt())")
         
         guard let apiKey = openAIKey else {
@@ -52,10 +52,11 @@ final class PlaylistGenerator {
         
         let openAIPrompt = buildOpenAIPrompt(with: criteria)
         
-#if targetEnvironment(simulator) || DEBUG
+#if targetEnvironment(simulator)
         let simulatedResponse = "\n\n1. \"Only Girl (In the World)\" – Rihanna\n2. \"Dynamite\" – Taio Cruz \n3. \"California Gurls\" – Katy Perry ft. Snoop Dogg\n4. \"Club Can\'t Handle Me\" – Flo Rida ft. David Guetta\n5. \"Hey, Soul Sister\" – Train\n6. \"Tik Tok\" – Kesha\n7. \"Like a G6\" – Far East Movement ft. The Cataracs & Dev\n8. \"DJ Got Us Fallin\' in Love\" – Usher ft. Pitbull\n9. \"Grenade\" – Bruno Mars\n10. \"OMG\" – Usher ft. Will.i.am\n11. \"Only\" – Nicki Minaj\n12. \"Just the Way You Are\" – Bruno Mars\n13. \"We No Speak Americano\" – Yolanda Be Cool & DCUP \n14. \"Bad Romance\" – Lady Gaga\n15. \"Nothin\' on You\" – B.o.B ft. Bruno Mars\n16. \"Firework\" – Katy Perry\n17. \"Unstoppable\" – Foxy Brown ft. Swizz Beatz\n18. \"Airplanes\" – B.o.B ft. Hayley Williams\n19. \"On the Floor\" – Jennifer Lopez ft. Pitbull\n20. \"Teenage Dream\" – Katy Perry\n21. \"Love the Way You Lie\" – Eminem ft. Rihanna\n22. \"Give Me Everything\" – Pitbull ft. Ne-Yo\n23. \"E.T.\" – Katy Perry ft. Kanye West\n24. \"Rolling in the Deep\" – Adele\n25. \"Hey Baby (Drop It to the Floor)\" – Pitbull ft. T-Pain"
         return try await metadataParser.parse(
-            from: simulatedResponse,
+            from: simulatedResponse, 
+            playlistID: UUID().uuidString,
             progressHandler: progressHandler
         )
 #else
@@ -98,7 +99,8 @@ final class PlaylistGenerator {
                         throw PlaylistGeneratorError.invalidResponse
                     }
                     return try await metadataParser.parse(
-                        from: firstChoice.text,
+                        from: firstChoice.text, 
+                        playlistID: UUID().uuidString,
                         progressHandler: progressHandler
                     )
                 } catch {

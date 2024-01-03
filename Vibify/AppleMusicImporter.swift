@@ -6,7 +6,7 @@ import os.log
 
 /// A class responsible for importing songs into Apple Music.
 final class AppleMusicImporter {
-    private let logger = Logger(subsystem: "com.marcusziade.Vibify.app", category: "MusicImport")
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "MusicImport")
     
     /// Requests authorization for accessing Apple Music.
     func requestAppleMusicAccess() async -> Bool {
@@ -36,7 +36,7 @@ final class AppleMusicImporter {
     /// Adds songs to a given Apple Music playlist and updates progress.
     func addSongsToPlaylist(
         playlist: MPMediaPlaylist,
-        songs: [SongMetadata],
+        songs: [DBSongMetadata],
         progressHandler: @escaping (Double) -> Void
     ) async -> Result<Void, Error> {
         logger.info("Starting to add songs to the playlist, Playlist ID: \(playlist.persistentID)")
@@ -74,10 +74,10 @@ final class AppleMusicImporter {
     }
 }
 
-/// Extension to provide a utility method for matching `Song` with `SongMetadata`.
+/// Extension to provide a utility method for matching `Song` with `DBSongMetadata`.
 extension Song {
-    /// Determines if a `Song` instance matches a given `SongMetadata`.
-    func matchesMetadata(_ metadata: SongMetadata) -> Bool {
+    /// Determines if a `Song` instance matches a given `DBSongMetadata`.
+    func matchesMetadata(_ metadata: DBSongMetadata) -> Bool {
         let normalizedTitle = self.title.normalizedForSearch()
         let normalizedArtist = self.artistName.normalizedForSearch()
         let normalizedAlbum = self.albumTitle?.normalizedForSearch() ?? ""
