@@ -9,6 +9,22 @@ struct DBPlaylist: FetchableRecord, MutablePersistableRecord, Identifiable {
     var createdAt: Date
     var songs: [DBSongMetadata]?
     
+    var songsCount: Int {
+        songs?.count ?? 0
+    }
+    
+    var songTitles: [String] {
+        songs?.compactMap { $0.title } ?? []
+    }
+    
+    var songArtworkURLs: [URL] {
+        songs?.compactMap(\.artworkURL) ?? []
+    }
+    
+    var duration: TimeInterval {
+        songs?.reduce(0) { $0 + ($1.duration ?? .zero) } ?? 0
+    }
+    
     enum Columns: String, ColumnExpression {
         case title
         case playlistID = "id"

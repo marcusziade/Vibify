@@ -4,7 +4,7 @@ import GRDB
 struct DBSongMetadata: Codable, FetchableRecord, MutablePersistableRecord {
     
     enum Columns: String, ColumnExpression {
-        case id, title, artist, album, artworkURL, releaseDate, genreNames, isExplicit, appleMusicID, previewURL, playlistID
+        case id, title, artist, album, artworkURL, releaseDate, genreNames, isExplicit, appleMusicID, previewURL, playlistID, duration
     }
     
     static var databaseTableName = "songs"
@@ -20,4 +20,5 @@ struct DBSongMetadata: Codable, FetchableRecord, MutablePersistableRecord {
     var appleMusicID: String
     var previewURL: URL?
     var playlistID: String?
+    var duration: TimeInterval?
 }

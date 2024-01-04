@@ -31,6 +31,7 @@ class DatabaseManager {
                     t.column("appleMusicID", .text)
                     t.column("previewURL", .text)
                     t.column("playlistID", .text)
+                    t.column("duration", .double)
                 }
                 
                 try db.create(table: "playlists", ifNotExists: true) { t in

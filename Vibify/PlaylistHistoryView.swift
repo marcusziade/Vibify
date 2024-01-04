@@ -11,6 +11,7 @@ struct PlaylistHistoryView: View {
                 Text(playlist.title)
                 Text(playlist.playlistID)
                 Text(playlist.createdAt.formatted())
+                Text(String(playlist.duration))
             }
         }
     }

@@ -126,6 +126,7 @@ final class DBSongMetadataParser {
                 let isExplicit = song.contentRating == .explicit
                 let appleMusicID = song.id.rawValue
                 let previewURL = song.previewAssets?.first?.url
+                let duration = song.duration
                 
                 let DBSongMetadata = DBSongMetadata(
                     id: appleMusicID,
@@ -138,7 +139,8 @@ final class DBSongMetadataParser {
                     isExplicit: isExplicit,
                     appleMusicID: appleMusicID,
                     previewURL: previewURL,
-                    playlistID: playlistID
+                    playlistID: playlistID,
+                    duration: duration
                 )
                 
                 return DBSongMetadata
