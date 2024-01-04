@@ -36,6 +36,7 @@ class DatabaseManager {
                 try db.create(table: "playlists", ifNotExists: true) { t in
                     t.column("id", .text).primaryKey()
                     t.column("createdAt", .date)
+                    t.column("title", .text)
                 }
             }
         } catch {

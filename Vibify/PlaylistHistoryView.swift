@@ -8,6 +8,7 @@ struct PlaylistHistoryView: View {
     var body: some View {
         List(viewModel.playlistHistory) { playlist in
             VStack(alignment: .leading) {
+                Text(playlist.title)
                 Text(playlist.playlistID)
                 Text(playlist.createdAt.formatted())
             }

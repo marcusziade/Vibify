@@ -61,6 +61,7 @@ final class PlaylistViewModel {
                 }
                 
                 let playlist = DBPlaylist(
+                    title: searchCriteria.genre,
                     playlistID: UUID().uuidString,
                     createdAt: Date.now,
                     songs: playlistSuggestion

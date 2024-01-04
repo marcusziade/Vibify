@@ -3,7 +3,7 @@ import Foundation
 struct SongSearchCriteria {
     var genre: String = ""
     var decade: Double = 1990
-    var numberOfSongs: Double = 20
+    var numberOfSongs: Double = 3
     var specificPreferences: String = ""
     
     func toPrompt() -> String {
