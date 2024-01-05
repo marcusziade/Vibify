@@ -45,37 +45,51 @@ class DatabaseManager {
             fatalError("Database initialization failed: \(error.localizedDescription)")
         }
     }
+}
+
+extension DatabaseManager {
     
     func insert(playlist: DBPlaylist) throws {
+        var mutatingPlaylist = playlist
         do {
-            var mutatingPlaylist = playlist
             try dbQueue.write { db in
                 try mutatingPlaylist.insert(db)
                 logger.info("Inserted playlist with id: \(mutatingPlaylist.id)")
+                
+                if let songs = mutatingPlaylist.songs {
+                    for var song in songs {
+                        song.playlistID = mutatingPlaylist.playlistID
+                        try song.insert(db)
+                        logger.info("Inserted song with id: \(song.id) into playlist with id: \(mutatingPlaylist.id)")
+                    }
+                }
             }
         } catch {
-            logger.error("Failed to insert playlist: \(error.localizedDescription)")
+            logger.error("Failed to insert playlist or songs: \(error.localizedDescription)")
             throw error
         }
     }
-    
-    // Add more functions as needed for fetching, updating, and deleting songs
 }
 
 extension DatabaseManager {
     
     func fetchPlaylistHistory() throws -> [DBPlaylist] {
         var history: [DBPlaylist] = []
-        try dbQueue.read { db in
-            let playlists = try DBPlaylist.fetchAll(db)
-            
-            for var playlist in playlists {
-                let songs = try DBSongMetadata
-                    .filter(Column("playlistID") == playlist.playlistID)
-                    .fetchAll(db)
-                playlist.songs = songs
-                history.append(playlist)
+        do {
+            try dbQueue.read { db in
+                let playlists = try DBPlaylist.fetchAll(db)
+                
+                for var playlist in playlists {
+                    let songs = try DBSongMetadata
+                        .filter(Column("playlistID") == playlist.playlistID)
+                        .fetchAll(db)
+                    playlist.songs = songs
+                    history.append(playlist)
+                }
             }
+        } catch {
+            logger.error("Failed to fetch playlist history: \(error.localizedDescription)")
+            throw error
         }
         return history
     }
