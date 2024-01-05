@@ -119,6 +119,7 @@ final class DBSongMetadataParser {
             logger.debug("MusicKit search response received")
             
             if let song = response.songs.first {
+                let uniqueID = UUID().uuidString
                 let artworkURL = song.artwork?.url(width: 300, height: 300)
                 let album = song.albumTitle ?? "Unknown Album"
                 let releaseDate = song.releaseDate
@@ -129,7 +130,7 @@ final class DBSongMetadataParser {
                 let duration = song.duration
                 
                 let DBSongMetadata = DBSongMetadata(
-                    id: appleMusicID,
+                    id: uniqueID,
                     title: song.title,
                     artist: song.artistName,
                     album: album,

@@ -12,7 +12,31 @@ struct PlaylistHistoryView: View {
                 Text(playlist.playlistID)
                 Text(playlist.createdAt.formatted())
                 Text(String(playlist.duration.formatted()))
+                
+                LazyVGrid(columns: columns) {
+                    ForEach(playlist.songArtworkURLs, id: \.self) { url in
+                        AsyncImage(url: url) { image in
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .clipped()
+                        } placeholder: {
+                            ProgressView()
+                        }
+                    }
+                }
             }
         }
+        .listStyle(.grouped)
+    }
+    
+    private var columns: [GridItem] {
+        [
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+            GridItem(.flexible()),
+            GridItem(.flexible())
+        ]
     }
 }
