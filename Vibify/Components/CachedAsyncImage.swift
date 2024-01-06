@@ -92,7 +92,7 @@ extension CachedAsyncImage {
         
         /// Begins the image loading process.
         func loadImage() {
-            guard let url = url else {
+            guard let url else {
                 state = .noURL
                 return
             }
@@ -122,7 +122,6 @@ extension CachedAsyncImage {
         private let url: URL?
         private var cache: ImageCache
         private var cancellable: AnyCancellable?
-        
     }
 }
 
