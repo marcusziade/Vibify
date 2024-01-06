@@ -12,6 +12,7 @@
 		5A0D89542B450964003420A8 /* PlaylistHistoryVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0D89532B450964003420A8 /* PlaylistHistoryVM.swift */; };
 		5A0D89562B450ACC003420A8 /* DBPlaylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0D89552B450ACC003420A8 /* DBPlaylist.swift */; };
 		5A0D89582B45160E003420A8 /* PlaylistHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0D89572B45160E003420A8 /* PlaylistHistoryView.swift */; };
+		5A0DCA1A2B4860E3007A0B72 /* Double+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0DCA192B4860E3007A0B72 /* Double+Ext.swift */; };
 		5A1CD9762B3D1CA200AF0192 /* VibifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */; };
 		5A1CD9782B3D1CA200AF0192 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9772B3D1CA200AF0192 /* ContentView.swift */; };
 		5A1CD97A2B3D1CA300AF0192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */; };
@@ -34,6 +35,7 @@
 		5A0D89532B450964003420A8 /* PlaylistHistoryVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHistoryVM.swift; sourceTree = "<group>"; };
 		5A0D89552B450ACC003420A8 /* DBPlaylist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBPlaylist.swift; sourceTree = "<group>"; };
 		5A0D89572B45160E003420A8 /* PlaylistHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHistoryView.swift; sourceTree = "<group>"; };
+		5A0DCA192B4860E3007A0B72 /* Double+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Ext.swift"; sourceTree = "<group>"; };
 		5A1CD9722B3D1CA200AF0192 /* Vibify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vibify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibifyApp.swift; sourceTree = "<group>"; };
 		5A1CD9772B3D1CA200AF0192 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				5A0D89532B450964003420A8 /* PlaylistHistoryVM.swift */,
 				5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */,
 				5A0D89572B45160E003420A8 /* PlaylistHistoryView.swift */,
+				5A0DCA192B4860E3007A0B72 /* Double+Ext.swift */,
 				5A0D89552B450ACC003420A8 /* DBPlaylist.swift */,
 				5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */,
 				5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */,
@@ -216,6 +219,7 @@
 				5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */,
 				5A0158012B3F4A6600048E79 /* ViewModel.swift in Sources */,
 				5A1CD9762B3D1CA200AF0192 /* VibifyApp.swift in Sources */,
+				5A0DCA1A2B4860E3007A0B72 /* Double+Ext.swift in Sources */,
 				5AD5A4B12B408BE7005FC577 /* String+Ext.swift in Sources */,
 				5A0D89542B450964003420A8 /* PlaylistHistoryVM.swift in Sources */,
 				5A4BFB2F2B40AFDC00988D0E /* SongMetaDataParser.swift in Sources */,
