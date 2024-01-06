@@ -25,6 +25,16 @@ struct DBPlaylist: FetchableRecord, MutablePersistableRecord, Identifiable {
         songs?.reduce(0) { $0 + ($1.duration ?? .zero) } ?? 0
     }
     
+    var topTwoGenres: [String] {
+        let genreCounts = songs?.flatMap { $0.genreNames }
+            .filter { $0 != "Music" }
+            .reduce(into: [:]) { counts, genre in
+                counts[genre, default: 0] += 1
+            } ?? [:]
+        
+        return Array(genreCounts.sorted { $0.value > $1.value }.prefix(2).map { $0.key })
+    }
+
     enum Columns: String, ColumnExpression {
         case title
         case playlistID = "id"

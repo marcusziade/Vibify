@@ -28,7 +28,7 @@ private extension PlaylistHistoryView {
     }
     
     func playlistTitle(for playlist: DBPlaylist) -> some View {
-        Text(playlist.title)
+        Text(playlist.topTwoGenres.joined(separator: ", "))
             .font(.headline)
             .accessibilityLabel(Text("Playlist title: \(playlist.title)"))
     }
