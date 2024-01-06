@@ -3,13 +3,17 @@ import Foundation
 import SwiftUI
 import UIKit
 
+/// Protocol that defines the requirements for an image caching system.
 protocol ImageCache {
+    /// Subscript to get or set images for a URL.
     subscript(_ url: URL) -> UIImage? { get set }
 }
 
+/// A default implementation of `ImageCache` using `NSCache` to store images.
 class DefaultImageCache: ImageCache {
     private var cache = NSCache<NSURL, UIImage>()
     
+    /// Access images by subscripting with a URL.
     subscript(_ url: URL) -> UIImage? {
         get {
             cache.object(forKey: url as NSURL)
@@ -61,11 +65,15 @@ struct CachedAsyncImage: View {
     }
 }
 
+/// Extension to encapsulate the view model of the `CachedAsyncImage`.
 extension CachedAsyncImage {
     
+    /// ViewModel managing the state of the image loading process.
     final class ViewModel: ObservableObject {
+        /// Published property for the current state of the image loading process.
         @Published var state: LoadState = .idle
         
+        /// Enumeration of possible states for the image loading process.
         enum LoadState {
             case idle
             case loading
@@ -73,15 +81,12 @@ extension CachedAsyncImage {
             case failed
         }
         
-        private let url: URL
-        private var cache: ImageCache
-        private var cancellable: AnyCancellable?
-        
         init(url: URL, cache: ImageCache) {
             self.url = url
             self.cache = cache
         }
         
+        /// Begins the image loading process.
         func loadImage() {
             if let image = cache[url] {
                 state = .loaded(image)
@@ -101,6 +106,30 @@ extension CachedAsyncImage {
                     state = .loaded(image)
                     cache[url] = image
                 })
+        }
+        
+        // MARK: Private
+        
+        private let url: URL
+        private var cache: ImageCache
+        private var cancellable: AnyCancellable?
+        
+    }
+}
+
+extension CachedAsyncImage.ViewModel.LoadState: Equatable {
+    
+    static func == (
+        lhs: CachedAsyncImage.ViewModel.LoadState,
+        rhs: CachedAsyncImage.ViewModel.LoadState
+    ) -> Bool {
+        switch (lhs, rhs) {
+        case (.idle, .idle), (.loading, .loading), (.failed, .failed):
+            return true
+        case (let .loaded(lhsImage), let .loaded(rhsImage)):
+            return lhsImage.pngData() == rhsImage.pngData()
+        default:
+            return false
         }
     }
 }
