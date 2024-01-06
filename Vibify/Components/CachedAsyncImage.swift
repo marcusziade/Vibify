@@ -33,7 +33,7 @@ struct CachedAsyncImage: View {
     var errorImage: Image
     
     init(
-        url: URL,
+        url: URL?,
         placeholder: Image = Image(systemName: "photo"),
         errorImage: Image = Image(systemName: "multiply.circle"),
         cache: ImageCache = DefaultImageCache()
@@ -51,7 +51,7 @@ struct CachedAsyncImage: View {
     @ViewBuilder
     private var content: some View {
         switch viewModel.state {
-        case .idle, .loading:
+        case .idle, .loading, .noURL:
             placeholder
         case .failed:
             errorImage
@@ -79,15 +79,24 @@ extension CachedAsyncImage {
             case loading
             case loaded(UIImage)
             case failed
+            case noURL
         }
         
-        init(url: URL, cache: ImageCache) {
+        init(url: URL?, cache: ImageCache) {
             self.url = url
             self.cache = cache
+            if url == nil {
+                state = .noURL
+            }
         }
         
         /// Begins the image loading process.
         func loadImage() {
+            guard let url = url else {
+                state = .noURL
+                return
+            }
+            
             if let image = cache[url] {
                 state = .loaded(image)
                 return
@@ -110,7 +119,7 @@ extension CachedAsyncImage {
         
         // MARK: Private
         
-        private let url: URL
+        private let url: URL?
         private var cache: ImageCache
         private var cancellable: AnyCancellable?
         
