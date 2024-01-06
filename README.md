@@ -1,5 +1,7 @@
 # Vibify
 
+<img src="Vibify/Resources/Assets.xcassets/AppIcon.appiconset/vibifyicon-1024.png" width="200" height="200" />
+
 Vibify is an innovative iOS app designed to provide users with personalized music playlist suggestions. Utilizing advanced AI algorithms, Vibify curates playlists that resonate with individual preferences and moods.
 
 ## Features
