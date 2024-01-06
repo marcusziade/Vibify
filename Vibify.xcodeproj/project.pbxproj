@@ -64,6 +64,54 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A0FDB522B48F195002FDB0C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5A0D89552B450ACC003420A8 /* DBPlaylist.swift */,
+				5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */,
+				5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5A0FDB532B48F1B0002FDB0C /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				5A1CD9772B3D1CA200AF0192 /* ContentView.swift */,
+				5A0158002B3F4A6600048E79 /* ViewModel.swift */,
+				5A0D89572B45160E003420A8 /* PlaylistHistoryView.swift */,
+				5A0D89532B450964003420A8 /* PlaylistHistoryVM.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		5A0FDB542B48F1C1002FDB0C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5A4BFB2C2B40A43100988D0E /* CustomProgressView.swift */,
+				5A4523732B3FCC530026494C /* SongCardView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5A0FDB562B48F201002FDB0C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5A0DCA192B4860E3007A0B72 /* Double+Ext.swift */,
+				5A4BFB2A2B4096EF00988D0E /* Date+Ext.swift */,
+				5AD5A4B02B408BE7005FC577 /* String+Ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5A0FDB572B48F21A002FDB0C /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5A0158022B3F4BC800048E79 /* View-Components.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		5A1CD9692B3D1CA200AF0192 = {
 			isa = PBXGroup;
 			children = (
@@ -84,23 +132,15 @@
 			isa = PBXGroup;
 			children = (
 				5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */,
-				5A1CD9772B3D1CA200AF0192 /* ContentView.swift */,
-				5A4BFB2C2B40A43100988D0E /* CustomProgressView.swift */,
-				5A4523732B3FCC530026494C /* SongCardView.swift */,
-				5A0158002B3F4A6600048E79 /* ViewModel.swift */,
-				5A0D89532B450964003420A8 /* PlaylistHistoryVM.swift */,
 				5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */,
-				5A0D89572B45160E003420A8 /* PlaylistHistoryView.swift */,
-				5A0DCA192B4860E3007A0B72 /* Double+Ext.swift */,
-				5A0D89552B450ACC003420A8 /* DBPlaylist.swift */,
-				5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */,
-				5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */,
 				5A4BFB2E2B40AFDC00988D0E /* SongMetaDataParser.swift */,
 				5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */,
-				5A0158022B3F4BC800048E79 /* View-Components.swift */,
 				5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */,
-				5A4BFB2A2B4096EF00988D0E /* Date+Ext.swift */,
-				5AD5A4B02B408BE7005FC577 /* String+Ext.swift */,
+				5A0FDB522B48F195002FDB0C /* Models */,
+				5A0FDB532B48F1B0002FDB0C /* Screens */,
+				5A0FDB542B48F1C1002FDB0C /* Views */,
+				5A0FDB572B48F21A002FDB0C /* Components */,
+				5A0FDB562B48F201002FDB0C /* Extensions */,
 				5A1CD9882B3D234A00AF0192 /* Resources */,
 			);
 			path = Vibify;
