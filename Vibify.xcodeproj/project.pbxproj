@@ -27,6 +27,7 @@
 		5AC0B7D62B45069E00971FF9 /* DBSongMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */; };
 		5AC0B7D82B4506EA00971FF9 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */; };
 		5AD5A4B12B408BE7005FC577 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD5A4B02B408BE7005FC577 /* String+Ext.swift */; };
+		5ADFD7672B49B88700F25E0A /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADFD7662B49B88700F25E0A /* CachedAsyncImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBSongMetadata.swift; sourceTree = "<group>"; };
 		5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		5AD5A4B02B408BE7005FC577 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
+		5ADFD7662B49B88700F25E0A /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				5A0158022B3F4BC800048E79 /* View-Components.swift */,
+				5ADFD7662B49B88700F25E0A /* CachedAsyncImage.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 				5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */,
 				5A0158012B3F4A6600048E79 /* ViewModel.swift in Sources */,
 				5A1CD9762B3D1CA200AF0192 /* VibifyApp.swift in Sources */,
+				5ADFD7672B49B88700F25E0A /* CachedAsyncImage.swift in Sources */,
 				5A0DCA1A2B4860E3007A0B72 /* Double+Ext.swift in Sources */,
 				5AD5A4B12B408BE7005FC577 /* String+Ext.swift in Sources */,
 				5A0D89542B450964003420A8 /* PlaylistHistoryVM.swift in Sources */,
