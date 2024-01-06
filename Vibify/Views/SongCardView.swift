@@ -9,23 +9,12 @@ struct SongCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                AsyncImage(url: song.artworkURL) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                    case .success(let image):
-                        image.resizable()
-                    case .failure:
-                        Image(systemName: "music.note")
-                    @unknown default:
-                        EmptyView()
-                    }
-                }
-                .frame(width: 60, height: 60)
-                .aspectRatio(contentMode: .fit)
-                .cornerRadius(8)
-                .background(Color.gray.opacity(0.3))
-                .cornerRadius(8)
+                CachedAsyncImage(url: song.artworkURL)
+                    .frame(width: 60, height: 60)
+                    .aspectRatio(contentMode: .fit)
+                    .cornerRadius(8)
+                    .background(Color.gray.opacity(0.3))
+                    .cornerRadius(8)
                 
                 VStack(alignment: .leading) {
                     Text(song.title)

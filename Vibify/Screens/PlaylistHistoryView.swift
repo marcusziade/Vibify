@@ -55,19 +55,10 @@ private extension PlaylistHistoryView {
     }
     
     func artworkImage(for url: URL) -> some View {
-        AsyncImage(url: url) { image in
-            image
-                .resizable()
-                .aspectRatio(1, contentMode: .fill)
-                .clipped()
-        } placeholder: {
-            Image(systemName: "photo")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 50, height: 50)
-                .accessibilityLabel(Text("Loading artwork"))
-        }
-        .accessibilityLabel(Text("Album artwork"))
+        CachedAsyncImage(url: url)
+            .aspectRatio(1, contentMode: .fill)
+            .clipped()
+            .accessibilityLabel(Text("Album artwork"))
     }
     
     var columns: [GridItem] {
