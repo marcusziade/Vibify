@@ -6,7 +6,7 @@ import MusicKit
 import Observation
 
 @Observable
-final class PlaylistViewModel {
+final class PlaylistGeneratorVM {
     
     var isPlaying: Bool = false
     var playlistSuggestion: [DBSongMetadata] = []

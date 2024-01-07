@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5A0158012B3F4A6600048E79 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0158002B3F4A6600048E79 /* ViewModel.swift */; };
-		5A0158032B3F4BC800048E79 /* View-Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0158022B3F4BC800048E79 /* View-Components.swift */; };
+		5A0158012B3F4A6600048E79 /* PlaylistGeneratorVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0158002B3F4A6600048E79 /* PlaylistGeneratorVM.swift */; };
+		5A0158032B3F4BC800048E79 /* Buttonstyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0158022B3F4BC800048E79 /* Buttonstyles.swift */; };
 		5A0D89542B450964003420A8 /* PlaylistHistoryVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0D89532B450964003420A8 /* PlaylistHistoryVM.swift */; };
 		5A0D89562B450ACC003420A8 /* DBPlaylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0D89552B450ACC003420A8 /* DBPlaylist.swift */; };
 		5A0D89582B45160E003420A8 /* PlaylistHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0D89572B45160E003420A8 /* PlaylistHistoryView.swift */; };
 		5A0DCA1A2B4860E3007A0B72 /* Double+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0DCA192B4860E3007A0B72 /* Double+Ext.swift */; };
 		5A1CD9762B3D1CA200AF0192 /* VibifyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */; };
-		5A1CD9782B3D1CA200AF0192 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9772B3D1CA200AF0192 /* ContentView.swift */; };
+		5A1CD9782B3D1CA200AF0192 /* PlaylistGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9772B3D1CA200AF0192 /* PlaylistGeneratorView.swift */; };
 		5A1CD97A2B3D1CA300AF0192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */; };
 		5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */; };
 		5A4523742B3FCC530026494C /* SongCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4523732B3FCC530026494C /* SongCardView.swift */; };
@@ -42,15 +42,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5A0158002B3F4A6600048E79 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		5A0158022B3F4BC800048E79 /* View-Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View-Components.swift"; sourceTree = "<group>"; };
+		5A0158002B3F4A6600048E79 /* PlaylistGeneratorVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistGeneratorVM.swift; sourceTree = "<group>"; };
+		5A0158022B3F4BC800048E79 /* Buttonstyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttonstyles.swift; sourceTree = "<group>"; };
 		5A0D89532B450964003420A8 /* PlaylistHistoryVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHistoryVM.swift; sourceTree = "<group>"; };
 		5A0D89552B450ACC003420A8 /* DBPlaylist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBPlaylist.swift; sourceTree = "<group>"; };
 		5A0D89572B45160E003420A8 /* PlaylistHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHistoryView.swift; sourceTree = "<group>"; };
 		5A0DCA192B4860E3007A0B72 /* Double+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Ext.swift"; sourceTree = "<group>"; };
 		5A1CD9722B3D1CA200AF0192 /* Vibify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vibify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibifyApp.swift; sourceTree = "<group>"; };
-		5A1CD9772B3D1CA200AF0192 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		5A1CD9772B3D1CA200AF0192 /* PlaylistGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistGeneratorView.swift; sourceTree = "<group>"; };
 		5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistGenerator.swift; sourceTree = "<group>"; };
 		5A4523732B3FCC530026494C /* SongCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCardView.swift; sourceTree = "<group>"; };
@@ -99,8 +99,8 @@
 		5A0FDB532B48F1B0002FDB0C /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				5A1CD9772B3D1CA200AF0192 /* ContentView.swift */,
-				5A0158002B3F4A6600048E79 /* ViewModel.swift */,
+				5A1CD9772B3D1CA200AF0192 /* PlaylistGeneratorView.swift */,
+				5A0158002B3F4A6600048E79 /* PlaylistGeneratorVM.swift */,
 				5A0D89572B45160E003420A8 /* PlaylistHistoryView.swift */,
 				5A0D89532B450964003420A8 /* PlaylistHistoryVM.swift */,
 			);
@@ -129,7 +129,7 @@
 		5A0FDB572B48F21A002FDB0C /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				5A0158022B3F4BC800048E79 /* View-Components.swift */,
+				5A0158022B3F4BC800048E79 /* Buttonstyles.swift */,
 				5ADFD7662B49B88700F25E0A /* CachedAsyncImage.swift */,
 				5ADFD7752B49BA7900F25E0A /* CachedAsyncImage_Tests.swift */,
 			);
@@ -307,13 +307,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A1CD9782B3D1CA200AF0192 /* ContentView.swift in Sources */,
-				5A0158032B3F4BC800048E79 /* View-Components.swift in Sources */,
+				5A1CD9782B3D1CA200AF0192 /* PlaylistGeneratorView.swift in Sources */,
+				5A0158032B3F4BC800048E79 /* Buttonstyles.swift in Sources */,
 				5AC0B7D82B4506EA00971FF9 /* DatabaseManager.swift in Sources */,
 				5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */,
 				5A4BFB2D2B40A43100988D0E /* CustomProgressView.swift in Sources */,
 				5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */,
-				5A0158012B3F4A6600048E79 /* ViewModel.swift in Sources */,
+				5A0158012B3F4A6600048E79 /* PlaylistGeneratorVM.swift in Sources */,
 				5A1CD9762B3D1CA200AF0192 /* VibifyApp.swift in Sources */,
 				5ADFD7672B49B88700F25E0A /* CachedAsyncImage.swift in Sources */,
 				5A0DCA1A2B4860E3007A0B72 /* Double+Ext.swift in Sources */,

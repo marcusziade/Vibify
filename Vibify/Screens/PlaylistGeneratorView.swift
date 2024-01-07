@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct ContentView: View {
-    @Bindable var viewModel = PlaylistViewModel()
+struct PlaylistGeneratorView: View {
+    @Bindable var viewModel = PlaylistGeneratorVM()
     
     var body: some View {
         NavigationView {
@@ -38,7 +38,7 @@ struct ContentView: View {
     }
 }
 
-private extension ContentView {
+private extension PlaylistGeneratorView {
     
     var loaderView: some View {
         Group {
@@ -146,5 +146,5 @@ private extension ContentView {
 }
 
 #Preview {
-    ContentView(viewModel: PlaylistViewModel())
+    PlaylistGeneratorView(viewModel: PlaylistGeneratorVM())
 }

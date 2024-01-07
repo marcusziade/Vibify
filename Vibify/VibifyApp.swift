@@ -4,7 +4,7 @@ import SwiftUI
 struct VibifyApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            PlaylistGeneratorView()
         }
     }
 }
