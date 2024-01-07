@@ -73,12 +73,19 @@ extension CachedAsyncImage {
         /// Published property for the current state of the image loading process.
         @Published var state: LoadState = .idle
         
+        /// Custom error type for image loading.
+        enum ImageLoadingError: Error {
+            case urlError
+            case decodingError
+            case networkError(Error)
+        }
+        
         /// Enumeration of possible states for the image loading process.
         enum LoadState {
             case idle
             case loading
             case loaded(UIImage)
-            case failed
+            case failed(ImageLoadingError)
             case noURL
         }
         
@@ -90,7 +97,6 @@ extension CachedAsyncImage {
             }
         }
         
-        /// Begins the image loading process.
         func loadImage() {
             guard let url else {
                 state = .noURL
@@ -103,18 +109,28 @@ extension CachedAsyncImage {
             }
             
             state = .loading
-            cancellable = URLSession.shared.dataTaskPublisher(for: url)
-                .map { UIImage(data: $0.data) }
-                .receive(on: DispatchQueue.main)
-                .sink(receiveCompletion: { [unowned self] completion in
-                    if case .failure = completion {
-                        state = .failed
+            cancellable = Future<UIImage, ImageLoadingError> { promise in
+                URLSession.shared.dataTask(with: url) { data, _, error in
+                    if let error = error {
+                        promise(.failure(.networkError(error)))
+                        return
                     }
-                }, receiveValue: { [unowned self] image in
-                    guard let image else { return }
-                    state = .loaded(image)
-                    cache[url] = image
-                })
+                    guard let data = data, let image = UIImage(data: data) else {
+                        promise(.failure(.decodingError))
+                        return
+                    }
+                    promise(.success(image))
+                }.resume()
+            }
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [unowned self] completion in
+                if case .failure(let error) = completion {
+                    state = .failed(error)
+                }
+            }, receiveValue: { [unowned self] image in
+                state = .loaded(image)
+                cache[url] = image
+            })
         }
         
         // MARK: Private
