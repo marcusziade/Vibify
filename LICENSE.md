@@ -1,4 +1,4 @@
-# Vibify Copyright (C) 2024 Marcus
+# Vibify Copyright (C) 2024 Marcus Ziadé
 
 **Standard AGPL (GNU Affero General Public License)**
 
