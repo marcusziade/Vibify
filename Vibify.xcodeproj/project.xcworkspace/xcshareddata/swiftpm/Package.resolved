@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "cachedasyncimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/marcusziade/CachedAsyncImage.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "e24c2cb3620ffc713e76a0a2392c97851fc4f823"
+      }
+    },
+    {
       "identity" : "grdb.swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/groue/GRDB.swift.git",

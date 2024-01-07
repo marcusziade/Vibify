@@ -1,4 +1,5 @@
 import AVFoundation
+import CachedAsyncImage
 import SwiftUI
 
 struct SongCardView: View {
