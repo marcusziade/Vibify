@@ -1,6 +1,6 @@
 # Vibify Copyright (C) 2024 Marcus
 
-**[ Standard AGPL License Text ]**
+**Standard AGPL (GNU Affero General Public License)**
 
 ## Understanding This License in Simple Terms:
 
