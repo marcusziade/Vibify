@@ -75,7 +75,7 @@ final class CachedAsyncImage_Tests: XCTestCase {
     
     func testViewModel_RetryAfterFailure_ShouldAttemptReload() {
         // Simulate a failure state
-        viewModel.state = .failed
+        viewModel.state = .failed(.decodingError)
         
         // Attempt to load the image again
         viewModel.loadImage()
