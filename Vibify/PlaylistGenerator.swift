@@ -70,7 +70,7 @@ final class PlaylistGenerator {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         
-        let body = OpenAIRequest(model: "text-davinci-003", prompt: openAIPrompt, maxTokens: 500)
+        let body = OpenAIRequest(model: "gpt-3.5-turbo-instruct", prompt: openAIPrompt, maxTokens: 500)
         
         do {
             request.httpBody = try JSONEncoder().encode(body)
