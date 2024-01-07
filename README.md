@@ -49,5 +49,3 @@ Once you have configured the API key:
 ## Contributing
 
 We welcome contributions to Vibify. Please read our contributing guidelines before submitting a pull request.
-
-```
