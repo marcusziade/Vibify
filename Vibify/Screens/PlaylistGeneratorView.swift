@@ -7,14 +7,36 @@ struct PlaylistGeneratorView: View {
         NavigationView {
             ZStack(alignment: .top) {
                 ScrollView {
-                    VStack(spacing: 20) {
-                        genrePicker
-                        decadeSlider
-                        numberOfSongsSlider
-                        specificPreferencesTextField
-                        getSuggestionButton
-                        songCardListView
-                        addToAppleMusicButton
+                    VStack(spacing: .zero) {
+                        LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
+                            ForEach(viewModel.genreList, id: \.self) { genre in
+                                GenreButton(genre: genre, selectedGenres: $viewModel.selectedGenres)
+                            }
+                        }
+                        
+                        MoodSelectorView(
+                            selectedMood: $viewModel.searchCriteria.mood
+                        )
+                        
+                        ActivityPickerView(
+                            selectedActivity: $viewModel.searchCriteria.activity
+                        )
+                        
+                        TextField(
+                            "Favorite Artists",
+                            text: $viewModel.searchCriteria.favoriteArtist
+                        )
+                        .padding(.top, 8)
+                        
+                        Button("Surprise Me") {
+                            Task { viewModel.generateRandomPlaylist }
+                        }
+                        .padding(.top, 8)
+                        
+                        Button("Share Playlist", action: viewModel.sharePlaylist)
+                            .padding(.top, 8)
+                        
+                        // Advanced Options
                     }
                     .disabled(viewModel.isLoading)
                 }
@@ -32,10 +54,17 @@ struct PlaylistGeneratorView: View {
             }
             .alert(isPresented: $viewModel.showingAlert, content: alert)
             .sheet(isPresented: $viewModel.showHistory) {
-                PlaylistHistoryView(viewModel: PlaylistHistoryViewModel())
+                PlaylistHistoryView(
+                    viewModel: PlaylistHistoryViewModel(
+                        dbManager: viewModel.databaseManager
+                    )
+                )
             }
         }
     }
+    
+    // Define the grid layout
+    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
 }
 
 private extension PlaylistGeneratorView {
@@ -59,7 +88,7 @@ private extension PlaylistGeneratorView {
     var genrePicker: some View {
         VStack {
             Text("Genre").font(.headline)
-            Picker("Genre", selection: $viewModel.searchCriteria.genre) {
+            Picker("Genre", selection: $viewModel.selectedGenre) {
                 ForEach(viewModel.genreList, id: \.self) {
                     Text($0)
                 }

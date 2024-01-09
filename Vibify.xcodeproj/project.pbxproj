@@ -22,6 +22,12 @@
 		5A4BFB2B2B4096EF00988D0E /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BFB2A2B4096EF00988D0E /* Date+Ext.swift */; };
 		5A4BFB2D2B40A43100988D0E /* CustomProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BFB2C2B40A43100988D0E /* CustomProgressView.swift */; };
 		5A4BFB2F2B40AFDC00988D0E /* SongMetaDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BFB2E2B40AFDC00988D0E /* SongMetaDataParser.swift */; };
+		5A4EC6672B4CF18D00894E13 /* SelectableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4EC6662B4CF18D00894E13 /* SelectableRow.swift */; };
+		5A4EC6692B4CF1A800894E13 /* MoodSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4EC6682B4CF1A800894E13 /* MoodSelectorView.swift */; };
+		5A4EC66B2B4CF1BC00894E13 /* ActivityPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4EC66A2B4CF1BC00894E13 /* ActivityPickerView.swift */; };
+		5A4EC66D2B4CF1DA00894E13 /* FavoriteArtistTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4EC66C2B4CF1DA00894E13 /* FavoriteArtistTextField.swift */; };
+		5A4EC66F2B4CF1EC00894E13 /* SurpriseMeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4EC66E2B4CF1EC00894E13 /* SurpriseMeButton.swift */; };
+		5A4EC6712B4CF1FF00894E13 /* SharePlaylistButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4EC6702B4CF1FF00894E13 /* SharePlaylistButton.swift */; };
 		5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */; };
 		5AB8FC3B2B4332EE008AC7C4 /* SongSearchCriteria.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */; };
 		5AC0B7D42B45065C00971FF9 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 5AC0B7D32B45065C00971FF9 /* GRDB */; };
@@ -56,6 +62,12 @@
 		5A4BFB2A2B4096EF00988D0E /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		5A4BFB2C2B40A43100988D0E /* CustomProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressView.swift; sourceTree = "<group>"; };
 		5A4BFB2E2B40AFDC00988D0E /* SongMetaDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongMetaDataParser.swift; sourceTree = "<group>"; };
+		5A4EC6662B4CF18D00894E13 /* SelectableRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableRow.swift; sourceTree = "<group>"; };
+		5A4EC6682B4CF1A800894E13 /* MoodSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodSelectorView.swift; sourceTree = "<group>"; };
+		5A4EC66A2B4CF1BC00894E13 /* ActivityPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPickerView.swift; sourceTree = "<group>"; };
+		5A4EC66C2B4CF1DA00894E13 /* FavoriteArtistTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteArtistTextField.swift; sourceTree = "<group>"; };
+		5A4EC66E2B4CF1EC00894E13 /* SurpriseMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurpriseMeButton.swift; sourceTree = "<group>"; };
+		5A4EC6702B4CF1FF00894E13 /* SharePlaylistButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePlaylistButton.swift; sourceTree = "<group>"; };
 		5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicImporter.swift; sourceTree = "<group>"; };
 		5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongSearchCriteria.swift; sourceTree = "<group>"; };
 		5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBSongMetadata.swift; sourceTree = "<group>"; };
@@ -110,6 +122,12 @@
 			children = (
 				5A4BFB2C2B40A43100988D0E /* CustomProgressView.swift */,
 				5A4523732B3FCC530026494C /* SongCardView.swift */,
+				5A4EC6662B4CF18D00894E13 /* SelectableRow.swift */,
+				5A4EC6682B4CF1A800894E13 /* MoodSelectorView.swift */,
+				5A4EC66A2B4CF1BC00894E13 /* ActivityPickerView.swift */,
+				5A4EC66C2B4CF1DA00894E13 /* FavoriteArtistTextField.swift */,
+				5A4EC66E2B4CF1EC00894E13 /* SurpriseMeButton.swift */,
+				5A4EC6702B4CF1FF00894E13 /* SharePlaylistButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -306,9 +324,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A1CD9782B3D1CA200AF0192 /* PlaylistGeneratorView.swift in Sources */,
+				5A4EC6672B4CF18D00894E13 /* SelectableRow.swift in Sources */,
 				5A0158032B3F4BC800048E79 /* Buttonstyles.swift in Sources */,
 				5AC0B7D82B4506EA00971FF9 /* DatabaseManager.swift in Sources */,
+				5A4EC66D2B4CF1DA00894E13 /* FavoriteArtistTextField.swift in Sources */,
 				5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */,
+				5A4EC66F2B4CF1EC00894E13 /* SurpriseMeButton.swift in Sources */,
 				5A4BFB2D2B40A43100988D0E /* CustomProgressView.swift in Sources */,
 				5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */,
 				5A0158012B3F4A6600048E79 /* PlaylistGeneratorVM.swift in Sources */,
@@ -316,11 +337,14 @@
 				5A0DCA1A2B4860E3007A0B72 /* Double+Ext.swift in Sources */,
 				5AD5A4B12B408BE7005FC577 /* String+Ext.swift in Sources */,
 				5A0D89542B450964003420A8 /* PlaylistHistoryVM.swift in Sources */,
+				5A4EC6692B4CF1A800894E13 /* MoodSelectorView.swift in Sources */,
 				5A4BFB2F2B40AFDC00988D0E /* SongMetaDataParser.swift in Sources */,
 				5AC0B7D62B45069E00971FF9 /* DBSongMetadata.swift in Sources */,
 				5A0D89562B450ACC003420A8 /* DBPlaylist.swift in Sources */,
 				5A4523742B3FCC530026494C /* SongCardView.swift in Sources */,
 				5A0D89582B45160E003420A8 /* PlaylistHistoryView.swift in Sources */,
+				5A4EC66B2B4CF1BC00894E13 /* ActivityPickerView.swift in Sources */,
+				5A4EC6712B4CF1FF00894E13 /* SharePlaylistButton.swift in Sources */,
 				5A4BFB2B2B4096EF00988D0E /* Date+Ext.swift in Sources */,
 				5AB8FC3B2B4332EE008AC7C4 /* SongSearchCriteria.swift in Sources */,
 			);
