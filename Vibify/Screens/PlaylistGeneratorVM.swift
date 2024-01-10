@@ -60,7 +60,7 @@ final class PlaylistGeneratorVM {
         return currentlyPlayingSong?.title == song.title && isPlaying
     }
     
-    @MainActor func fetchPlaylistSuggestion() {
+    func fetchPlaylistSuggestion() {
         guard !isLoading else { return }
         playlistSuggestion = []
         isLoading = true
@@ -97,7 +97,7 @@ final class PlaylistGeneratorVM {
     func createAndAddPlaylistToAppleMusic() {
         Task {
             guard !playlistSuggestion.isEmpty else {
-                await presentAlert(with: "No songs to add to the playlist.")
+                presentAlert(with: "No songs to add to the playlist.")
                 return
             }
             isLoading = true
@@ -117,13 +117,13 @@ final class PlaylistGeneratorVM {
                 isLoading = false
                 switch result {
                 case .success():
-                    await presentAlert(with: "Songs added to the playlist successfully.")
+                    presentAlert(with: "Songs added to the playlist successfully.")
                 case .failure(let error):
-                    await presentAlert(with: "Failed to add songs to the playlist: \(error.localizedDescription)")
+                    presentAlert(with: "Failed to add songs to the playlist: \(error.localizedDescription)")
                 }
             } catch {
                 isLoading = false
-                await presentAlert(with: "Failed to create playlist: \(error.localizedDescription)")
+                presentAlert(with: "Failed to create playlist: \(error.localizedDescription)")
             }
             
             isImporting = false
@@ -184,7 +184,7 @@ final class PlaylistGeneratorVM {
         }
     }
     
-    @MainActor private func presentAlert(with message: String) {
+    private func presentAlert(with message: String) {
         alertMessage = message
         showingAlert = true
     }

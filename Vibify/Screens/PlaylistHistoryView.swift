@@ -68,7 +68,7 @@ private extension PlaylistHistoryView {
 }
 
 #Preview {
-    PlaylistHistoryView(viewModel: PlaylistHistoryViewModel())
+    PlaylistHistoryView(viewModel: PlaylistHistoryViewModel(dbManager: DatabaseManager()))
 }
 
 /// `UniqueURL` is a struct used to provide unique identifiers for items within a SwiftUI `ForEach` loop.
