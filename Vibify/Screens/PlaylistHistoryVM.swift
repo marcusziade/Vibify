@@ -7,7 +7,7 @@ final class PlaylistHistoryViewModel {
     
     var playlistHistory: [DBPlaylist] = []
     
-    init(dbManager: DatabaseManager = DatabaseManager()) {
+    init(dbManager: DatabaseManager) {
         self.databaseManager = dbManager
         fetchPlaylistHistory()
     }
