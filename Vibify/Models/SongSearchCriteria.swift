@@ -13,6 +13,15 @@ struct SongSearchCriteria {
     var bpmRange: ClosedRange<Double> = 60...200
     var languagePreference: String = "English"
     
+    var selectedGenres: Set<String> {
+        get {
+            Set(genreProportions.keys)
+        }
+        set {
+            genreProportions = newValue.reduce(into: [:]) { $0[$1] = 1.0 }
+        }
+    }
+    
     func toPrompt() -> String {
         var promptComponents: [String] = []
         
