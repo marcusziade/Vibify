@@ -34,6 +34,8 @@
 		5AC0B7D62B45069E00971FF9 /* DBSongMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */; };
 		5AC0B7D82B4506EA00971FF9 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */; };
 		5AD5A4B12B408BE7005FC577 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD5A4B02B408BE7005FC577 /* String+Ext.swift */; };
+		5AE3F65E2B4E51F600EA8329 /* AdvancedSearchCriteriaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE3F65D2B4E51F600EA8329 /* AdvancedSearchCriteriaView.swift */; };
+		5AE3F6602B4E520900EA8329 /* AdvancedSearchCriteriaVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE3F65F2B4E520900EA8329 /* AdvancedSearchCriteriaVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,8 @@
 		5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		5AD5A4B02B408BE7005FC577 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		5ADFD76C2B49BA6500F25E0A /* VibifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VibifyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AE3F65D2B4E51F600EA8329 /* AdvancedSearchCriteriaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSearchCriteriaView.swift; sourceTree = "<group>"; };
+		5AE3F65F2B4E520900EA8329 /* AdvancedSearchCriteriaVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSearchCriteriaVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,8 @@
 			children = (
 				5A1CD9772B3D1CA200AF0192 /* PlaylistGeneratorView.swift */,
 				5A0158002B3F4A6600048E79 /* PlaylistGeneratorVM.swift */,
+				5AE3F65D2B4E51F600EA8329 /* AdvancedSearchCriteriaView.swift */,
+				5AE3F65F2B4E520900EA8329 /* AdvancedSearchCriteriaVM.swift */,
 				5A0D89572B45160E003420A8 /* PlaylistHistoryView.swift */,
 				5A0D89532B450964003420A8 /* PlaylistHistoryVM.swift */,
 			);
@@ -326,6 +332,7 @@
 				5A1CD9782B3D1CA200AF0192 /* PlaylistGeneratorView.swift in Sources */,
 				5A4EC6672B4CF18D00894E13 /* SelectableRow.swift in Sources */,
 				5A0158032B3F4BC800048E79 /* Buttonstyles.swift in Sources */,
+				5AE3F65E2B4E51F600EA8329 /* AdvancedSearchCriteriaView.swift in Sources */,
 				5AC0B7D82B4506EA00971FF9 /* DatabaseManager.swift in Sources */,
 				5A4EC66D2B4CF1DA00894E13 /* FavoriteArtistTextField.swift in Sources */,
 				5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */,
@@ -333,6 +340,7 @@
 				5A4BFB2D2B40A43100988D0E /* CustomProgressView.swift in Sources */,
 				5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */,
 				5A0158012B3F4A6600048E79 /* PlaylistGeneratorVM.swift in Sources */,
+				5AE3F6602B4E520900EA8329 /* AdvancedSearchCriteriaVM.swift in Sources */,
 				5A1CD9762B3D1CA200AF0192 /* VibifyApp.swift in Sources */,
 				5A0DCA1A2B4860E3007A0B72 /* Double+Ext.swift in Sources */,
 				5AD5A4B12B408BE7005FC577 /* String+Ext.swift in Sources */,

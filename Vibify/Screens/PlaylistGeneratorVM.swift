@@ -8,6 +8,7 @@ import Observation
 @Observable
 final class PlaylistGeneratorVM {
     
+    var textPrompt: String = ""
     var isPlaying: Bool = false
     var playlistSuggestion: [DBSongMetadata] = []
     var isLoading: Bool = false
@@ -20,7 +21,6 @@ final class PlaylistGeneratorVM {
     var searchCriteria = SongSearchCriteria()
     var selectedTheme: String = "Default"
     
-    let genreList = ["Rock", "Pop", "Jazz", "Classical", "Hip-Hop", "Electronic"]
     var selectedGenres: Set<String> = []
     
     let decadeRange: ClosedRange<Double> = 1860...Double(Date().year)
@@ -130,43 +130,13 @@ final class PlaylistGeneratorVM {
         }
     }
     
-    @MainActor func generateRandomPlaylist() {
+    func generateRandomPlaylist() {
         guard !isLoading else { return }
         isLoading = true
         progress = .zero
         
         // Simulate a network request or computation with a delay
-        Task { [unowned self] in
-            // Delay for demonstration purposes
-            try? await Task.sleep(nanoseconds: 1_000_000_000)
-            
-            // Generate a random set of songs
-            let randomGenres = genreList.shuffled().prefix(3)  // Take 3 random genres
-            let randomDecade = Double(Int.random(in: Int(decadeRange.lowerBound)...Int(decadeRange.upperBound)/10)*10)
-            let randomNumberOfSongs = Double(Int.random(in: 1...10))  // Random number of songs between 1 and 10
-            
-            // Generate a random set of songs
-            playlistSuggestion = (1...Int(randomNumberOfSongs)).map { _ in
-                DBSongMetadata(
-                    id: UUID().uuidString, // 'id' as a unique UUID string
-                    title: "Random Song \(Int.random(in: 1...10000))",
-                    artist: "Random Artist \(Int.random(in: 1...10000))",
-                    album: "Random Album \(Int.random(in: 1...1000))",
-                    artworkURL: nil, // You would replace this with an actual URL if available
-                    releaseDate: Date.random(in: pastDecadeRange), // You would replace this with an actual date if available
-                    genreNames: [randomGenres.randomElement() ?? "No Genre"],
-                    isExplicit: Bool.random(),
-                    appleMusicID: "\(Int.random(in: 1...10000))",
-                    previewURL: nil, // Replace with actual URL if available
-                    playlistID: UUID().uuidString, // 'playlistID' as a unique UUID string if needed
-                    duration: TimeInterval.random(in: 60...300) // Duration in seconds, as an example
-                )
-            }
-
-            // You would normally have a function here that fetches actual data based on the criteria
-            // For demonstration, we're using mock data
-            
-            // Update UI after fetching
+        Task {
             isLoading = false
         }
     }

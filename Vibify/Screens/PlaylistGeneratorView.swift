@@ -3,8 +3,8 @@ import SwiftUI
 struct PlaylistGeneratorView: View {
     @Bindable var viewModel = PlaylistGeneratorVM()
     
-    // Grid layout definition
-    private let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
+    @State private var showAdvancedSearch = false
+    @Bindable private var advancedSearchVM = AdvancedSearchCriteriaVM()
     
     var body: some View {
         NavigationView {
@@ -19,16 +19,19 @@ struct PlaylistGeneratorView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        viewModel.showHistory.toggle()
+                        showAdvancedSearch.toggle()
                     } label: {
-                        Image(systemName: "clock")
+                        Image(systemName: "slider.horizontal.3")
                     }
                 }
             }
-            .alert(isPresented: $viewModel.showingAlert, content: alert)
-            .sheet(isPresented: $viewModel.showHistory) {
-                PlaylistHistoryView(viewModel: PlaylistHistoryViewModel(dbManager: viewModel.databaseManager))
+            .sheet(isPresented: $showAdvancedSearch) {
+                AdvancedSearchCriteriaView(viewModel: advancedSearchVM) { updatedVM in
+                    updatedVM.updateMainViewModel(viewModel)
+                }
             }
+            .alert(isPresented: $viewModel.showingAlert, content: alert)
+            .navigationTitle("Playlist Generator")
         }
     }
 }
@@ -39,18 +42,14 @@ private extension PlaylistGeneratorView {
     var mainContentView: some View {
         ScrollView {
             VStack(spacing: .zero) {
-                decadeSlider
-                numberOfSongsSlider
-                genreGrid
-                MoodSelectorView(selectedMood: $viewModel.searchCriteria.mood)
-                ActivityPickerView(selectedActivity: $viewModel.searchCriteria.activity)
-                favoriteArtistsTextField
-                surpriseMeButton
-                specificPreferencesTextField
+                TextField("Explain your playlist configuration...", text: $viewModel.textPrompt)
+                    .padding()
                 getSuggestionButton
                 songCardListView
                 addToAppleMusicButton
                 sharePlaylistButton
+                Button("Surprise Me", action: viewModel.generateRandomPlaylist)
+                .padding(.top, 8)
             }
         }
     }
@@ -70,68 +69,6 @@ private extension PlaylistGeneratorView {
         }
         .transition(.move(edge: .top))
         .animation(.snappy, value: viewModel.isLoading)
-    }
-    
-    var genrePicker: some View {
-        VStack {
-            Text("Genre").font(.headline)
-            Picker("Genre", selection: $viewModel.selectedGenre) {
-                ForEach(viewModel.genreList, id: \.self) {
-                    Text($0)
-                }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-        }
-        .padding(.horizontal)
-    }
-    
-    var decadeSlider: some View {
-        VStack {
-            Text("Decade: \(String(format: "%.0f", viewModel.searchCriteria.decade))").font(.headline)
-            Slider(value: $viewModel.searchCriteria.decade, in: viewModel.decadeRange, step: 10)
-        }
-        .padding(.horizontal)
-    }
-    
-    var numberOfSongsSlider: some View {
-        VStack {
-            Text("Number of Songs: \(Int(viewModel.searchCriteria.numberOfSongs))").font(.headline)
-            Slider(value: $viewModel.searchCriteria.numberOfSongs, in: 0...25, step: 1)
-        }
-        .padding(.horizontal)
-    }
-    
-    // Genre Grid
-    var genreGrid: some View {
-        LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
-            ForEach(viewModel.genreList, id: \.self) { genre in
-                GenreButton(genre: genre, selectedGenres: $viewModel.selectedGenres)
-            }
-        }
-    }
-    
-    // Favorite Artists TextField
-    var favoriteArtistsTextField: some View {
-        TextField(
-            "Favorite Artists",
-            text: $viewModel.searchCriteria.favoriteArtist
-        )
-        .padding(.top, 8)
-    }
-    
-    // Surprise Me Button
-    var surpriseMeButton: some View {
-        Button("Surprise Me") {
-            Task { viewModel.generateRandomPlaylist }
-        }
-        .padding(.top, 8)
-    }
-    
-    // Specific Preferences TextField
-    var specificPreferencesTextField: some View {
-        TextField("Specific Preferences", text: $viewModel.searchCriteria.specificPreferences)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .padding(.horizontal)
     }
     
     // Get Suggestion Button
