@@ -1,13 +1,18 @@
 import Foundation
 import SwiftUI
 
-// FavoriteArtistTextField for inputting a favorite artist
 struct FavoriteArtistTextField: View {
     @Binding var favoriteArtist: String
     
     var body: some View {
-        TextField("Favorite Artist", text: $favoriteArtist)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .padding()
+        HStack {
+            Image(systemName: "music.mic")
+                .foregroundColor(.gray)
+            TextField("Favorite Artists", text: $favoriteArtist)
+        }
+        .padding()
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(10)
+        .padding(.horizontal)
     }
 }

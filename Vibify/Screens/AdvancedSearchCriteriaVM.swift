@@ -3,7 +3,7 @@ import Combine
 import Observation
 
 @Observable final class AdvancedSearchCriteriaVM {
-    var decade: Double = 2000
+    var decade: Double = 1980
     var numberOfSongs: Double = 10
     var selectedGenres: Set<String> = []
     var mood: String = ""
@@ -12,8 +12,44 @@ import Observation
     var specificPreferences: String = ""
     var searchCriteria = SongSearchCriteria()
     
-    let genreList = ["Rock", "Pop", "Jazz", "Classical", "Hip-Hop", "Electronic"]
-    
+    let genreList = [
+        "Rock",
+        "Pop",
+        "Jazz",
+        "Classical",
+        "Hip-Hop",
+        "Electronic",
+        "Blues",
+        "Country",
+        "Folk",
+        "R&B",
+        "Reggae",
+        "Metal",
+        "Punk",
+        "Soul",
+        "Funk",
+        "Latin",
+        "Gospel",
+        "World",
+        "Dance",
+        "Indie",
+        "Alternative",
+        "House",
+        "Techno",
+        "Trance",
+        "Opera",
+        "Ska",
+        "Grime",
+        "D&B",
+        "Dubstep",
+        "Ambient",
+        "New Age",
+        "Reggaeton",
+        "K-Pop",
+        "J-Pop",
+        "C-Pop"
+    ]
+
     init(from existingCriteria: SongSearchCriteria? = nil) {
         if let criteria = existingCriteria {
             self.decade = criteria.decade
