@@ -9,37 +9,38 @@ struct AdvancedSearchCriteriaView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                // Decade Slider
-                VStack {
-                    Text("Decade: \(String(format: "%.0f", viewModel.decade))'s").font(.headline)
-                    Slider(value: $viewModel.decade, in: 1860...Double(Date().year), step: 10)
-                }
-                
-                // Number of Songs Slider
-                VStack {
-                    Text("Number of Songs: \(Int(viewModel.numberOfSongs))").font(.headline)
-                    Slider(value: $viewModel.numberOfSongs, in: 0...25, step: 1)
-                }
-                
-                LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
-                    ForEach(viewModel.genreList, id: \.self) { genre in
-                        GenreButton(genre: genre, selectedGenres: $viewModel.selectedGenres)
+                VStack(spacing: 32) {
+                    DecadePickerView(
+                        selectedDecade: $viewModel.decade,
+                        startYear: 1860,
+                        endYear: Date().year,
+                        step: 10
+                    )
+                    
+                    NumberOfSongsCounterView(numberOfSongs: Binding<Int>(
+                        get: { Int(viewModel.numberOfSongs) },
+                        set: { viewModel.numberOfSongs = Double($0) }
+                    ))
+                    .padding(.bottom, 16)
+                    
+                    LazyVGrid(columns: columns, alignment: .leading, spacing: 10) {
+                        ForEach(viewModel.genreList.sorted(), id: \.self) { genre in
+                            GenreButton(genre: genre, selectedGenres: $viewModel.selectedGenres)
+                        }
                     }
+                    .padding(.horizontal)
+                    
+                    MoodSelectorView(
+                        selectedMood: $viewModel.searchCriteria.mood
+                    )
+                    
+                    ActivityPickerView(
+                        selectedActivity: $viewModel.searchCriteria.activity
+                    )
+                    .padding(.top, -24)
+                    
+                    FavoriteArtistTextField(favoriteArtist: $viewModel.searchCriteria.favoriteArtist)
                 }
-                
-                MoodSelectorView(
-                    selectedMood: $viewModel.searchCriteria.mood
-                )
-                
-                ActivityPickerView(
-                    selectedActivity: $viewModel.searchCriteria.activity
-                )
-                
-                TextField(
-                    "Favorite Artists",
-                    text: $viewModel.searchCriteria.favoriteArtist
-                )
-                .padding(.top, 8)
             }
             .navigationBarTitle("Advanced Search", displayMode: .inline)
             .toolbar {
@@ -56,4 +57,11 @@ struct AdvancedSearchCriteriaView: View {
     // MARK: Private
     
     let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
+}
+
+#Preview {
+    AdvancedSearchCriteriaView(
+        viewModel: AdvancedSearchCriteriaVM(),
+        updateMainViewModel: { _ in }
+    )
 }

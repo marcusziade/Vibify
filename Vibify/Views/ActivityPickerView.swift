@@ -1,21 +1,41 @@
 import Foundation
 import SwiftUI
 
-// ActivityPickerView for selecting the activity the playlist is for
 struct ActivityPickerView: View {
     @Binding var selectedActivity: String
     let activities = ["Workout", "Study", "Party"]
     
     var body: some View {
-        VStack {
-            Text("Activity").font(.headline)
-            Picker("Activity", selection: $selectedActivity) {
-                ForEach(activities, id: \.self) {
-                    Text($0)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(activities, id: \.self) { activity in
+                    ActivityButton(activity: activity, isSelected: selectedActivity == activity) {
+                        withAnimation {
+                            selectedActivity = activity
+                        }
+                    }
+                    .padding(3)
                 }
             }
-            .pickerStyle(.segmented)
+            .padding(.horizontal)
         }
-        .padding()
+    }
+}
+
+struct ActivityButton: View {
+    let activity: String
+    var isSelected: Bool
+    var action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Text(activity)
+                .foregroundColor(isSelected ? .white : .black)
+                .padding(.vertical, 10)
+                .padding(.horizontal, 20)
+                .background(isSelected ? .green : .white)
+                .clipShape(Capsule())
+                .shadow(radius: 2)
+        }
     }
 }
