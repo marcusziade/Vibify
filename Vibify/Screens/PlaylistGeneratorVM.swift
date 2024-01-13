@@ -4,6 +4,7 @@ import StoreKit
 import MediaPlayer
 import MusicKit
 import Observation
+import SwiftUI
 
 @Observable
 final class PlaylistGeneratorVM {
@@ -22,6 +23,8 @@ final class PlaylistGeneratorVM {
     var alertMessage: String = ""
     var searchCriteria = SongSearchCriteria()
     var selectedTheme: String = "Default"
+    var isConfiguringSearch: Bool = true
+    var showAdvancedSearch: Bool = false
     
     var selectedGenres: Set<String> = []
     
@@ -67,8 +70,8 @@ final class PlaylistGeneratorVM {
     }
     
     func fetchPlaylistSuggestion() async {
-        isFetchingPlaylist = true
         playlistSuggestion = []
+        isFetchingPlaylist = true
         progress = .zero
         
         do {
@@ -77,6 +80,8 @@ final class PlaylistGeneratorVM {
             ) { [unowned self] newProgress in
                 progress = Double(newProgress) / 100.0
             }
+            
+            isConfiguringSearch = false
             
             let primaryGenre = searchCriteria.genreProportions.max(by: { $0.value < $1.value })?.key ?? "No Genre"
             let playlist = DBPlaylist(
@@ -100,12 +105,12 @@ final class PlaylistGeneratorVM {
     }
     
     func createAndAddPlaylistToAppleMusic() async {
+        progress = 0.0
         guard !playlistSuggestion.isEmpty else {
             presentAlert(with: "No songs to add to the playlist.")
             return
         }
         isAddingToAppleMusic = true
-        progress = 0.0
         
         do {
             let playlistName = "Playlist \(Date.now.formatted(date: .abbreviated, time: .shortened))"
@@ -135,6 +140,9 @@ final class PlaylistGeneratorVM {
         progress = .zero
         
         // Perform async task here
+        withAnimation(.snappy) {
+            isConfiguringSearch = false
+        }
         
         isGeneratingRandomPlaylist = false
     }

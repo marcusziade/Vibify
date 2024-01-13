@@ -2,36 +2,55 @@ import SwiftUI
 
 struct PlaylistGeneratorView: View {
     @Bindable var viewModel = PlaylistGeneratorVM()
-    
-    @State private var showAdvancedSearch = false
     @Bindable private var advancedSearchVM = AdvancedSearchCriteriaVM()
     
     var body: some View {
         NavigationView {
             ZStack(alignment: .top) {
                 mainContentView
-                    .animation(.easeInOut(duration: 0.3), value: viewModel.isLoading)
                     .disabled(viewModel.isLoading)
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        showAdvancedSearch.toggle()
+                        viewModel.showAdvancedSearch.toggle()
+                        viewModel.isConfiguringSearch = true
                     } label: {
-                        HStack {
-                            Text("Advanced search")
+                        VStack(alignment: .trailing, spacing: .zero) {
                             Image(systemName: "slider.horizontal.3")
+                            Text("Advanced search")
+                                .font(.callout)
                         }
+                        .foregroundColor(.primary)
+                    }
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        viewModel.showHistory.toggle()
+                    } label: {
+                        VStack(alignment: .leading, spacing: .zero) {
+                            Image(systemName: "clock")
+                            Text("History")
+                                .font(.callout)
+                        }
+                        .foregroundColor(.primary)
                     }
                 }
             }
-            .sheet(isPresented: $showAdvancedSearch) {
+            .sheet(isPresented: $viewModel.showAdvancedSearch) {
                 AdvancedSearchCriteriaView(viewModel: advancedSearchVM) { updatedVM in
                     updatedVM.updateMainViewModel(viewModel)
                 }
             }
+            .sheet(isPresented: $viewModel.showHistory) {
+                PlaylistHistoryView(
+                    viewModel: PlaylistHistoryViewModel(
+                        dbManager: viewModel.databaseManager
+                    )
+                )
+            }
             .alert(isPresented: $viewModel.showingAlert, content: alert)
-            .navigationTitle("Playlist Generator")
+            .navigationTitle("Echo") // TODO: Remember to call gpt-vision "Vision"
         }
     }
 }
@@ -41,8 +60,7 @@ private extension PlaylistGeneratorView {
     var mainContentView: some View {
         ScrollView {
             VStack(spacing: 16) {
-                TextField("Explain your playlist configuration...", text: $viewModel.textPrompt)
-                    .padding()
+                searchView
                 getSuggestionButton
                 songCardListView
                 addToAppleMusicButton
@@ -52,14 +70,42 @@ private extension PlaylistGeneratorView {
         }
     }
     
+    var searchView: some View {
+        Group {
+            if viewModel.isConfiguringSearch {
+                TextEditor(text: $viewModel.textPrompt)
+                    .frame(height: 100)
+                    .font(.body)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.secondary, lineWidth: 1)
+                    )
+                    .padding()
+                
+                Text(searchFieldText)
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+                    .padding()
+                    .onTapGesture {
+                        hideKeyboard()
+                    }
+            }
+        }
+    }
+    
     var getSuggestionButton: some View {
-        AsyncButton(
-            title: "Get Playlist Suggestion",
-            icon: "music.note.list",
-            action: viewModel.fetchPlaylistSuggestion,
-            isLoading: $viewModel.isFetchingPlaylist,
-            colors: [.purple, .pink]
-        )
+        Group {
+            if viewModel.isConfiguringSearch {
+                AsyncButton(
+                    title: "Get Playlist Suggestion",
+                    icon: "music.note.list",
+                    action: viewModel.fetchPlaylistSuggestion,
+                    isLoading: $viewModel.isFetchingPlaylist,
+                    colors: [.purple, .pink],
+                    progress: $viewModel.progress
+                )
+            }
+        }
     }
     
     var songCardListView: some View {
@@ -82,7 +128,8 @@ private extension PlaylistGeneratorView {
                     icon: "music.note.list",
                     action: viewModel.createAndAddPlaylistToAppleMusic,
                     isLoading: $viewModel.isAddingToAppleMusic,
-                    colors: [.purple, .pink]
+                    colors: [.purple, .pink],
+                    progress: $viewModel.progress
                 )
             }
         }
@@ -96,24 +143,73 @@ private extension PlaylistGeneratorView {
                     icon: "square.and.arrow.up",
                     action: viewModel.sharePlaylist,
                     isLoading: $viewModel.isSharingPlaylist,
-                    colors: [.blue, .cyan]
+                    colors: [.blue, .cyan],
+                    progress: $viewModel.progress
                 )
             }
         }
     }
     
     var surpriseMeButton: some View {
-        AsyncButton(
-            title: "Surprise Me",
-            icon: "shuffle",
-            action: {}, //viewModel.fetchSurprisePlaylist,
-            isLoading: $viewModel.isGeneratingRandomPlaylist,
-            colors: [.blue, .cyan]
-        )
+        Group {
+            if viewModel.isConfiguringSearch {
+                AsyncButton(
+                    title: "Surprise Me",
+                    icon: "shuffle",
+                    action: {}, //viewModel.fetchSurprisePlaylist,
+                    isLoading: $viewModel.isGeneratingRandomPlaylist,
+                    colors: [.blue, .cyan], progress: $viewModel.progress
+                )
+            }
+        }
+    }
+    
+    private var searchFieldText: String {
+        if viewModel.isConfiguringSearch {
+            """
+What kind of playlist would you like to generate?
+
+Examples:
+
+- "I want to listen to some rock music from the 70s"
+
+- "Generate a playlist illustrating the greatness of video game soundtracks"
+
+- "A playlist of songs that will make me cry"
+
+- "I want to listen to some classical music, with an emphasis on piano"
+
+- "Create a playlist featuring the best jazz tunes for a relaxing evening"
+
+- "I'm looking for high-energy electronic dance music for my workout"
+
+- "Generate a playlist of indie folk songs perfect for a road trip?"
+
+- "I need a playlist of the top hip-hop hits from the 2000s"
+
+- "Compile a list of ambient tracks ideal for meditation and relaxation"
+
+- "I'm in the mood for some upbeat pop songs from the last decade"
+"""
+        } else {
+            ""
+        }
     }
     
     func alert() -> Alert {
-        Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
+        Alert(
+            title: Text(viewModel.alertMessage),
+            dismissButton: .default(Text("OK"))
+        )
+    }
+    
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil,
+            from: nil,
+            for: nil
+        )
     }
 }
 
