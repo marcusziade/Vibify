@@ -21,7 +21,10 @@ struct PlaylistGeneratorView: View {
                     Button {
                         showAdvancedSearch.toggle()
                     } label: {
-                        Image(systemName: "slider.horizontal.3")
+                        HStack {
+                            Text("Advanced search")
+                            Image(systemName: "slider.horizontal.3")
+                        }
                     }
                 }
             }
@@ -36,25 +39,22 @@ struct PlaylistGeneratorView: View {
     }
 }
 
-// MARK: - Subviews and Components
 private extension PlaylistGeneratorView {
-    // Main content view
+    
     var mainContentView: some View {
         ScrollView {
-            VStack(spacing: .zero) {
+            VStack(spacing: 16) {
                 TextField("Explain your playlist configuration...", text: $viewModel.textPrompt)
                     .padding()
                 getSuggestionButton
                 songCardListView
                 addToAppleMusicButton
                 sharePlaylistButton
-                Button("Surprise Me", action: viewModel.generateRandomPlaylist)
-                .padding(.top, 8)
+                surpriseMeButton
             }
         }
     }
     
-    // Loader View
     var loaderView: some View {
         Group {
             if viewModel.isLoading {
@@ -71,7 +71,6 @@ private extension PlaylistGeneratorView {
         .animation(.snappy, value: viewModel.isLoading)
     }
     
-    // Get Suggestion Button
     var getSuggestionButton: some View {
         Button {
             withAnimation {
@@ -83,14 +82,13 @@ private extension PlaylistGeneratorView {
                 .foregroundColor(.white)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(Color.blue)
-                .cornerRadius(10)
+                .background(LinearGradient(colors: [.accentColor], startPoint: .bottom, endPoint: .top))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .padding(.horizontal)
         }
         .disabled(viewModel.isLoading)
-        .padding(.horizontal)
     }
     
-    // Song Card List View
     var songCardListView: some View {
         Group {
             ForEach(viewModel.playlistSuggestion, id: \.title) { song in
@@ -103,7 +101,6 @@ private extension PlaylistGeneratorView {
         }
     }
     
-    // Add to Apple Music Button
     var addToAppleMusicButton: some View {
         Group {
             if !viewModel.playlistSuggestion.isEmpty && viewModel.isAuthorizedForAppleMusic {
@@ -113,21 +110,51 @@ private extension PlaylistGeneratorView {
                         .foregroundColor(.white)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.green)
-                        .cornerRadius(10)
+                        .background(LinearGradient(colors: [.purple, .pink], startPoint: .bottom, endPoint: .top))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
         }
     }
     
-    // Share Playlist Button
     var sharePlaylistButton: some View {
-        Button("Share Playlist", action: viewModel.sharePlaylist)
-            .padding(.top, 8)
+        Group {
+            if !viewModel.playlistSuggestion.isEmpty {
+                Button {
+                    viewModel.sharePlaylist()
+                } label: {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(LinearGradient(colors: [.orange, .red], startPoint: .bottom, endPoint: .top))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .padding(.horizontal)
+                }
+            }
+        }
     }
     
-    // Alert and Sheet
+    var surpriseMeButton: some View {
+        Button {
+            withAnimation {
+//                viewModel.fetchSurprisePlaylist()
+            }
+        } label: {
+            Label("Surprise Me", systemImage: "shuffle")
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(LinearGradient(colors: [.blue, .cyan], startPoint: .bottom, endPoint: .top))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .padding(.horizontal)
+        }
+        .disabled(viewModel.isLoading)
+    }
+    
     func alert() -> Alert {
         Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
     }

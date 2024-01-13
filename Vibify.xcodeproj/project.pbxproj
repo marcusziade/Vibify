@@ -18,6 +18,7 @@
 		5A1CD9782B3D1CA200AF0192 /* PlaylistGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9772B3D1CA200AF0192 /* PlaylistGeneratorView.swift */; };
 		5A1CD97A2B3D1CA300AF0192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */; };
 		5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */; };
+		5A2E05472B5228E100B5B8EE /* MusicServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2E05462B5228E100B5B8EE /* MusicServiceType.swift */; };
 		5A4523742B3FCC530026494C /* SongCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4523732B3FCC530026494C /* SongCardView.swift */; };
 		5A4BFB2B2B4096EF00988D0E /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BFB2A2B4096EF00988D0E /* Date+Ext.swift */; };
 		5A4BFB2D2B40A43100988D0E /* CustomProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BFB2C2B40A43100988D0E /* CustomProgressView.swift */; };
@@ -62,6 +63,7 @@
 		5A1CD9772B3D1CA200AF0192 /* PlaylistGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistGeneratorView.swift; sourceTree = "<group>"; };
 		5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistGenerator.swift; sourceTree = "<group>"; };
+		5A2E05462B5228E100B5B8EE /* MusicServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicServiceType.swift; sourceTree = "<group>"; };
 		5A4523732B3FCC530026494C /* SongCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongCardView.swift; sourceTree = "<group>"; };
 		5A4BFB2A2B4096EF00988D0E /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		5A4BFB2C2B40A43100988D0E /* CustomProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressView.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				5A0D89552B450ACC003420A8 /* DBPlaylist.swift */,
 				5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */,
 				5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */,
+				5A2E05462B5228E100B5B8EE /* MusicServiceType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				5A7747AD2B4F764A00B26A2D /* NumberOfSongsCounterView.swift in Sources */,
 				5A4EC66F2B4CF1EC00894E13 /* SurpriseMeButton.swift in Sources */,
 				5A4BFB2D2B40A43100988D0E /* CustomProgressView.swift in Sources */,
+				5A2E05472B5228E100B5B8EE /* MusicServiceType.swift in Sources */,
 				5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */,
 				5A0158012B3F4A6600048E79 /* PlaylistGeneratorVM.swift in Sources */,
 				5AE3F6602B4E520900EA8329 /* AdvancedSearchCriteriaVM.swift in Sources */,
