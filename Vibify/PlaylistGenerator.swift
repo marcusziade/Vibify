@@ -52,7 +52,7 @@ final class PlaylistGenerator {
         
         let openAIPrompt = buildOpenAIPrompt(with: criteria)
         
-#if targetEnvironment(simulator)
+#if targetEnvironment(simulator) && os(iOS)
         let simulatedResponse = "\n\n1. \"Only Girl (In the World)\" – Rihanna\n2. \"Dynamite\" – Taio Cruz"
         return try await metadataParser.parse(
             from: simulatedResponse, 

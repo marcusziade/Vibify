@@ -10,25 +10,28 @@ struct CustomProgressView: View {
         VStack {
             HStack(spacing: 4) {
                 ProgressView()
+                    .tint(.white)
                 Text(title)
                     .font(.headline)
-                    .foregroundColor(.gray)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
             }
             
             ZStack(alignment: .leading) {
                 Rectangle()
                     .frame(width: loaderSize, height: 20)
                     .opacity(0.3)
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(.white)
                 
                 Rectangle()
                     .frame(width: max(CGFloat(progress) * loaderSize, 0), height: 20)
-                    .foregroundColor(Color.blue)
+                    .foregroundColor(.green)
                     .animation(.snappy, value: progress)
                 
                 Text(String(format: "%.0f%%", min(progress, 1.0) * 100.0))
                     .font(.caption)
                     .bold()
+                    .foregroundColor(.white)
                     .padding(.leading, 4)
                     .frame(width: loaderSize, alignment: .trailing)
             }
