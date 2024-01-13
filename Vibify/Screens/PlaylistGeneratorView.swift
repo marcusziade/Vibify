@@ -10,11 +10,8 @@ struct PlaylistGeneratorView: View {
         NavigationView {
             ZStack(alignment: .top) {
                 mainContentView
-                    .blur(radius: viewModel.isLoading ? 5 : 0)
                     .animation(.easeInOut(duration: 0.3), value: viewModel.isLoading)
                     .disabled(viewModel.isLoading)
-                
-                loaderView
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -55,38 +52,14 @@ private extension PlaylistGeneratorView {
         }
     }
     
-    var loaderView: some View {
-        Group {
-            if viewModel.isLoading {
-                CustomProgressView(
-                    progress: $viewModel.progress,
-                    title: viewModel.isImporting ? "Importing" : "Generating"
-                )
-                .background(Color.white)
-                .cornerRadius(8)
-                .shadow(radius: 8)
-            }
-        }
-        .transition(.move(edge: .top))
-        .animation(.snappy, value: viewModel.isLoading)
-    }
-    
     var getSuggestionButton: some View {
-        Button {
-            withAnimation {
-                viewModel.fetchPlaylistSuggestion()
-            }
-        } label: {
-            Label("Get Playlist Suggestion", systemImage: "music.note.list")
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(LinearGradient(colors: [.accentColor], startPoint: .bottom, endPoint: .top))
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .padding(.horizontal)
-        }
-        .disabled(viewModel.isLoading)
+        AsyncButton(
+            title: "Get Playlist Suggestion",
+            icon: "music.note.list",
+            action: viewModel.fetchPlaylistSuggestion,
+            isLoading: $viewModel.isFetchingPlaylist,
+            colors: [.purple, .pink]
+        )
     }
     
     var songCardListView: some View {
@@ -104,16 +77,13 @@ private extension PlaylistGeneratorView {
     var addToAppleMusicButton: some View {
         Group {
             if !viewModel.playlistSuggestion.isEmpty && viewModel.isAuthorizedForAppleMusic {
-                Button(action: viewModel.createAndAddPlaylistToAppleMusic) {
-                    Text("Add to Apple Music")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(LinearGradient(colors: [.purple, .pink], startPoint: .bottom, endPoint: .top))
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                        .padding(.horizontal)
-                }
+                AsyncButton(
+                    title: "Add to Apple Music",
+                    icon: "music.note.list",
+                    action: viewModel.createAndAddPlaylistToAppleMusic,
+                    isLoading: $viewModel.isAddingToAppleMusic,
+                    colors: [.purple, .pink]
+                )
             }
         }
     }
@@ -121,38 +91,25 @@ private extension PlaylistGeneratorView {
     var sharePlaylistButton: some View {
         Group {
             if !viewModel.playlistSuggestion.isEmpty {
-                Button {
-                    viewModel.sharePlaylist()
-                } label: {
-                    Label("Share", systemImage: "square.and.arrow.up")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(LinearGradient(colors: [.orange, .red], startPoint: .bottom, endPoint: .top))
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                        .padding(.horizontal)
-                }
+                AsyncButton(
+                    title: "Share Playlist",
+                    icon: "square.and.arrow.up",
+                    action: viewModel.sharePlaylist,
+                    isLoading: $viewModel.isSharingPlaylist,
+                    colors: [.blue, .cyan]
+                )
             }
         }
     }
     
     var surpriseMeButton: some View {
-        Button {
-            withAnimation {
-//                viewModel.fetchSurprisePlaylist()
-            }
-        } label: {
-            Label("Surprise Me", systemImage: "shuffle")
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background(LinearGradient(colors: [.blue, .cyan], startPoint: .bottom, endPoint: .top))
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .padding(.horizontal)
-        }
-        .disabled(viewModel.isLoading)
+        AsyncButton(
+            title: "Surprise Me",
+            icon: "shuffle",
+            action: {}, //viewModel.fetchSurprisePlaylist,
+            isLoading: $viewModel.isGeneratingRandomPlaylist,
+            colors: [.blue, .cyan]
+        )
     }
     
     func alert() -> Alert {
