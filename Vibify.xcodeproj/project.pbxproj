@@ -32,6 +32,7 @@
 		5A7747AB2B4F761200B26A2D /* DecadePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7747AA2B4F761200B26A2D /* DecadePickerView.swift */; };
 		5A7747AD2B4F764A00B26A2D /* NumberOfSongsCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */; };
 		5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */; };
+		5A8C28DD2B53116600BD12E6 /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */; };
 		5AB8FC3B2B4332EE008AC7C4 /* SongSearchCriteria.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */; };
 		5AC0B7D42B45065C00971FF9 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 5AC0B7D32B45065C00971FF9 /* GRDB */; };
 		5AC0B7D62B45069E00971FF9 /* DBSongMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */; };
@@ -77,6 +78,7 @@
 		5A7747AA2B4F761200B26A2D /* DecadePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecadePickerView.swift; sourceTree = "<group>"; };
 		5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfSongsCounterView.swift; sourceTree = "<group>"; };
 		5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicImporter.swift; sourceTree = "<group>"; };
+		5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongSearchCriteria.swift; sourceTree = "<group>"; };
 		5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBSongMetadata.swift; sourceTree = "<group>"; };
 		5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				5A4EC6702B4CF1FF00894E13 /* SharePlaylistButton.swift */,
 				5A7747AA2B4F761200B26A2D /* DecadePickerView.swift */,
 				5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */,
+				5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				5A4523742B3FCC530026494C /* SongCardView.swift in Sources */,
 				5A0D89582B45160E003420A8 /* PlaylistHistoryView.swift in Sources */,
 				5A4EC66B2B4CF1BC00894E13 /* ActivityPickerView.swift in Sources */,
+				5A8C28DD2B53116600BD12E6 /* AsyncButton.swift in Sources */,
 				5A4EC6712B4CF1FF00894E13 /* SharePlaylistButton.swift in Sources */,
 				5A4BFB2B2B4096EF00988D0E /* Date+Ext.swift in Sources */,
 				5AB8FC3B2B4332EE008AC7C4 /* SongSearchCriteria.swift in Sources */,

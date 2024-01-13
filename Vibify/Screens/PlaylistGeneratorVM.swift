@@ -11,8 +11,10 @@ final class PlaylistGeneratorVM {
     var textPrompt: String = ""
     var isPlaying: Bool = false
     var playlistSuggestion: [DBSongMetadata] = []
-    var isLoading: Bool = false
-    var isImporting: Bool = false
+    var isFetchingPlaylist: Bool = false
+    var isAddingToAppleMusic: Bool = false
+    var isSharingPlaylist: Bool = false
+    var isGeneratingRandomPlaylist: Bool = false
     var showHistory: Bool = false
     var progress: Double = 0.0
     var isAuthorizedForAppleMusic: Bool = false
@@ -26,7 +28,6 @@ final class PlaylistGeneratorVM {
     let decadeRange: ClosedRange<Double> = 1860...Double(Date().year)
     let pastDecadeRange = (Date().year - 10)...Date().year
     
-    // This is your new property for the single selected genre.
     var selectedGenre: String {
         get {
             searchCriteria.genreProportions.max(by: { $0.value < $1.value })?.key ?? ""
@@ -34,6 +35,11 @@ final class PlaylistGeneratorVM {
         set {
             searchCriteria.genreProportions = [newValue: 1.0]
         }
+    }
+    
+    /// Checks if anything is loading.
+    var isLoading: Bool {
+        isFetchingPlaylist || isAddingToAppleMusic || isSharingPlaylist || isGeneratingRandomPlaylist
     }
     
     private var currentlyPlayingSong: DBSongMetadata?
@@ -60,91 +66,86 @@ final class PlaylistGeneratorVM {
         return currentlyPlayingSong?.title == song.title && isPlaying
     }
     
-    func fetchPlaylistSuggestion() {
-        guard !isLoading else { return }
+    func fetchPlaylistSuggestion() async {
+        isFetchingPlaylist = true
         playlistSuggestion = []
-        isLoading = true
         progress = .zero
         
-        Task { [unowned self] in
-            do {
-                playlistSuggestion = try await playlistGenerator.fetchPlaylistSuggestion(
-                    criteria: searchCriteria
-                ) { [unowned self] newProgress in
-                    progress = Double(newProgress) / 100.0
-                }
-                
-                let primaryGenre = searchCriteria.genreProportions.max(by: { $0.value < $1.value })?.key ?? "No Genre"
-                let playlist = DBPlaylist(
-                    title: primaryGenre,
-                    playlistID: UUID().uuidString,
-                    createdAt: Date.now,
-                    songs: playlistSuggestion
-                )
-                try databaseManager.insert(playlist: playlist)
-            } catch {
-                debugPrint(error)
+        do {
+            playlistSuggestion = try await playlistGenerator.fetchPlaylistSuggestion(
+                criteria: searchCriteria
+            ) { [unowned self] newProgress in
+                progress = Double(newProgress) / 100.0
+            }
+            
+            let primaryGenre = searchCriteria.genreProportions.max(by: { $0.value < $1.value })?.key ?? "No Genre"
+            let playlist = DBPlaylist(
+                title: primaryGenre,
+                playlistID: UUID().uuidString,
+                createdAt: Date.now,
+                songs: playlistSuggestion
+            )
+            try databaseManager.insert(playlist: playlist)
+        } catch {
+            debugPrint(error)
+            await MainActor.run {
                 presentAlert(with: "Failed to generate playlist: \(error.localizedDescription)")
             }
-            isLoading = false
         }
+        isFetchingPlaylist = false
     }
-    
+
     @MainActor func requestAppleMusicAuthorization() async {
         isAuthorizedForAppleMusic = await appleMusicImporter.requestAppleMusicAccess()
     }
     
-    func createAndAddPlaylistToAppleMusic() {
-        Task {
-            guard !playlistSuggestion.isEmpty else {
-                presentAlert(with: "No songs to add to the playlist.")
-                return
-            }
-            isLoading = true
-            isImporting = true
-            progress = 0.0
-            
-            do {
-                let playlistName = "Playlist \(Date.now.formatted(date: .abbreviated, time: .shortened))"
-                let playlist = try await appleMusicImporter.createPlaylist(named: playlistName)
-                let result = await appleMusicImporter.addSongsToPlaylist(
-                    playlist: playlist,
-                    songs: playlistSuggestion,
-                    progressHandler: { [unowned self] newProgress in
-                        progress = newProgress
-                    }
-                )
-                isLoading = false
-                switch result {
-                case .success():
-                    presentAlert(with: "Songs added to the playlist successfully.")
-                case .failure(let error):
-                    presentAlert(with: "Failed to add songs to the playlist: \(error.localizedDescription)")
-                }
-            } catch {
-                isLoading = false
-                presentAlert(with: "Failed to create playlist: \(error.localizedDescription)")
-            }
-            
-            isImporting = false
+    func createAndAddPlaylistToAppleMusic() async {
+        guard !playlistSuggestion.isEmpty else {
+            presentAlert(with: "No songs to add to the playlist.")
+            return
         }
+        isAddingToAppleMusic = true
+        progress = 0.0
+        
+        do {
+            let playlistName = "Playlist \(Date.now.formatted(date: .abbreviated, time: .shortened))"
+            let playlist = try await appleMusicImporter.createPlaylist(named: playlistName)
+            let result = await appleMusicImporter.addSongsToPlaylist(
+                playlist: playlist,
+                songs: playlistSuggestion,
+                progressHandler: { [unowned self] newProgress in
+                    progress = newProgress
+                }
+            )
+            switch result {
+            case .success():
+                presentAlert(with: "Songs added to the playlist successfully.")
+            case .failure(let error):
+                presentAlert(with: "Failed to add songs to the playlist: \(error.localizedDescription)")
+            }
+        } catch {
+            presentAlert(with: "Failed to create playlist: \(error.localizedDescription)")
+        }
+        isAddingToAppleMusic = false
     }
-    
-    func generateRandomPlaylist() {
-        guard !isLoading else { return }
-        isLoading = true
+
+    func generateRandomPlaylist() async {
+        guard !isGeneratingRandomPlaylist else { return }
+        isGeneratingRandomPlaylist = true
         progress = .zero
         
-        // Simulate a network request or computation with a delay
-        Task {
-            isLoading = false
-        }
-    }
-    
-    func sharePlaylist() {
+        // Perform async task here
         
+        isGeneratingRandomPlaylist = false
     }
-    
+
+    func sharePlaylist() async {
+        guard !isSharingPlaylist else { return }
+        isSharingPlaylist = true
+        // Perform share action here
+        isSharingPlaylist = false
+    }
+
     func togglePlayback(for song: DBSongMetadata) {
         if isCurrentlyPlaying(song: song) {
             player.pause()
