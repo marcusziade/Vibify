@@ -4,6 +4,7 @@ import SwiftUI
 
 struct SongCardView: View {
     let song: DBSongMetadata
+    let musicService: MusicServiceType = .appleMusic
     var togglePlayback: (DBSongMetadata) -> Void
     var isPlaying: Bool
     
@@ -41,7 +42,7 @@ struct SongCardView: View {
                     Image(systemName: isPlaying ? "pause.circle" : "play.circle")
                         .resizable()
                         .frame(width: 30, height: 30)
-                        .foregroundColor(.blue)
+                        .foregroundColor(musicService.color)
                 }
             }
             
