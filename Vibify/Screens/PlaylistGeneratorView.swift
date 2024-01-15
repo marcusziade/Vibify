@@ -68,13 +68,9 @@ private extension PlaylistGeneratorView {
                 TextEditor(text: $viewModel.textPrompt)
                     .frame(height: 100)
                     .font(.body)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .foregroundColor(.primary.opacity(0.1))
-                    )
                     .clipped()
                     .cornerRadius(8)
-                    .shadow(radius: 8)
+                    .shadow(color: .secondary, radius: 8)
                     .padding()
                 
                 Text("What kind of playlist would you like to generate?")
