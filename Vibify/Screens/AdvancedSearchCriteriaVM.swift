@@ -71,4 +71,12 @@ import Observation
         mainViewModel.searchCriteria.favoriteArtist = favoriteArtist
         mainViewModel.searchCriteria.specificPreferences = specificPreferences
     }
+    
+    func selectGenre(_ genre: String) {
+        if selectedGenres.contains(genre) {
+            selectedGenres.remove(genre)
+        } else {
+            selectedGenres.insert(genre)
+        }
+    }
 }
