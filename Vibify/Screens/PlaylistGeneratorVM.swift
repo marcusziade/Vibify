@@ -179,3 +179,21 @@ final class PlaylistGeneratorVM {
         isPlaying = true
     }
 }
+
+extension PlaylistGeneratorVM {
+    
+    var searchSuggestions: [String] {
+        return [
+            "I want to listen to some rock music from the 70s",
+            "Generate a playlist illustrating the greatness of video game soundtracks",
+            "A playlist of songs that will make me cry",
+            "I want to listen to some classical music, with an emphasis on piano",
+            "Create a playlist featuring the best jazz tunes for a relaxing evening",
+            "I'm looking for high-energy electronic dance music for my workout",
+            "Generate a playlist of indie folk songs perfect for a road trip?",
+            "I need a playlist of the top hip-hop hits from the 2000s",
+            "Compile a list of ambient tracks ideal for meditation and relaxation",
+            "I'm in the mood for some upbeat pop songs from the last decade"
+        ]
+    }
+}

@@ -16,24 +16,16 @@ struct PlaylistGeneratorView: View {
                         viewModel.showAdvancedSearch.toggle()
                         viewModel.isConfiguringSearch = true
                     } label: {
-                        VStack(alignment: .trailing, spacing: .zero) {
-                            Image(systemName: "slider.horizontal.3")
-                            Text("Advanced search")
-                                .font(.callout)
-                        }
-                        .foregroundColor(.primary)
+                        Image(systemName: "slider.horizontal.3")
+                            .foregroundColor(.primary)
                     }
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         viewModel.showHistory.toggle()
                     } label: {
-                        VStack(alignment: .leading, spacing: .zero) {
-                            Image(systemName: "clock")
-                            Text("History")
-                                .font(.callout)
-                        }
-                        .foregroundColor(.primary)
+                        Image(systemName: "clock")
+                            .foregroundColor(.primary)
                     }
                 }
             }
@@ -61,7 +53,7 @@ private extension PlaylistGeneratorView {
         ScrollView {
             VStack(spacing: 16) {
                 searchView
-                getSuggestionButton
+                getSuggestionButton.padding(.top, 32)
                 songCardListView
                 addToAppleMusicButton
                 sharePlaylistButton
@@ -78,17 +70,33 @@ private extension PlaylistGeneratorView {
                     .font(.body)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.secondary, lineWidth: 1)
+                            .foregroundColor(.primary.opacity(0.1))
                     )
+                    .clipped()
+                    .cornerRadius(8)
+                    .shadow(radius: 8)
                     .padding()
                 
-                Text(searchFieldText)
-                    .font(.caption2)
+                Text("What kind of playlist would you like to generate?")
+                    .font(.subheadline)
                     .foregroundColor(.secondary)
                     .padding()
                     .onTapGesture {
                         hideKeyboard()
                     }
+                
+                ForEach(viewModel.searchSuggestions, id: \.self) { suggestion in
+                    Button {
+                        viewModel.textPrompt = suggestion
+                    } label: {
+                        Text(suggestion)
+                            .font(.caption)
+                            .fontDesign(.rounded)
+                            .foregroundColor(.primary)
+                        
+                    }
+                }
+                .padding(.horizontal, 32)
             }
         }
     }
@@ -161,38 +169,6 @@ private extension PlaylistGeneratorView {
                     colors: [.blue, .cyan], progress: $viewModel.progress
                 )
             }
-        }
-    }
-    
-    private var searchFieldText: String {
-        if viewModel.isConfiguringSearch {
-            """
-What kind of playlist would you like to generate?
-
-Examples:
-
-- "I want to listen to some rock music from the 70s"
-
-- "Generate a playlist illustrating the greatness of video game soundtracks"
-
-- "A playlist of songs that will make me cry"
-
-- "I want to listen to some classical music, with an emphasis on piano"
-
-- "Create a playlist featuring the best jazz tunes for a relaxing evening"
-
-- "I'm looking for high-energy electronic dance music for my workout"
-
-- "Generate a playlist of indie folk songs perfect for a road trip?"
-
-- "I need a playlist of the top hip-hop hits from the 2000s"
-
-- "Compile a list of ambient tracks ideal for meditation and relaxation"
-
-- "I'm in the mood for some upbeat pop songs from the last decade"
-"""
-        } else {
-            ""
         }
     }
     

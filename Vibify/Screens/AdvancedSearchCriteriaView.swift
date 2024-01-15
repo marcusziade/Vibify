@@ -23,12 +23,12 @@ struct AdvancedSearchCriteriaView: View {
                     ))
                     .padding(.bottom, 16)
                     
-                    LazyVGrid(columns: columns, alignment: .leading, spacing: 10) {
-                        ForEach(viewModel.genreList.sorted(), id: \.self) { genre in
-                            GenreButton(genre: genre, selectedGenres: $viewModel.selectedGenres)
-                        }
-                    }
-                    .padding(.horizontal)
+                    TagLayoutView(
+                        tags: viewModel.genreList.sorted(),
+                        onTap: { viewModel.selectGenre($0) },
+                        selectedTags: Array(viewModel.selectedGenres)
+                    )
+                    .padding(.horizontal, 16)
                     
                     MoodSelectorView(
                         selectedMood: $viewModel.searchCriteria.mood
