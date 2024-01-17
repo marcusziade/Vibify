@@ -10,6 +10,7 @@ struct TagCapsuleView: View {
     var isInTagsList = false
     var isDeselectable = false
     var showPencilIcon = false
+    var selectedColorGradient: (Color, Color) = (.blue, .purple)
     var onTap: (() -> Void)?
     
     var body: some View {
@@ -19,6 +20,7 @@ struct TagCapsuleView: View {
             HStack(spacing: 4) {
                 Text(tag)
                     .font(.caption)
+                    .fontWeight(.semibold)
                     .foregroundColor(textColor)
                 iconView
             }
@@ -62,7 +64,7 @@ struct TagCapsuleView: View {
     private var backgroundLinearGradientView: some View {
         let unSelectedColors: [Color] = colorScheme == .dark ? [.gray] : [.white]
         return LinearGradient(
-            gradient: Gradient(colors: isSelected ? [.blue, .purple] : unSelectedColors),
+            gradient: Gradient(colors: isSelected ? [selectedColorGradient.0, selectedColorGradient.1] : unSelectedColors),
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
@@ -70,11 +72,17 @@ struct TagCapsuleView: View {
 }
 
 #Preview {
-    VStack {
+    var randomGradientColors: (Color, Color) {
+        let colors: [Color] = [.blue, .green, .red, .orange, .pink, .purple, .yellow]
+        return (colors.randomElement()!, colors.randomElement()!)
+    }
+    
+    return VStack {
         ForEach(0..<5) { n in
             TagCapsuleView(
                 tag: "Tag \(n + 1)",
                 isSelected: Bool.random(),
+                selectedColorGradient: randomGradientColors,
                 onTap: {}
             )
             .padding(.vertical, 4)

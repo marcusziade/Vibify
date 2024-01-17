@@ -1,6 +1,23 @@
 import Foundation
 import SwiftUI
 
+enum SelectedGradientType: CaseIterable {
+    case genre
+    case mood
+    case activity
+    
+    var gradient: (Color, Color) {
+        switch self {
+        case .genre:
+            return (.blue, .purple)
+        case .mood:
+            return (.green, .yellow)
+        case .activity:
+            return (.orange, .red)
+        }
+    }
+}
+
 /// A ``PreferenceKey`` implementation to track and store the maximum height of a view.
 private struct ViewHeightKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
@@ -17,6 +34,8 @@ private struct ViewHeightKey: PreferenceKey {
     let onTap: (String) -> Void
     /// List of tags that are currently selected.
     let selectedTags: [String]
+    /// The type of gradient to use for the selected tags.
+    let selectedGradientType: SelectedGradientType
     
     /// The calculated total height needed for the tags.
     @State private var totalHeight: CGFloat = 0
@@ -39,7 +58,8 @@ private struct ViewHeightKey: PreferenceKey {
                 TagCapsuleView(
                     tag: tag,
                     isSelected: selectedTags.contains { $0 == tag },
-                    isInTagsList: true
+                    isInTagsList: true,
+                    selectedColorGradient: selectedGradientType.gradient
                 ) {
                     onTap(tag)
                 }
@@ -98,9 +118,11 @@ private struct ViewHeightKey: PreferenceKey {
 
 #Preview {
     let twentyTags = (1...20).map { "Tag \($0)" }
+    let randomGradient = SelectedGradientType.allCases.randomElement()!
     return TagLayoutView(
         tags: twentyTags,
         onTap: {_ in },
-        selectedTags: twentyTags.filter { $0.contains("1") }
+        selectedTags: twentyTags.filter { $0.contains("1") }, 
+        selectedGradientType: randomGradient
     )
 }
