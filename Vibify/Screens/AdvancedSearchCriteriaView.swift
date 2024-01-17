@@ -30,7 +30,8 @@ struct AdvancedSearchCriteriaView: View {
                         TagLayoutView(
                             tags: viewModel.genreList.sorted(),
                             onTap: { viewModel.selectGenre($0) },
-                            selectedTags: Array(viewModel.selectedGenres)
+                            selectedTags: Array(viewModel.selectedGenres), 
+                            selectedGradientType: .genre
                         )
                     }
                     .padding(.horizontal, 16)
@@ -42,13 +43,15 @@ struct AdvancedSearchCriteriaView: View {
                         TagLayoutView(
                             tags: ["Chill", "Energetic", "Melancholic"],
                             onTap: { viewModel.selectedMood = $0 },
-                            selectedTags: [viewModel.selectedMood]
+                            selectedTags: [viewModel.selectedMood], 
+                            selectedGradientType: .mood
                         )
                         
                         TagLayoutView(
                             tags: ["Workout", "Study", "Party"],
                             onTap: { viewModel.selectedActivity = $0 },
-                            selectedTags: [viewModel.selectedActivity]
+                            selectedTags: [viewModel.selectedActivity],
+                            selectedGradientType: .activity
                         )
                     }
                     .padding(.horizontal, 16)
@@ -75,5 +78,4 @@ struct AdvancedSearchCriteriaView: View {
         viewModel: AdvancedSearchCriteriaVM(),
         updateMainViewModel: { _ in }
     )
-    .preferredColorScheme(.dark)
 }
