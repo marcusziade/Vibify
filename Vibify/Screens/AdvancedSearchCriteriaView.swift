@@ -64,4 +64,5 @@ struct AdvancedSearchCriteriaView: View {
         viewModel: AdvancedSearchCriteriaVM(),
         updateMainViewModel: { _ in }
     )
+    .preferredColorScheme(.dark)
 }
