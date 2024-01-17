@@ -96,63 +96,11 @@ private struct ViewHeightKey: PreferenceKey {
     }
 }
 
-struct TagCapsuleView: View {
-    
-    var tag: String
-    var isSelected: Bool
-    var isInTagsList = false
-    var isDeselectable = false
-    var showPencilIcon = false
-    var onTap: (() -> Void)?
-    
-    var body: some View {
-        Button {
-            onTap?()
-        } label: {
-            HStack(spacing: 4) {
-                Text(tag)
-                    .font(.caption)
-                    .foregroundColor(textColor)
-                iconView
-            }
-            .padding(.vertical, 8)
-            .padding(.horizontal, 12)
-            .background(backgroundLinearGradientView)
-            .clipShape(Capsule())
-            .shadow(radius: 2)
-        }
-    }
-    
-    private var textColor: Color {
-        isSelected ? .white : .blue
-    }
-    
-    private var borderColor: Color {
-        isSelected ? .white : .blue
-    }
-    
-    private var iconView: some View {
-        let iconSize: CGFloat = 16
-        
-        return Group {
-            if showPencilIcon {
-                Image(systemName: "pencil")
-                    .resizable()
-                    .frame(width: iconSize, height: iconSize)
-            } else if isDeselectable && isSelected {
-                Image(systemName: "xmark")
-                    .resizable()
-                    .frame(width: iconSize, height: iconSize)
-            }
-        }
-        .foregroundColor(.blue)
-    }
-    
-    private var backgroundLinearGradientView: some View {
-        LinearGradient(gradient: Gradient(colors: isSelected ? [.blue, .purple] : [.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
-    }
-}
-
 #Preview {
-    TagLayoutView(tags: ["test", "test2"], onTap: {_ in }, selectedTags: ["test"])
+    let twentyTags = (1...20).map { "Tag \($0)" }
+    return TagLayoutView(
+        tags: twentyTags,
+        onTap: {_ in },
+        selectedTags: twentyTags.filter { $0.contains("1") }
+    )
 }

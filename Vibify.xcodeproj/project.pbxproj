@@ -41,6 +41,7 @@
 		5AD5A4B12B408BE7005FC577 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD5A4B02B408BE7005FC577 /* String+Ext.swift */; };
 		5AE3F65E2B4E51F600EA8329 /* AdvancedSearchCriteriaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE3F65D2B4E51F600EA8329 /* AdvancedSearchCriteriaView.swift */; };
 		5AE3F6602B4E520900EA8329 /* AdvancedSearchCriteriaVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE3F65F2B4E520900EA8329 /* AdvancedSearchCriteriaVM.swift */; };
+		5AFBF0CC2B5768FA006CF79E /* TagCapsuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFBF0CB2B5768FA006CF79E /* TagCapsuleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		5ADFD76C2B49BA6500F25E0A /* VibifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VibifyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AE3F65D2B4E51F600EA8329 /* AdvancedSearchCriteriaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSearchCriteriaView.swift; sourceTree = "<group>"; };
 		5AE3F65F2B4E520900EA8329 /* AdvancedSearchCriteriaVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSearchCriteriaVM.swift; sourceTree = "<group>"; };
+		5AFBF0CB2B5768FA006CF79E /* TagCapsuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCapsuleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 				5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */,
 				5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */,
 				5A51C1B72B55AD2900AD1D51 /* TagLayoutView.swift */,
+				5AFBF0CB2B5768FA006CF79E /* TagCapsuleView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				5A0DCA1A2B4860E3007A0B72 /* Double+Ext.swift in Sources */,
 				5AD5A4B12B408BE7005FC577 /* String+Ext.swift in Sources */,
 				5A0D89542B450964003420A8 /* PlaylistHistoryVM.swift in Sources */,
+				5AFBF0CC2B5768FA006CF79E /* TagCapsuleView.swift in Sources */,
 				5A4EC6692B4CF1A800894E13 /* MoodSelectorView.swift in Sources */,
 				5A51C1B82B55AD2900AD1D51 /* TagLayoutView.swift in Sources */,
 				5A4BFB2F2B40AFDC00988D0E /* SongMetaDataParser.swift in Sources */,
