@@ -6,8 +6,8 @@ import Observation
     var decade: Double = 1980
     var numberOfSongs: Double = 10
     var selectedGenres: Set<String> = []
-    var mood: String = ""
-    var activity: String = ""
+    var selectedMood: String = ""
+    var selectedActivity: String = ""
     var favoriteArtist: String = ""
     var specificPreferences: String = ""
     var searchCriteria = SongSearchCriteria()
@@ -55,8 +55,8 @@ import Observation
             self.decade = criteria.decade
             self.numberOfSongs = criteria.numberOfSongs
             self.selectedGenres = criteria.selectedGenres
-            self.mood = criteria.mood
-            self.activity = criteria.activity
+            self.selectedMood = criteria.mood
+            self.selectedActivity = criteria.activity
             self.favoriteArtist = criteria.favoriteArtist
             self.specificPreferences = criteria.specificPreferences
         }
@@ -66,8 +66,8 @@ import Observation
         mainViewModel.searchCriteria.decade = decade
         mainViewModel.searchCriteria.numberOfSongs = numberOfSongs
         mainViewModel.searchCriteria.selectedGenres = selectedGenres
-        mainViewModel.searchCriteria.mood = mood
-        mainViewModel.searchCriteria.activity = activity
+        mainViewModel.searchCriteria.mood = selectedMood
+        mainViewModel.searchCriteria.activity = selectedActivity
         mainViewModel.searchCriteria.favoriteArtist = favoriteArtist
         mainViewModel.searchCriteria.specificPreferences = specificPreferences
     }

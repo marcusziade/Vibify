@@ -23,23 +23,38 @@ struct AdvancedSearchCriteriaView: View {
                     ))
                     .padding(.bottom, 16)
                     
-                    TagLayoutView(
-                        tags: viewModel.genreList.sorted(),
-                        onTap: { viewModel.selectGenre($0) },
-                        selectedTags: Array(viewModel.selectedGenres)
-                    )
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Genres")
+                            .padding(.horizontal, 4)
+                            .font(.headline)
+                        TagLayoutView(
+                            tags: viewModel.genreList.sorted(),
+                            onTap: { viewModel.selectGenre($0) },
+                            selectedTags: Array(viewModel.selectedGenres)
+                        )
+                    }
                     .padding(.horizontal, 16)
                     
-                    MoodSelectorView(
-                        selectedMood: $viewModel.searchCriteria.mood
-                    )
-                    
-                    ActivityPickerView(
-                        selectedActivity: $viewModel.searchCriteria.activity
-                    )
-                    .padding(.top, -24)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Mood and Activity")
+                            .padding(.horizontal, 4)
+                            .font(.headline)
+                        TagLayoutView(
+                            tags: ["Chill", "Energetic", "Melancholic"],
+                            onTap: { viewModel.selectedMood = $0 },
+                            selectedTags: [viewModel.selectedMood]
+                        )
+                        
+                        TagLayoutView(
+                            tags: ["Workout", "Study", "Party"],
+                            onTap: { viewModel.selectedActivity = $0 },
+                            selectedTags: [viewModel.selectedActivity]
+                        )
+                    }
+                    .padding(.horizontal, 16)
                     
                     FavoriteArtistTextField(favoriteArtist: $viewModel.searchCriteria.favoriteArtist)
+                        .padding(.bottom)
                 }
             }
             .navigationBarTitle("Advanced Search", displayMode: .inline)
@@ -53,10 +68,6 @@ struct AdvancedSearchCriteriaView: View {
             }
         }
     }
-    
-    // MARK: Private
-    
-    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
 }
 
 #Preview {
