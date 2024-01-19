@@ -27,6 +27,12 @@
 		5A4EC66F2B4CF1EC00894E13 /* SurpriseMeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4EC66E2B4CF1EC00894E13 /* SurpriseMeButton.swift */; };
 		5A4EC6712B4CF1FF00894E13 /* SharePlaylistButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4EC6702B4CF1FF00894E13 /* SharePlaylistButton.swift */; };
 		5A51C1B82B55AD2900AD1D51 /* TagLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51C1B72B55AD2900AD1D51 /* TagLayoutView.swift */; };
+		5A7430582B5A0089000FB9BA /* GPTEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7430572B5A0089000FB9BA /* GPTEndpoint.swift */; };
+		5A74305A2B5A00AE000FB9BA /* URLSessionNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7430592B5A00AE000FB9BA /* URLSessionNetworkService.swift */; };
+		5A74305C2B5A093F000FB9BA /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A74305B2B5A093F000FB9BA /* Endpoint.swift */; };
+		5A74305E2B5A0989000FB9BA /* DalleEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A74305D2B5A0989000FB9BA /* DalleEndpoint.swift */; };
+		5A7430602B5A09D1000FB9BA /* DalleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A74305F2B5A09D1000FB9BA /* DalleRequest.swift */; };
+		5A7430622B5A0CD0000FB9BA /* DalleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7430612B5A0CD0000FB9BA /* DalleResponse.swift */; };
 		5A7747AB2B4F761200B26A2D /* DecadePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7747AA2B4F761200B26A2D /* DecadePickerView.swift */; };
 		5A7747AD2B4F764A00B26A2D /* NumberOfSongsCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */; };
 		5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */; };
@@ -72,6 +78,12 @@
 		5A4EC66E2B4CF1EC00894E13 /* SurpriseMeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurpriseMeButton.swift; sourceTree = "<group>"; };
 		5A4EC6702B4CF1FF00894E13 /* SharePlaylistButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePlaylistButton.swift; sourceTree = "<group>"; };
 		5A51C1B72B55AD2900AD1D51 /* TagLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagLayoutView.swift; sourceTree = "<group>"; };
+		5A7430572B5A0089000FB9BA /* GPTEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTEndpoint.swift; sourceTree = "<group>"; };
+		5A7430592B5A00AE000FB9BA /* URLSessionNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionNetworkService.swift; sourceTree = "<group>"; };
+		5A74305B2B5A093F000FB9BA /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		5A74305D2B5A0989000FB9BA /* DalleEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DalleEndpoint.swift; sourceTree = "<group>"; };
+		5A74305F2B5A09D1000FB9BA /* DalleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DalleRequest.swift; sourceTree = "<group>"; };
+		5A7430612B5A0CD0000FB9BA /* DalleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DalleResponse.swift; sourceTree = "<group>"; };
 		5A7747AA2B4F761200B26A2D /* DecadePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecadePickerView.swift; sourceTree = "<group>"; };
 		5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfSongsCounterView.swift; sourceTree = "<group>"; };
 		5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicImporter.swift; sourceTree = "<group>"; };
@@ -185,6 +197,7 @@
 		5A1CD9742B3D1CA200AF0192 /* Vibify */ = {
 			isa = PBXGroup;
 			children = (
+				5A7430562B5A005D000FB9BA /* API */,
 				5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */,
 				5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */,
 				5A4BFB2E2B40AFDC00988D0E /* SongMetaDataParser.swift */,
@@ -206,6 +219,19 @@
 				5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		5A7430562B5A005D000FB9BA /* API */ = {
+			isa = PBXGroup;
+			children = (
+				5A7430572B5A0089000FB9BA /* GPTEndpoint.swift */,
+				5A74305D2B5A0989000FB9BA /* DalleEndpoint.swift */,
+				5A7430592B5A00AE000FB9BA /* URLSessionNetworkService.swift */,
+				5A74305B2B5A093F000FB9BA /* Endpoint.swift */,
+				5A74305F2B5A09D1000FB9BA /* DalleRequest.swift */,
+				5A7430612B5A0CD0000FB9BA /* DalleResponse.swift */,
+			);
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,11 +367,16 @@
 				5A1CD9782B3D1CA200AF0192 /* PlaylistGeneratorView.swift in Sources */,
 				5A7747AB2B4F761200B26A2D /* DecadePickerView.swift in Sources */,
 				5A0158032B3F4BC800048E79 /* Buttonstyles.swift in Sources */,
+				5A74305A2B5A00AE000FB9BA /* URLSessionNetworkService.swift in Sources */,
+				5A7430602B5A09D1000FB9BA /* DalleRequest.swift in Sources */,
 				5AE3F65E2B4E51F600EA8329 /* AdvancedSearchCriteriaView.swift in Sources */,
 				5AC0B7D82B4506EA00971FF9 /* DatabaseManager.swift in Sources */,
 				5A4EC66D2B4CF1DA00894E13 /* FavoriteArtistTextField.swift in Sources */,
+				5A7430622B5A0CD0000FB9BA /* DalleResponse.swift in Sources */,
+				5A7430582B5A0089000FB9BA /* GPTEndpoint.swift in Sources */,
 				5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */,
 				5A7747AD2B4F764A00B26A2D /* NumberOfSongsCounterView.swift in Sources */,
+				5A74305C2B5A093F000FB9BA /* Endpoint.swift in Sources */,
 				5A4EC66F2B4CF1EC00894E13 /* SurpriseMeButton.swift in Sources */,
 				5A4BFB2D2B40A43100988D0E /* CustomProgressView.swift in Sources */,
 				5A2E05472B5228E100B5B8EE /* MusicServiceType.swift in Sources */,
@@ -364,6 +395,7 @@
 				5A4523742B3FCC530026494C /* SongCardView.swift in Sources */,
 				5A0D89582B45160E003420A8 /* PlaylistHistoryView.swift in Sources */,
 				5A8C28DD2B53116600BD12E6 /* AsyncButton.swift in Sources */,
+				5A74305E2B5A0989000FB9BA /* DalleEndpoint.swift in Sources */,
 				5A4EC6712B4CF1FF00894E13 /* SharePlaylistButton.swift in Sources */,
 				5A4BFB2B2B4096EF00988D0E /* Date+Ext.swift in Sources */,
 				5AB8FC3B2B4332EE008AC7C4 /* SongSearchCriteria.swift in Sources */,
