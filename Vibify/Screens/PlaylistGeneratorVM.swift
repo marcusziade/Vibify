@@ -54,7 +54,7 @@ final class PlaylistGeneratorVM {
     
     init(
         databaseManager: DatabaseManager = DatabaseManager(),
-        playlistGenerator: PlaylistGenerator = PlaylistGenerator(),
+        playlistGenerator: PlaylistGenerator = PlaylistGenerator(networkService: URLSessionNetworkService()),
         appleMusicImporter: AppleMusicImporter = AppleMusicImporter(),
         player: AVPlayer = AVPlayer()
     ) {
@@ -91,12 +91,29 @@ final class PlaylistGeneratorVM {
                 songs: playlistSuggestion
             )
             try databaseManager.insert(playlist: playlist)
-        } catch {
-            debugPrint(error)
+        } catch let error as PlaylistGeneratorError {
             await MainActor.run {
-                presentAlert(with: "Failed to generate playlist: \(error.localizedDescription)")
+                switch error {
+                case .unauthorized:
+                    presentAlert(with: "Unauthorized access. Please check your API key.")
+                case .rateLimitExceeded:
+                    presentAlert(with: "Rate limit exceeded. Please try again later.")
+                case .missingAPIKey:
+                    presentAlert(with: "Missing API key.")
+                case .dataDecodingError:
+                    presentAlert(with: "Failed to decode data.")
+                case .invalidResponse, .invalidRequest, .unexpectedStatusCode:
+                    presentAlert(with: "Network error occurred.")
+                default:
+                    presentAlert(with: "An unknown error occurred.")
+                }
+            }
+        } catch {
+            await MainActor.run {
+                presentAlert(with: "An unexpected error occurred: \(error.localizedDescription)")
             }
         }
+        
         isFetchingPlaylist = false
     }
 
