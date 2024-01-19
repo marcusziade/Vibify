@@ -60,7 +60,7 @@ final class PlaylistGenerator {
         let simulatedResponse = "\n\n1. \"Only Girl (In the World)\" – Rihanna\n2. \"Dynamite\" – Taio Cruz"
         return try await metadataParser.parse(from: simulatedResponse, playlistID: UUID().uuidString, progressHandler: progressHandler)
 #else
-        let endpoint = GPTEndpoint(prompt: openAIPrompt, maxTokens: 500, apiKey: apiKey)
+        let endpoint = GPTEndpoint(model: "gpt-3.5-turbo-instruct" ,prompt: openAIPrompt, maxTokens: 500, apiKey: apiKey)
         do {
             let response: OpenAIResponse = try await networkService.request(endpoint)
             guard let firstChoice = response.choices.first else {
