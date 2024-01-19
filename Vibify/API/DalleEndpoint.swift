@@ -20,13 +20,4 @@ struct DalleGenerationEndpoint: Endpoint {
             "Authorization": "Bearer \(apiKey)"
         ]
     }
-    
-    var urlRequest: URLRequest? {
-        guard let url = URL(string: path, relativeTo: baseURL) else { return nil }
-        var request = URLRequest(url: url)
-        request.httpMethod = method
-        request.httpBody = body
-        headers?.forEach { request.addValue($1, forHTTPHeaderField: $0) }
-        return request
-    }
 }

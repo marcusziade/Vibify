@@ -16,14 +16,9 @@ class URLSessionNetworkService: NetworkService {
         }
         
         guard (200...299).contains(httpResponse.statusCode) else {
-            switch httpResponse.statusCode {
-            case 401:
-                throw PlaylistGeneratorError.unauthorized
-            case 429:
-                throw PlaylistGeneratorError.rateLimitExceeded
-            default:
-                throw PlaylistGeneratorError.unexpectedStatusCode(httpResponse.statusCode)
-            }
+            // Handle different status codes accordingly
+            #warning("Network error here")
+            throw PlaylistGeneratorError.unexpectedStatusCode(httpResponse.statusCode)
         }
         
         do {
