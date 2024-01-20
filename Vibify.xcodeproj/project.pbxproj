@@ -37,6 +37,8 @@
 		5A7747AD2B4F764A00B26A2D /* NumberOfSongsCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */; };
 		5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */; };
 		5A8C28DD2B53116600BD12E6 /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */; };
+		5AA5E5D22B5C2B530048FE2F /* GPTResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA5E5D12B5C2B530048FE2F /* GPTResponse.swift */; };
+		5AA5E5D42B5C2B570048FE2F /* GPTRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA5E5D32B5C2B570048FE2F /* GPTRequest.swift */; };
 		5AB8FC3B2B4332EE008AC7C4 /* SongSearchCriteria.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */; };
 		5AC0B7D42B45065C00971FF9 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 5AC0B7D32B45065C00971FF9 /* GRDB */; };
 		5AC0B7D62B45069E00971FF9 /* DBSongMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */; };
@@ -78,6 +80,8 @@
 		5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfSongsCounterView.swift; sourceTree = "<group>"; };
 		5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicImporter.swift; sourceTree = "<group>"; };
 		5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
+		5AA5E5D12B5C2B530048FE2F /* GPTResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTResponse.swift; sourceTree = "<group>"; };
+		5AA5E5D32B5C2B570048FE2F /* GPTRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTRequest.swift; sourceTree = "<group>"; };
 		5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongSearchCriteria.swift; sourceTree = "<group>"; };
 		5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBSongMetadata.swift; sourceTree = "<group>"; };
 		5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -178,12 +182,12 @@
 		5A1CD9742B3D1CA200AF0192 /* Vibify */ = {
 			isa = PBXGroup;
 			children = (
-				5A7430562B5A005D000FB9BA /* API */,
 				5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */,
 				5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */,
 				5A4BFB2E2B40AFDC00988D0E /* SongMetaDataParser.swift */,
 				5A1CD9832B3D1DC200AF0192 /* PlaylistGenerator.swift */,
 				5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */,
+				5A7430562B5A005D000FB9BA /* API */,
 				5A0FDB522B48F195002FDB0C /* Models */,
 				5A0FDB532B48F1B0002FDB0C /* Screens */,
 				5A0FDB542B48F1C1002FDB0C /* Views */,
@@ -206,13 +210,31 @@
 			isa = PBXGroup;
 			children = (
 				5A74305B2B5A093F000FB9BA /* Endpoint.swift */,
-				5A7430572B5A0089000FB9BA /* GPTEndpoint.swift */,
-				5A74305D2B5A0989000FB9BA /* DalleEndpoint.swift */,
 				5A7430592B5A00AE000FB9BA /* URLSessionNetworkService.swift */,
+				5AA5E5D02B5C2B070048FE2F /* Dalle */,
+				5AA5E5CF2B5C2AFE0048FE2F /* GPT */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		5AA5E5CF2B5C2AFE0048FE2F /* GPT */ = {
+			isa = PBXGroup;
+			children = (
+				5A7430572B5A0089000FB9BA /* GPTEndpoint.swift */,
+				5AA5E5D12B5C2B530048FE2F /* GPTResponse.swift */,
+				5AA5E5D32B5C2B570048FE2F /* GPTRequest.swift */,
+			);
+			path = GPT;
+			sourceTree = "<group>";
+		};
+		5AA5E5D02B5C2B070048FE2F /* Dalle */ = {
+			isa = PBXGroup;
+			children = (
+				5A74305D2B5A0989000FB9BA /* DalleEndpoint.swift */,
 				5A74305F2B5A09D1000FB9BA /* DalleRequest.swift */,
 				5A7430612B5A0CD0000FB9BA /* DalleResponse.swift */,
 			);
-			path = API;
+			path = Dalle;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -328,6 +350,7 @@
 				5A7747AD2B4F764A00B26A2D /* NumberOfSongsCounterView.swift in Sources */,
 				5A74305C2B5A093F000FB9BA /* Endpoint.swift in Sources */,
 				5A4EC66F2B4CF1EC00894E13 /* SurpriseMeButton.swift in Sources */,
+				5AA5E5D22B5C2B530048FE2F /* GPTResponse.swift in Sources */,
 				5A4BFB2D2B40A43100988D0E /* CustomProgressView.swift in Sources */,
 				5A2E05472B5228E100B5B8EE /* MusicServiceType.swift in Sources */,
 				5A1CD9842B3D1DC200AF0192 /* PlaylistGenerator.swift in Sources */,
@@ -335,6 +358,7 @@
 				5AE3F6602B4E520900EA8329 /* AdvancedSearchCriteriaVM.swift in Sources */,
 				5A1CD9762B3D1CA200AF0192 /* VibifyApp.swift in Sources */,
 				5A0DCA1A2B4860E3007A0B72 /* Double+Ext.swift in Sources */,
+				5AA5E5D42B5C2B570048FE2F /* GPTRequest.swift in Sources */,
 				5AD5A4B12B408BE7005FC577 /* String+Ext.swift in Sources */,
 				5A0D89542B450964003420A8 /* PlaylistHistoryVM.swift in Sources */,
 				5AFBF0CC2B5768FA006CF79E /* TagCapsuleView.swift in Sources */,

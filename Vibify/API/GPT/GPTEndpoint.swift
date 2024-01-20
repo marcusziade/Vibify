@@ -9,7 +9,7 @@ struct GPTEndpoint: Endpoint {
     var headers: [String: String]?
     
     init(model: String, prompt: String, maxTokens: Int, apiKey: String) {
-        let bodyObject = OpenAIRequest(
+        let bodyObject = GPTRequest(
             model: model,
             prompt: prompt,
             maxTokens: maxTokens

@@ -2,26 +2,6 @@ import Foundation
 import MusicKit
 import os.log
 
-struct OpenAIRequest: Codable {
-    let model: String
-    let prompt: String
-    let maxTokens: Int
-    
-    enum CodingKeys: String, CodingKey {
-        case model
-        case prompt
-        case maxTokens = "max_tokens"
-    }
-}
-
-struct OpenAIResponse: Codable {
-    let choices: [Choice]
-    
-    struct Choice: Codable {
-        let text: String
-    }
-}
-
 enum PlaylistGeneratorError: Error {
     case urlSessionError(Error)
     case dataDecodingError(Error)
@@ -62,7 +42,7 @@ final class PlaylistGenerator {
 #else
         let endpoint = GPTEndpoint(model: "gpt-3.5-turbo-instruct" ,prompt: openAIPrompt, maxTokens: 500, apiKey: apiKey)
         do {
-            let response: OpenAIResponse = try await networkService.request(endpoint)
+            let response: GPTResponse = try await networkService.request(endpoint)
             guard let firstChoice = response.choices.first else {
                 logger.error("No choices found in response")
                 throw PlaylistGeneratorError.invalidResponse
