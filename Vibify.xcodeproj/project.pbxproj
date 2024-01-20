@@ -205,10 +205,10 @@
 		5A7430562B5A005D000FB9BA /* API */ = {
 			isa = PBXGroup;
 			children = (
+				5A74305B2B5A093F000FB9BA /* Endpoint.swift */,
 				5A7430572B5A0089000FB9BA /* GPTEndpoint.swift */,
 				5A74305D2B5A0989000FB9BA /* DalleEndpoint.swift */,
 				5A7430592B5A00AE000FB9BA /* URLSessionNetworkService.swift */,
-				5A74305B2B5A093F000FB9BA /* Endpoint.swift */,
 				5A74305F2B5A09D1000FB9BA /* DalleRequest.swift */,
 				5A7430612B5A0CD0000FB9BA /* DalleResponse.swift */,
 			);
