@@ -47,7 +47,16 @@ import Observation
         "Reggaeton",
         "K-Pop",
         "J-Pop",
-        "C-Pop"
+        "C-Pop",
+        "Gaming",
+        "Anime",
+        "Soundtrack",
+        "Instrumental",
+        "A Capella",
+        "Comedy",
+        "Holiday",
+        "JRPG",
+        "RPG",
     ]
 
     init(from existingCriteria: SongSearchCriteria? = nil) {
