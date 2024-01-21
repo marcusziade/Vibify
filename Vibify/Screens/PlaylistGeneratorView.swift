@@ -1,7 +1,8 @@
+import CachedAsyncImage
 import SwiftUI
 
 struct PlaylistGeneratorView: View {
-    @Bindable var viewModel = PlaylistGeneratorVM()
+    @Bindable var viewModel: PlaylistGeneratorVM
     @Bindable private var advancedSearchVM = AdvancedSearchCriteriaVM()
     
     var body: some View {
@@ -114,12 +115,18 @@ private extension PlaylistGeneratorView {
     
     var songCardListView: some View {
         Group {
-            ForEach(viewModel.playlistSuggestion, id: \.title) { song in
-                SongCardView(
-                    song: song,
-                    togglePlayback: viewModel.togglePlayback,
-                    isPlaying: viewModel.isCurrentlyPlaying(song: song)
-                )
+            if !viewModel.playlistSuggestion.isEmpty {
+                VStack {
+                    ForEach(viewModel.playlistSuggestion, id: \.title) { song in
+                        SongCardView(
+                            song: song,
+                            togglePlayback: viewModel.togglePlayback,
+                            isPlaying: viewModel.isCurrentlyPlaying(song: song)
+                        )
+                    }
+                    
+                    CachedAsyncImage(url: viewModel.playlistArtworkURL)
+                }
             }
         }
     }
@@ -182,12 +189,5 @@ private extension PlaylistGeneratorView {
             from: nil,
             for: nil
         )
-    }
-}
-
-// MARK: - Preview
-struct PlaylistGeneratorView_Previews: PreviewProvider {
-    static var previews: some View {
-        PlaylistGeneratorView(viewModel: PlaylistGeneratorVM())
     }
 }

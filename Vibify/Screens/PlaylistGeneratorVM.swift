@@ -12,6 +12,7 @@ final class PlaylistGeneratorVM {
     var textPrompt: String = ""
     var isPlaying: Bool = false
     var playlistSuggestion: [DBSongMetadata] = []
+    var playlistArtworkURL: URL?
     var isFetchingPlaylist: Bool = false
     var isAddingToAppleMusic: Bool = false
     var isSharingPlaylist: Bool = false
@@ -45,23 +46,22 @@ final class PlaylistGeneratorVM {
         isFetchingPlaylist || isAddingToAppleMusic || isSharingPlaylist || isGeneratingRandomPlaylist
     }
     
-    private var currentlyPlayingSong: DBSongMetadata?
-    
     let databaseManager: DatabaseManager
-    private let playlistGenerator: PlaylistGenerator
-    private let appleMusicImporter: AppleMusicImporter
-    private let player: AVPlayer
     
     init(
-        databaseManager: DatabaseManager = DatabaseManager(),
-        playlistGenerator: PlaylistGenerator = PlaylistGenerator(networkService: URLSessionNetworkService()),
-        appleMusicImporter: AppleMusicImporter = AppleMusicImporter(),
+        networkService: NetworkService,
+        databaseManager: DatabaseManager,
+        playlistGenerator: PlaylistGenerator,
+        appleMusicImporter: AppleMusicImporter,
+        dalleGenerator: DalleGenerator,
         player: AVPlayer = AVPlayer()
     ) {
         self.databaseManager = databaseManager
         self.playlistGenerator = playlistGenerator
         self.appleMusicImporter = appleMusicImporter
+        self.dalleGenerator = dalleGenerator
         self.player = player
+        
         Task { await requestAppleMusicAuthorization() }
     }
     
@@ -80,6 +80,10 @@ final class PlaylistGeneratorVM {
             ) { [unowned self] newProgress in
                 progress = Double(newProgress) / 100.0
             }
+            
+            playlistArtworkURL = try await dalleGenerator.image(
+                prompt: playlistSuggestion.dallePrompt
+            )
             
             isConfiguringSearch = false
             
@@ -179,6 +183,15 @@ final class PlaylistGeneratorVM {
             playSong(song)
         }
     }
+    
+    // MARK: Private
+    
+    private var currentlyPlayingSong: DBSongMetadata?
+    
+    private let playlistGenerator: PlaylistGenerator
+    private let appleMusicImporter: AppleMusicImporter
+    private let dalleGenerator: DalleGenerator
+    private let player: AVPlayer
     
     private func presentAlert(with message: String) {
         alertMessage = message

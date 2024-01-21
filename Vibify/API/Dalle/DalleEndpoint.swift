@@ -7,12 +7,26 @@ struct DalleGenerationEndpoint: Endpoint {
     var body: Data?
     var headers: [String: String]?
     
-    init(model: String, prompt: String, n: Int, size: String, apiKey: String) {
+    init(
+        model: String,
+        prompt: String,
+        n: Int?,
+        size: String?,
+        apiKey: String,
+        quality: String? = nil,
+        responseFormat: String? = nil,
+        style: String? = nil,
+        user: String? = nil
+    ) {
         let bodyObject = DalleRequest(
             model: model,
             prompt: prompt,
             n: n,
-            size: apiKey
+            size: size,
+            quality: quality,
+            responseFormat: responseFormat,
+            style: style,
+            user: user
         )
         body = try? JSONEncoder().encode(bodyObject)
         headers = [

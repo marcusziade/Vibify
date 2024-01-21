@@ -26,7 +26,10 @@ final class PlaylistGenerator {
         self.metadataParser = DBSongMetadataParser(logger: logger)
     }
     
-    func fetchPlaylistSuggestion(criteria: SongSearchCriteria, progressHandler: ((Int) -> Void)? = nil) async throws -> [DBSongMetadata] {
+    func fetchPlaylistSuggestion(
+        criteria: SongSearchCriteria,
+        progressHandler: ((Int) -> Void)? = nil
+    ) async throws -> [DBSongMetadata] {
         logger.info("Starting fetchPlaylistSuggestion with criteria: \(criteria.toPrompt())")
         
         guard let apiKey = openAIKey else {
@@ -38,16 +41,29 @@ final class PlaylistGenerator {
         
 #if targetEnvironment(simulator) && os(iOS)
         let simulatedResponse = "\n\n1. \"Only Girl (In the World)\" – Rihanna\n2. \"Dynamite\" – Taio Cruz"
-        return try await metadataParser.parse(from: simulatedResponse, playlistID: UUID().uuidString, progressHandler: progressHandler)
+        return try await metadataParser.parse(
+            from: simulatedResponse,
+            playlistID: UUID().uuidString,
+            progressHandler: progressHandler
+        )
 #else
-        let endpoint = GPTEndpoint(model: "gpt-3.5-turbo-instruct" ,prompt: openAIPrompt, maxTokens: 500, apiKey: apiKey)
+        let endpoint = GPTEndpoint(
+            model: "gpt-3.5-turbo-instruct" ,
+            prompt: openAIPrompt,
+            maxTokens: 500,
+            apiKey: apiKey
+        )
         do {
             let response: GPTResponse = try await networkService.request(endpoint)
             guard let firstChoice = response.choices.first else {
                 logger.error("No choices found in response")
                 throw PlaylistGeneratorError.invalidResponse
             }
-            return try await metadataParser.parse(from: firstChoice.text, playlistID: UUID().uuidString, progressHandler: progressHandler)
+            return try await metadataParser.parse(
+                from: firstChoice.text,
+                playlistID: UUID().uuidString,
+                progressHandler: progressHandler
+            )
         } catch {
             logger.error("Network service error: \(error.localizedDescription)")
             throw error
