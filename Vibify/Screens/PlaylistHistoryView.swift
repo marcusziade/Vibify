@@ -24,6 +24,7 @@ private extension PlaylistHistoryView {
                 creationDate(for: playlist)
                 totalPlaytime(for: playlist)
                 artworkGrid(for: playlist)
+                coverImage(for: playlist)
             }
         }
     }
@@ -60,6 +61,19 @@ private extension PlaylistHistoryView {
             .aspectRatio(1, contentMode: .fill)
             .clipped()
             .accessibilityLabel(Text("Album artwork"))
+    }
+    
+    func coverImage(for playlist: DBPlaylist) -> some View {
+        Group {
+            if
+                let urlString = playlist.artworkURL,
+                let url = URL(string: urlString)
+            {
+                CachedAsyncImage(url: url)
+                    .frame(height: 200)
+                    .scaledToFit()
+            }
+        }
     }
     
     var columns: [GridItem] {

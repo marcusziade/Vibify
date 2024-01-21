@@ -73,6 +73,7 @@ final class PlaylistGeneratorVM {
     func fetchPlaylistSuggestion() async {
         playlistSuggestion = []
         playlistArtworkURL = nil
+        currentPlaylistID = nil
         isFetchingPlaylist = true
         progress = .zero
         
@@ -93,6 +94,7 @@ final class PlaylistGeneratorVM {
                 songs: playlistSuggestion
             )
             try databaseManager.insert(playlist: playlist)
+            currentPlaylistID = playlist.id
         } catch let error as PlaylistGeneratorError {
             await MainActor.run {
                 switch error {
@@ -122,9 +124,18 @@ final class PlaylistGeneratorVM {
     func generateDalleImage() async {
         isGeneratingImage = true
         do {
-            playlistArtworkURL = try await dalleGenerator.image(
+            let generatedArtworkURL = try await dalleGenerator.image(
                 prompt: playlistSuggestion.dallePrompt
             )
+            
+            if let playlistID = currentPlaylistID {
+                try databaseManager.updatePlaylistArtworkURL(
+                    playlistID: playlistID,
+                    artworkURL: generatedArtworkURL.absoluteString
+                )
+            }
+            
+            playlistArtworkURL = generatedArtworkURL
         } catch let error as DalleGeneratorError {
             await MainActor.run {
                 switch error {
@@ -224,6 +235,7 @@ final class PlaylistGeneratorVM {
     // MARK: Private
     
     private var currentlyPlayingSong: DBSongMetadata?
+    private var currentPlaylistID: String?
     
     private let playlistGenerator: PlaylistGenerator
     private let appleMusicImporter: AppleMusicImporter

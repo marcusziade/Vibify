@@ -38,6 +38,7 @@ class DatabaseManager {
                     t.column("id", .text).primaryKey()
                     t.column("createdAt", .date)
                     t.column("title", .text)
+                    t.column("artworkURL", .text)
                 }
             }
         } catch {
@@ -92,5 +93,23 @@ extension DatabaseManager {
             throw error
         }
         return history
+    }
+}
+
+extension DatabaseManager {
+    
+    func updatePlaylistArtworkURL(playlistID: String, artworkURL: String) throws {
+        do {
+            try dbQueue.write { db in
+                let request = DBPlaylist.filter(DBPlaylist.Columns.playlistID == playlistID)
+                try request.updateAll(db, [
+                    DBPlaylist.Columns.artworkURL.set(to: artworkURL)
+                ])
+                logger.info("Updated artwork URL for playlist with id: \(playlistID)")
+            }
+        } catch {
+            logger.error("Failed to update artwork URL for playlist: \(error.localizedDescription)")
+            throw error
+        }
     }
 }

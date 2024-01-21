@@ -8,6 +8,7 @@ struct DBPlaylist: FetchableRecord, MutablePersistableRecord, Identifiable {
     var playlistID: String
     var createdAt: Date
     var songs: [DBSongMetadata]?
+    var artworkURL: String?
     
     var songsCount: Int {
         songs?.count ?? 0
@@ -39,6 +40,7 @@ struct DBPlaylist: FetchableRecord, MutablePersistableRecord, Identifiable {
         case title
         case playlistID = "id"
         case createdAt
+        case artworkURL
     }
     
     init(title: String, playlistID: String, createdAt: Date, songs: [DBSongMetadata]?) {
@@ -52,6 +54,7 @@ struct DBPlaylist: FetchableRecord, MutablePersistableRecord, Identifiable {
         title = row[Columns.title]
         playlistID = row[Columns.playlistID]
         createdAt = row[Columns.createdAt]
+        artworkURL = row[Columns.artworkURL]
         songs = nil
     }
     
@@ -59,6 +62,7 @@ struct DBPlaylist: FetchableRecord, MutablePersistableRecord, Identifiable {
         container[Columns.title] = title
         container[Columns.playlistID] = playlistID
         container[Columns.createdAt] = createdAt
+        container[Columns.artworkURL] = artworkURL
         // Do not encode 'songs' as it's not part of the database schema
     }
     
