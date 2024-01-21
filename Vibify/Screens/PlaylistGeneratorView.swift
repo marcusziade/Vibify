@@ -125,7 +125,22 @@ private extension PlaylistGeneratorView {
                         )
                     }
                     
-                    CachedAsyncImage(url: viewModel.playlistArtworkURL)
+                    if let url = viewModel.playlistArtworkURL {
+                        CachedAsyncImage(url: url)
+                            .frame(width: 300, height: 300)
+                            .cornerRadius(8)
+                            .shadow(color: .secondary, radius: 8)
+                            .padding()
+                    } else {
+                        AsyncButton(
+                            title: "Generate Dalle Image",
+                            icon: "photo",
+                            action: viewModel.generateDalleImage,
+                            isLoading: $viewModel.isGeneratingImage,
+                            colors: [.blue, .cyan],
+                            progress: $viewModel.progress
+                        )
+                    }
                 }
             }
         }
