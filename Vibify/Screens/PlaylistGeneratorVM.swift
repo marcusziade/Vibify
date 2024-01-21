@@ -17,6 +17,7 @@ final class PlaylistGeneratorVM {
     var isAddingToAppleMusic: Bool = false
     var isSharingPlaylist: Bool = false
     var isGeneratingRandomPlaylist: Bool = false
+    var isGeneratingImage: Bool = false
     var showHistory: Bool = false
     var progress: Double = 0.0
     var isAuthorizedForAppleMusic: Bool = false
@@ -71,6 +72,7 @@ final class PlaylistGeneratorVM {
     
     func fetchPlaylistSuggestion() async {
         playlistSuggestion = []
+        playlistArtworkURL = nil
         isFetchingPlaylist = true
         progress = .zero
         
@@ -80,10 +82,6 @@ final class PlaylistGeneratorVM {
             ) { [unowned self] newProgress in
                 progress = Double(newProgress) / 100.0
             }
-            
-            playlistArtworkURL = try await dalleGenerator.image(
-                prompt: playlistSuggestion.dallePrompt
-            )
             
             isConfiguringSearch = false
             
@@ -119,6 +117,43 @@ final class PlaylistGeneratorVM {
         }
         
         isFetchingPlaylist = false
+    }
+    
+    func generateDalleImage() async {
+        isGeneratingImage = true
+        do {
+            playlistArtworkURL = try await dalleGenerator.image(
+                prompt: playlistSuggestion.dallePrompt
+            )
+        } catch let error as DalleGeneratorError {
+            await MainActor.run {
+                switch error {
+                case .missingAPIKey:
+                    presentAlert(with: "Missing API key.")
+                case .invalidRequest:
+                    presentAlert(with: "Invalid request.")
+                case .unexpectedStatusCode(let code):
+                    presentAlert(with: "Unexpected status code: \(code)")
+                case .networkFailure:
+                    presentAlert(with: "Network failure.")
+                case .dataDecodingError(let error):
+                    presentAlert(with: "Failed to decode data: \(error)")
+                case .serverError:
+                    presentAlert(with: "Server error.")
+                case .unknownError:
+                    presentAlert(with: "An unknown error occurred.")
+                case .invalidResponse:
+                    presentAlert(with: "Invalid response.")
+                case .invalidURL:
+                    presentAlert(with: "Invalid URL.")
+                }
+            }
+        } catch {
+            await MainActor.run {
+                presentAlert(with: "Failed to generate image: \(error.localizedDescription)")
+            }
+        }
+        isGeneratingImage = false
     }
 
     @MainActor func requestAppleMusicAuthorization() async {
