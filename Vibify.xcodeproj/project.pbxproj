@@ -36,6 +36,7 @@
 		5A74F2F82B5CAB9E00042398 /* DalleGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A74F2F72B5CAB9E00042398 /* DalleGenerator.swift */; };
 		5A7747AB2B4F761200B26A2D /* DecadePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7747AA2B4F761200B26A2D /* DecadePickerView.swift */; };
 		5A7747AD2B4F764A00B26A2D /* NumberOfSongsCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */; };
+		5A7C48862B5DBE1D0002A61E /* dalle-sample.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A7C48852B5DBE1D0002A61E /* dalle-sample.png */; };
 		5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */; };
 		5A8C28DD2B53116600BD12E6 /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */; };
 		5AA3AC712B5CB09400B3BAC7 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3AC702B5CB09400B3BAC7 /* Array+Ext.swift */; };
@@ -81,6 +82,7 @@
 		5A74F2F72B5CAB9E00042398 /* DalleGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DalleGenerator.swift; sourceTree = "<group>"; };
 		5A7747AA2B4F761200B26A2D /* DecadePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecadePickerView.swift; sourceTree = "<group>"; };
 		5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfSongsCounterView.swift; sourceTree = "<group>"; };
+		5A7C48852B5DBE1D0002A61E /* dalle-sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dalle-sample.png"; sourceTree = "<group>"; };
 		5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicImporter.swift; sourceTree = "<group>"; };
 		5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		5AA3AC702B5CB09400B3BAC7 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 		5A1CD9882B3D234A00AF0192 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5A7C48852B5DBE1D0002A61E /* dalle-sample.png */,
 				5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -310,6 +313,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A7C48862B5DBE1D0002A61E /* dalle-sample.png in Resources */,
 				5A1CD97A2B3D1CA300AF0192 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

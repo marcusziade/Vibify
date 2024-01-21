@@ -146,6 +146,8 @@ final class PlaylistGeneratorVM {
                     presentAlert(with: "Invalid response.")
                 case .invalidURL:
                     presentAlert(with: "Invalid URL.")
+                case .promptTooLong:
+                    presentAlert(with: "Prompt is too long.")
                 }
             }
         } catch {
