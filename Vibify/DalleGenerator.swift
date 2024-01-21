@@ -11,6 +11,13 @@ enum DalleGeneratorError: Error {
     case unknownError
     case invalidResponse
     case invalidURL
+    case promptTooLong
+}
+
+// Custom error for network service (replace with your actual error type)
+struct DalleGeneratorPromptError: Error {
+    let message: String
+    let code: Int?
 }
 
 final class DalleGenerator {
@@ -33,6 +40,16 @@ final class DalleGenerator {
             throw DalleGeneratorError.missingAPIKey
         }
         
+#if targetEnvironment(simulator) && os(iOS)
+        let cachedImageURL = Bundle.main.url(
+            forResource: "dalle-sample",
+            withExtension: "png"
+        )!
+        return cachedImageURL
+#else
+        // log the prompt and how many characters it contains
+        logger.info("Prompt length: \(prompt.count)")
+        
         let endpoint = DalleGenerationEndpoint(
             model: model,
             prompt: prompt,
@@ -48,10 +65,22 @@ final class DalleGenerator {
                 throw DalleGeneratorError.invalidURL
             }
             return url
+        } catch let error as DalleGeneratorPromptError {
+            if error.message.contains("is too long") {
+                logger.error("Prompt is too long for DALL-E Generation")
+                throw DalleGeneratorError.promptTooLong
+            } else if error.code == nil {
+                logger.error("DALL-E Image Generation error: \(error.message)")
+                throw DalleGeneratorError.promptTooLong
+            } else {
+                logger.error("DALL-E Image Generation error code: \(error.code!)")
+                throw DalleGeneratorError.unknownError
+            }
         } catch {
             logger.error("DALL-E Image Generation error: \(error.localizedDescription)")
             throw error
         }
+#endif
     }
     
     private var openAIKey: String? {
