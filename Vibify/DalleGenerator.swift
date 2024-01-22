@@ -89,6 +89,10 @@ final class DalleGenerator {
             return ""
         }
         
+#if targetEnvironment(simulator) && os(iOS)
+        return "Doesn't matter, no dalle call is done. Cached Image is returned"
+#else
+        
         let promptPrefix = "Convert this output to a brief and clear PROMPT that I can use for Dalle-3 so it can generate a cool playlist cover image. Do not create an image yet; only give the prompt back to me. Don't explain anything. Make it as brief as possible while retaining the important part of the prompt:"
         
         let prompt = "\(promptPrefix) \(info)"
@@ -111,6 +115,7 @@ final class DalleGenerator {
             logger.error("GPT-4 Text Generation error: \(error.localizedDescription)")
             return ""
         }
+#endif
     }
 
     
