@@ -57,6 +57,7 @@ private extension PlaylistGeneratorView {
                 getSuggestionButton.padding(.top, 32)
                 songCardListView
                 addToAppleMusicButton
+                addToSpotifyButton
                 sharePlaylistButton
                 surpriseMeButton
             }
@@ -159,6 +160,25 @@ private extension PlaylistGeneratorView {
                 )
             }
         }
+    }
+    
+    var addToSpotifyButton: some View {
+        Group {
+            if !viewModel.playlistSuggestion.isEmpty { // && viewModel.isAuthorizedForSpotify {
+                AsyncButton(
+                    title: "Add to Spotify",
+                    icon: "music.note.list",
+                    action: {},// viewModel.createAndAddPlaylistToSpotify,
+                    isLoading: $viewModel.isAddingToAppleMusic,
+                    colors: [.green, darkGreen],
+                    progress: $viewModel.progress
+                )
+            }
+        }
+    }
+    
+    var darkGreen: Color {
+        Color(red: 0.0, green: 0.6, blue: 0.0)
     }
     
     var sharePlaylistButton: some View {
