@@ -99,7 +99,7 @@ extension PlaylistGenerator {
             throw PlaylistGeneratorError.missingAPIKey
         }
         
-        let endpoint = DalleGenerationEndpoint(
+        let endpoint = DalleEndpoint(
             model: model,
             prompt: prompt,
             n: n,
