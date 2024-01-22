@@ -1,6 +1,6 @@
 import Foundation
 
-struct DalleGenerationEndpoint: Endpoint {
+struct DalleEndpoint: Endpoint {
     var baseURL: URL { URL(string: "https://api.openai.com/v1")! }
     var path: String { "/images/generations" }
     var method: String { "POST" }

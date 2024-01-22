@@ -50,7 +50,7 @@ final class DalleGenerator {
         // log the prompt and how many characters it contains
         logger.info("Prompt length: \(prompt.count)")
         
-        let endpoint = DalleGenerationEndpoint(
+        let endpoint = DalleEndpoint(
             model: model,
             prompt: prompt,
             n: n,
