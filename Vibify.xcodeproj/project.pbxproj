@@ -43,6 +43,7 @@
 		5AA5E5D22B5C2B530048FE2F /* GPTResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA5E5D12B5C2B530048FE2F /* GPTResponse.swift */; };
 		5AA5E5D42B5C2B570048FE2F /* GPTRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA5E5D32B5C2B570048FE2F /* GPTRequest.swift */; };
 		5AB8FC3B2B4332EE008AC7C4 /* SongSearchCriteria.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */; };
+		5ABBEFF82B5E2F75001337DE /* SpotifyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABBEFF72B5E2F75001337DE /* SpotifyService.swift */; };
 		5AC0B7D42B45065C00971FF9 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 5AC0B7D32B45065C00971FF9 /* GRDB */; };
 		5AC0B7D62B45069E00971FF9 /* DBSongMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */; };
 		5AC0B7D82B4506EA00971FF9 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */; };
@@ -89,6 +90,7 @@
 		5AA5E5D12B5C2B530048FE2F /* GPTResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTResponse.swift; sourceTree = "<group>"; };
 		5AA5E5D32B5C2B570048FE2F /* GPTRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTRequest.swift; sourceTree = "<group>"; };
 		5AB8FC3A2B4332EE008AC7C4 /* SongSearchCriteria.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongSearchCriteria.swift; sourceTree = "<group>"; };
+		5ABBEFF72B5E2F75001337DE /* SpotifyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyService.swift; sourceTree = "<group>"; };
 		5AC0B7D52B45069E00971FF9 /* DBSongMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBSongMetadata.swift; sourceTree = "<group>"; };
 		5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		5AD5A4B02B408BE7005FC577 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 			children = (
 				5A74305B2B5A093F000FB9BA /* Endpoint.swift */,
 				5A7430592B5A00AE000FB9BA /* URLSessionNetworkService.swift */,
+				5ABBEFF62B5E2F6A001337DE /* Spotify */,
 				5AA5E5D02B5C2B070048FE2F /* Dalle */,
 				5AA5E5CF2B5C2AFE0048FE2F /* GPT */,
 			);
@@ -244,6 +247,14 @@
 				5A7430612B5A0CD0000FB9BA /* DalleResponse.swift */,
 			);
 			path = Dalle;
+			sourceTree = "<group>";
+		};
+		5ABBEFF62B5E2F6A001337DE /* Spotify */ = {
+			isa = PBXGroup;
+			children = (
+				5ABBEFF72B5E2F75001337DE /* SpotifyService.swift */,
+			);
+			path = Spotify;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -376,6 +387,7 @@
 				5AA3AC712B5CB09400B3BAC7 /* Array+Ext.swift in Sources */,
 				5A4BFB2F2B40AFDC00988D0E /* SongMetaDataParser.swift in Sources */,
 				5A74F2F82B5CAB9E00042398 /* DalleGenerator.swift in Sources */,
+				5ABBEFF82B5E2F75001337DE /* SpotifyService.swift in Sources */,
 				5AC0B7D62B45069E00971FF9 /* DBSongMetadata.swift in Sources */,
 				5A0D89562B450ACC003420A8 /* DBPlaylist.swift in Sources */,
 				5A4523742B3FCC530026494C /* SongCardView.swift in Sources */,
