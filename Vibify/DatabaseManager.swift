@@ -102,9 +102,7 @@ extension DatabaseManager {
         do {
             try dbQueue.write { db in
                 let request = DBPlaylist.filter(DBPlaylist.Columns.playlistID == playlistID)
-                try request.updateAll(db, [
-                    DBPlaylist.Columns.artworkURL.set(to: artworkURL)
-                ])
+                try request.updateAll(db, [DBPlaylist.Columns.artworkURL.set(to: artworkURL)])
                 logger.info("Updated artwork URL for playlist with id: \(playlistID)")
             }
         } catch {
