@@ -14,7 +14,6 @@ enum DalleGeneratorError: Error {
     case promptTooLong
 }
 
-// Custom error for network service (replace with your actual error type)
 struct DalleGeneratorPromptError: Error {
     let message: String
     let code: Int?
@@ -33,7 +32,8 @@ final class DalleGenerator {
         prompt: String,
         model: String = "dall-e-3",
         n: Int = 1,
-        size: String = "1024x1024"
+        size: String = "1024x1024",
+        style: String = "vivid" // or "natural"
     ) async throws -> URL {
         guard let apiKey = openAIKey else {
             logger.error("Missing API key")
@@ -47,7 +47,6 @@ final class DalleGenerator {
         )!
         return cachedImageURL
 #else
-        // log the prompt and how many characters it contains
         logger.info("Prompt length: \(prompt.count)")
         
         let endpoint = DalleEndpoint(
@@ -55,7 +54,8 @@ final class DalleGenerator {
             prompt: prompt,
             n: n,
             size: size,
-            apiKey: apiKey
+            apiKey: apiKey,
+            style: style
         )
         
         do {
@@ -82,6 +82,37 @@ final class DalleGenerator {
         }
 #endif
     }
+    
+    func dallePrompt(forInfo info: String) async -> String {
+        guard let apiKey = openAIKey else {
+            logger.error("Missing API key")
+            return ""
+        }
+        
+        let promptPrefix = "Convert this output to a brief and clear PROMPT that I can use for Dalle-3 so it can generate a cool playlist cover image. Do not create an image yet; only give the prompt back to me. Don't explain anything. Make it as brief as possible while retaining the important part of the prompt:"
+        
+        let prompt = "\(promptPrefix) \(info)"
+        
+        let endpoint = GPTEndpoint(
+            model: "gpt-3.5-turbo-instruct",
+            prompt: prompt,
+            maxTokens: 500,
+            apiKey: apiKey
+        )
+        
+        do {
+            let response: GPTResponse = try await networkService.request(endpoint)
+            guard let text = response.choices.first?.text else {
+                logger.error("Invalid response, missing text.")
+                return ""
+            }
+            return text.replacingOccurrences(of: "\n", with: "")
+        } catch {
+            logger.error("GPT-4 Text Generation error: \(error.localizedDescription)")
+            return ""
+        }
+    }
+
     
     private var openAIKey: String? {
         ProcessInfo.processInfo.environment["API_KEY"]

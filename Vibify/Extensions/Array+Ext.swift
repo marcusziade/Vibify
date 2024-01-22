@@ -3,14 +3,25 @@ import Foundation
 extension Array where Element == DBSongMetadata {
     
     var dallePrompt: String {
-        let promptPrefix = "NO TEXT. Create one singular image that takes inspiration from these songs. It will be used as a playlist cover and should convey the emotion of the songs included. No text:"
+        let songNames = self
+            .map { "\($0.title)" }
+            .joined(separator: "\n")
         
-        let songDescriptions = self
-            .map { song in
-                "\(song.title) by \(song.artist) in \(song.genreNames.joined(separator: ", "))"
-            }
-            .joined(separator: "; ")
+        let genreNames = self
+            .map { $0.genreNames }
+            .reduce(into: Set<String>()) { $0.formUnion($1) }
+            .prefix(3)
+            .joined(separator: ", ")
         
-        return "\(promptPrefix) \(songDescriptions)"
+        return
+"""
+Create a cover image for a music playlist that takes inspiration from these song names and genres. It should convey the emotion in a way that is visually interesting without writing text. Only create abstract visual imagery. Include some of the song names and all the three genre names.
+
+Song names:
+\(songNames)
+
+Genres:
+\(genreNames)
+"""
     }
 }

@@ -123,10 +123,13 @@ final class PlaylistGeneratorVM {
     
     func generateDalleImage() async {
         isGeneratingImage = true
+        
+        let prompt = await dalleGenerator.dallePrompt(forInfo: playlistSuggestion.dallePrompt)
+        
+        debugPrint("Prompt: \(prompt)")
+        
         do {
-            let generatedArtworkURL = try await dalleGenerator.image(
-                prompt: playlistSuggestion.dallePrompt
-            )
+            let generatedArtworkURL = try await dalleGenerator.image(prompt: prompt, style: "natural")
             
             if let playlistID = currentPlaylistID {
                 try databaseManager.updatePlaylistArtworkURL(
