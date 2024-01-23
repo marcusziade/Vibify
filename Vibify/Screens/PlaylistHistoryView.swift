@@ -70,7 +70,7 @@ private extension PlaylistHistoryView {
                 let url = URL(string: urlString)
             {
                 CachedAsyncImage(url: url)
-                    .frame(height: 200)
+                    .frame(width: 300, height: 300)
                     .scaledToFit()
             }
         }
