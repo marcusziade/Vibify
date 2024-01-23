@@ -48,6 +48,7 @@ final class PlaylistGeneratorVM {
     }
     
     let databaseManager: DatabaseManager
+    private(set) var appleMusicImporter: AppleMusicImporter
     
     init(
         networkService: NetworkService,
@@ -243,7 +244,6 @@ final class PlaylistGeneratorVM {
     private var currentPlaylistID: String?
     
     private let playlistGenerator: PlaylistGenerator
-    private let appleMusicImporter: AppleMusicImporter
     private let dalleGenerator: DalleGenerator
     private let player: AVPlayer
     

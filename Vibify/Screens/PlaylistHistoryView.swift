@@ -25,6 +25,16 @@ private extension PlaylistHistoryView {
                 totalPlaytime(for: playlist)
                 artworkGrid(for: playlist)
                 coverImage(for: playlist)
+                
+                
+//                AsyncButton(
+//                    title: "Add to Apple Music",
+//                    icon: "music.note.list",
+//                    action: { viewModel.importToAppleMusic(playlist: playlist) },
+//                    isLoading: .constant(false),
+//                    colors: [.purple, .pink],
+//                    progress: $viewModel.progress
+//                )
             }
         }
     }
@@ -82,7 +92,12 @@ private extension PlaylistHistoryView {
 }
 
 #Preview {
-    PlaylistHistoryView(viewModel: PlaylistHistoryViewModel(dbManager: DatabaseManager()))
+    PlaylistHistoryView(
+        viewModel: PlaylistHistoryViewModel(
+            dbManager: DatabaseManager(),
+            appleMusicImporter: AppleMusicImporter()
+        )
+    )
 }
 
 /// `UniqueURL` is a struct used to provide unique identifiers for items within a SwiftUI `ForEach` loop.
