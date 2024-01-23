@@ -131,13 +131,15 @@ final class PlaylistGeneratorVM {
         do {
             let generatedArtworkURL = try await dalleGenerator.image(prompt: prompt, style: "natural")
             
+            let localArtworkURL = try await downloadAndSaveImage(from: generatedArtworkURL)
+            
             if let playlistID = currentPlaylistID {
                 try databaseManager.updatePlaylistArtworkURL(
                     playlistID: playlistID,
-                    artworkURL: generatedArtworkURL.absoluteString
+                    artworkURL: localArtworkURL.absoluteString
                 )
             }
-            
+
             playlistArtworkURL = generatedArtworkURL
         } catch let error as DalleGeneratorError {
             await MainActor.run {
@@ -205,7 +207,7 @@ final class PlaylistGeneratorVM {
         }
         isAddingToAppleMusic = false
     }
-
+    
     func generateRandomPlaylist() async {
         guard !isGeneratingRandomPlaylist else { return }
         isGeneratingRandomPlaylist = true
@@ -245,6 +247,40 @@ final class PlaylistGeneratorVM {
     private let dalleGenerator: DalleGenerator
     private let player: AVPlayer
     
+    private func downloadAndSaveImage(from url: URL) async throws -> URL {
+        let (data, _) = try await URLSession.shared.data(from: url)
+        guard let image = UIImage(data: data) else {
+            throw NSError(
+                domain: "ImageDownloadError",
+                code: 0,
+                userInfo: [NSLocalizedDescriptionKey: "Failed to create image from downloaded data."]
+            )
+        }
+        
+        guard let documentsDirectory = FileManager.default.urls(
+            for: .documentDirectory,
+            in: .userDomainMask
+        ).first else {
+            throw NSError(
+                domain: "FileSaveError",
+                code: 0,
+                userInfo: [NSLocalizedDescriptionKey: "Cannot find documents directory."]
+            )
+        }
+        
+        let fileURL = documentsDirectory.appendingPathComponent("\(UUID().uuidString).png")
+        guard let imageData = image.pngData() else {
+            throw NSError(
+                domain: "ImageConversionError",
+                code: 0,
+                userInfo: [NSLocalizedDescriptionKey: "Failed to convert image to PNG data."]
+            )
+        }
+        
+        try imageData.write(to: fileURL)
+        return fileURL
+    }
+
     private func presentAlert(with message: String) {
         alertMessage = message
         showingAlert = true
