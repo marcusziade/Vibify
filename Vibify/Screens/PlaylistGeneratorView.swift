@@ -38,7 +38,8 @@ struct PlaylistGeneratorView: View {
             .sheet(isPresented: $viewModel.showHistory) {
                 PlaylistHistoryView(
                     viewModel: PlaylistHistoryViewModel(
-                        dbManager: viewModel.databaseManager
+                        dbManager: viewModel.databaseManager, 
+                        appleMusicImporter: viewModel.appleMusicImporter
                     )
                 )
             }

@@ -6,9 +6,14 @@ import os.log
 final class PlaylistHistoryViewModel {
     
     var playlistHistory: [DBPlaylist] = []
+    var importProgress: Double = 0.0
+    private let appleMusicImporter: AppleMusicImporter
+    private let databaseManager: DatabaseManager
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "PlaylistHistoryViewModel")
     
-    init(dbManager: DatabaseManager) {
+    init(dbManager: DatabaseManager, appleMusicImporter: AppleMusicImporter) {
         self.databaseManager = dbManager
+        self.appleMusicImporter = appleMusicImporter
         fetchPlaylistHistory()
     }
     
@@ -21,6 +26,41 @@ final class PlaylistHistoryViewModel {
         }
     }
     
-    private let databaseManager: DatabaseManager
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "PlaylistHistoryViewModel")
+    func importPlaylistToAppleMusic(playlist: DBPlaylist) async {
+        // Reset progress
+        importProgress = 0.0
+        
+        // Check if authorized for Apple Music
+        guard await appleMusicImporter.requestAppleMusicAccess() else {
+            logger.error("User not authorized for Apple Music")
+            return
+        }
+        
+        guard let songs = playlist.songs else {
+            logger.error("No songs in playlist")
+            return
+        }
+        
+        // Proceed with importing the playlist
+        do {
+            let createdPlaylist = try await appleMusicImporter.createPlaylist(named: playlist.title)
+            let result = await appleMusicImporter.addSongsToPlaylist(
+                playlist: createdPlaylist,
+                songs: songs,
+                progressHandler: { [unowned self] newProgress in
+                    importProgress = newProgress
+                }
+            )
+            switch result {
+            case .success():
+                logger.info("Playlist \(playlist.title) imported to Apple Music successfully.")
+            case .failure(let error):
+                logger.error("Failed to import playlist to Apple Music: \(error.localizedDescription)")
+            }
+        } catch {
+            logger.error("Failed to import playlist: \(error.localizedDescription)")
+        }
+        // Reset progress after completion
+        importProgress = 0.0
+    }
 }
