@@ -47,12 +47,12 @@ final class PlaylistGeneratorVM {
         isFetchingPlaylist || isAddingToAppleMusic || isSharingPlaylist || isGeneratingRandomPlaylist
     }
     
-    let databaseManager: DatabaseManager
+    let databaseManager: DatabaseManaging
     private(set) var appleMusicImporter: AppleMusicImporter
     
     init(
         networkService: NetworkService,
-        databaseManager: DatabaseManager,
+        databaseManager: DatabaseManaging,
         playlistGenerator: PlaylistGenerator,
         appleMusicImporter: AppleMusicImporter,
         dalleGenerator: DalleGenerator,

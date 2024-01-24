@@ -2,7 +2,7 @@ import Foundation
 import GRDB
 import os.log
 
-class DatabaseManager {
+final class DatabaseManager: DatabaseManaging {
     private let dbQueue: DatabaseQueue
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "DatabaseManager")
     

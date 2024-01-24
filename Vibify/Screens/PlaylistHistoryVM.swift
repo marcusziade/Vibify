@@ -7,11 +7,12 @@ final class PlaylistHistoryViewModel {
     
     var playlistHistory: [DBPlaylist] = []
     var importProgress: Double = 0.0
+    var isImportingToAppleMusic: Bool = false
     private let appleMusicImporter: AppleMusicImporter
-    private let databaseManager: DatabaseManager
+    private let databaseManager: DatabaseManaging
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "PlaylistHistoryViewModel")
     
-    init(dbManager: DatabaseManager, appleMusicImporter: AppleMusicImporter) {
+    init(dbManager: DatabaseManaging, appleMusicImporter: AppleMusicImporter) {
         self.databaseManager = dbManager
         self.appleMusicImporter = appleMusicImporter
         fetchPlaylistHistory()
@@ -27,7 +28,12 @@ final class PlaylistHistoryViewModel {
     }
     
     func importPlaylistToAppleMusic(playlist: DBPlaylist) async {
-        // Reset progress
+        defer {
+            isImportingToAppleMusic = false
+        }
+        
+        logger.info("Starting to import playlist to Apple Music: \(playlist.title)")
+        isImportingToAppleMusic = true
         importProgress = 0.0
         
         // Check if authorized for Apple Music
