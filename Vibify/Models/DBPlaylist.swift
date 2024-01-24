@@ -43,11 +43,18 @@ struct DBPlaylist: FetchableRecord, MutablePersistableRecord, Identifiable {
         case artworkURL
     }
     
-    init(title: String, playlistID: String, createdAt: Date, songs: [DBSongMetadata]?) {
+    init(
+        title: String,
+        playlistID: String,
+        createdAt: Date,
+        songs: [DBSongMetadata]?,
+        artworkURL: String? = nil
+    ) {
         self.title = title
         self.playlistID = playlistID
         self.createdAt = createdAt
         self.songs = songs
+        self.artworkURL = artworkURL
     }
     
     init(row: Row) {
@@ -67,4 +74,32 @@ struct DBPlaylist: FetchableRecord, MutablePersistableRecord, Identifiable {
     }
     
     var id: String { playlistID }
+}
+
+// MARK: Mock
+
+extension DBPlaylist {
+    
+    static var mock: DBPlaylist {
+        DBPlaylist(
+            title: "My Playlist",
+            playlistID: UUID().uuidString,
+            createdAt: Date(),
+            songs: DBSongMetadata.mockSongs,
+            artworkURL: Bundle.main.url(forResource: "dalle-sample", withExtension: "png")!.absoluteString
+        )
+    }
+    
+    /// Five unique mocked playlists with their own identifying metadata.
+    static var mockPlaylists: [DBPlaylist] {
+        let playlists = [
+            DBPlaylist(title: "Playlist 1", playlistID: "1", createdAt: Date(), songs: DBSongMetadata.mockSongs, artworkURL: Bundle.main.url(forResource: "dalle-sample", withExtension: "png")!.absoluteString),
+            DBPlaylist(title: "Playlist 2", playlistID: "2", createdAt: Date(), songs: DBSongMetadata.mockSongs, artworkURL: Bundle.main.url(forResource: "dalle-sample", withExtension: "png")!.absoluteString),
+            DBPlaylist(title: "Playlist 3", playlistID: "3", createdAt: Date(), songs: DBSongMetadata.mockSongs, artworkURL: Bundle.main.url(forResource: "dalle-sample", withExtension: "png")!.absoluteString),
+            DBPlaylist(title: "Playlist 4", playlistID: "4", createdAt: Date(), songs: DBSongMetadata.mockSongs, artworkURL: Bundle.main.url(forResource: "dalle-sample", withExtension: "png")!.absoluteString),
+            DBPlaylist(title: "Playlist 5", playlistID: "5", createdAt: Date(), songs: DBSongMetadata.mockSongs, artworkURL: Bundle.main.url(forResource: "dalle-sample", withExtension: "png")!.absoluteString),
+        ]
+        
+        return playlists
+    }
 }
