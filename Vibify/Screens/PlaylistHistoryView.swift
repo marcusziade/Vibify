@@ -15,10 +15,14 @@ struct PlaylistHistoryView: View {
                         title: "Add to Apple Music",
                         icon: "music.note.list",
                         action: { await viewModel.importPlaylistToAppleMusic(playlist: playlist) },
-                        isLoading: $viewModel.isImportingToAppleMusic,
+                        isLoading: Binding(
+                            get: { viewModel.importingState[playlist.id] ?? false },
+                            set: { _ in }
+                        ),
                         colors: [.purple, .pink],
                         progress: $viewModel.importProgress
                     )
+                    .disabled(viewModel.importProgress > .zero)
                 }
             }
             .listStyle(.grouped)

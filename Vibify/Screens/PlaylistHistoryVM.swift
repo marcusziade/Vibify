@@ -7,7 +7,7 @@ final class PlaylistHistoryViewModel {
     
     var playlistHistory: [DBPlaylist] = []
     var importProgress: Double = 0.0
-    var isImportingToAppleMusic: Bool = false
+    var importingState: [String: Bool] = [:]
     private let appleMusicImporter: AppleMusicImporter
     private let databaseManager: DatabaseManaging
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "PlaylistHistoryViewModel")
@@ -28,15 +28,10 @@ final class PlaylistHistoryViewModel {
     }
     
     func importPlaylistToAppleMusic(playlist: DBPlaylist) async {
-        defer {
-            isImportingToAppleMusic = false
-        }
-        
         logger.info("Starting to import playlist to Apple Music: \(playlist.title)")
-        isImportingToAppleMusic = true
+        importingState[playlist.id] = true
         importProgress = 0.0
         
-        // Check if authorized for Apple Music
         guard await appleMusicImporter.requestAppleMusicAccess() else {
             logger.error("User not authorized for Apple Music")
             return
@@ -47,7 +42,6 @@ final class PlaylistHistoryViewModel {
             return
         }
         
-        // Proceed with importing the playlist
         do {
             let createdPlaylist = try await appleMusicImporter.createPlaylist(named: playlist.title)
             let result = await appleMusicImporter.addSongsToPlaylist(
@@ -66,7 +60,8 @@ final class PlaylistHistoryViewModel {
         } catch {
             logger.error("Failed to import playlist: \(error.localizedDescription)")
         }
-        // Reset progress after completion
+        
+        importingState[playlist.id] = false
         importProgress = 0.0
     }
 }
