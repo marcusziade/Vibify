@@ -1,5 +1,7 @@
 # Vibify
 
+<a href="https://wakatime.com/badge/user/52d828f5-807b-496a-bfc0-5dbef43c05e5/project/018ccc19-3e79-4dbb-91aa-8801f7d2c902"><img src="https://wakatime.com/badge/user/52d828f5-807b-496a-bfc0-5dbef43c05e5/project/018ccc19-3e79-4dbb-91aa-8801f7d2c902.svg" alt="wakatime"></a>
+
 <img src="Vibify/Resources/Assets.xcassets/AppIcon.appiconset/vibifyicon-1024.png" width="200" height="200" />
 
 Vibify is an innovative iOS app designed to provide users with personalized music playlist suggestions. Utilizing advanced AI algorithms, Vibify curates playlists that resonate with individual preferences and moods.
