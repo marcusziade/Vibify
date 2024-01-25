@@ -6,7 +6,7 @@ struct Engine: Codable {
     let ready: Bool
     let owner: String?
     let permissions: String?
-    let created: String?
+    let created: Date?
 }
 
 // MARK: Mock
@@ -21,7 +21,7 @@ extension Engine {
             ready: true,
             owner: "openai",
             permissions: "public",
-            created: "2020-06-11T23:22:46.474Z"
+            created: Date()
         ),
         Engine(
             object: "engine",
@@ -29,7 +29,7 @@ extension Engine {
             ready: true,
             owner: "openai",
             permissions: "public",
-            created: "2020-06-11T23:22:46.474Z"
+            created: Date()
         ),
         Engine(
             object: "engine",
@@ -37,7 +37,7 @@ extension Engine {
             ready: true,
             owner: "openai",
             permissions: "public",
-            created: "2020-06-11T23:22:46.474Z"
+            created: Date()
         ),
         Engine(
             object: "engine",
@@ -45,7 +45,7 @@ extension Engine {
             ready: true,
             owner: "openai",
             permissions: "public",
-            created: "2020-06-11T23:22:46.474Z"
+            created: Date()
         ),
         Engine(
             object: "engine",
@@ -53,7 +53,7 @@ extension Engine {
             ready: true,
             owner: "openai",
             permissions: "public",
-            created: "2020-06-11T23:22:46.474Z"
+            created: Date()
         )
     ]
 }

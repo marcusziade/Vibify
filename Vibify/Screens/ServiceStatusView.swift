@@ -3,21 +3,65 @@ import SwiftUI
 
 struct ServiceStatusView: View {
     
-    @State private var engines: [Engine] = []
+    @State var engines: [Engine] = []
     
     var body: some View {
         NavigationView {
             List(engines, id: \.id) { engine in
-                Label(
-                    engine.id,
-                    systemImage: engine.ready ? "checkmark.circle.fill" : "xmark.circle.fill"
-                )
-                .foregroundColor(engine.ready ? .green : .red)
+                VStack(alignment: .leading, spacing: 10) {
+                    HStack {
+                        Label(
+                            engine.id,
+                            systemImage: "gearshape.fill"
+                        )
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                        
+                        Spacer()
+                        
+                        if engine.ready {
+                            Text("Ready")
+                                .font(.caption)
+                                .foregroundColor(.green)
+                        } else {
+                            Text("Not Ready")
+                                .font(.caption)
+                                .foregroundColor(.red)
+                        }
+                    }
+                    
+                    if let owner = engine.owner {
+                        Text("Owner: \(owner)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    if let permissions = engine.permissions {
+                        Text("Permissions: \(permissions)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    if let created = engine.created {
+                        Text("Created: \(dateText(for: created))")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                .listRowSeparator(.hidden)
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
             }
-            .navigationTitle("Engines")
-            .task {
+            .listStyle(.plain)
+            .refreshable {
                 await status()
             }
+            .navigationTitle("Service Status")
+        }
+        .task {
+            await status()
         }
     }
     
@@ -47,8 +91,16 @@ struct ServiceStatusView: View {
             debugPrint("Error: \(error)")
         }
     }
+    
+    private func dateText(for date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        let created = dateFormatter.string(from: date)
+        return created
+    }
 }
 
 #Preview {
-    ServiceStatusView()
+    ServiceStatusView(engines: Engine.mocks)
 }
