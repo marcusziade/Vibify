@@ -22,11 +22,19 @@ struct PlaylistGeneratorView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        viewModel.showHistory.toggle()
-                    } label: {
-                        Image(systemName: "clock")
-                            .foregroundColor(.primary)
+                    HStack {
+                        Button {
+                            viewModel.showHistory.toggle()
+                        } label: {
+                            Image(systemName: "clock")
+                                .foregroundColor(.primary)
+                        }
+                        Button {
+                            viewModel.showServiceStatus.toggle()
+                        } label: {
+                            Image(systemName: "dot.radiowaves.up.forward")
+                                .foregroundColor(.primary)
+                        }
                     }
                 }
             }
@@ -42,6 +50,9 @@ struct PlaylistGeneratorView: View {
                         appleMusicImporter: viewModel.appleMusicImporter
                     )
                 )
+            }
+            .sheet(isPresented: $viewModel.showServiceStatus) {
+                ServiceStatusView()
             }
             .alert(isPresented: $viewModel.showingAlert, content: alert)
             .navigationTitle("Echo") // TODO: Remember to call gpt-vision "Vision"

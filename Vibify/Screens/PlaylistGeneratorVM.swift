@@ -19,6 +19,7 @@ final class PlaylistGeneratorVM {
     var isGeneratingRandomPlaylist: Bool = false
     var isGeneratingImage: Bool = false
     var showHistory: Bool = false
+    var showServiceStatus: Bool = false
     var progress: Double = 0.0
     var isAuthorizedForAppleMusic: Bool = false
     var showingAlert: Bool = false

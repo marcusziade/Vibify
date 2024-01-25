@@ -2,13 +2,13 @@ import Foundation
 import os.log
 
 protocol NetworkService {
-    func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T
+    func request<T: Codable>(_ endpoint: Endpoint) async throws -> T
 }
 
 class URLSessionNetworkService: NetworkService {
     private let logger = Logger(subsystem: "com.yourapp.networkservice", category: "NetworkService")
     
-    func request<T>(_ endpoint: Endpoint) async throws -> T where T: Decodable {
+    func request<T>(_ endpoint: Endpoint) async throws -> T where T: Codable {
         guard let urlRequest = endpoint.urlRequest else {
             logger.error("Invalid Request: Endpoint URL is nil.")
             throw PlaylistGeneratorError.invalidRequest
