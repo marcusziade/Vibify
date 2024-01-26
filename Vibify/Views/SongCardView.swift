@@ -39,10 +39,13 @@ struct SongCardView: View {
                     UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
                     togglePlayback(song)
                 } label: {
-                    Image(systemName: isPlaying ? "pause.circle" : "play.circle")
-                        .resizable()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(musicService.color)
+                    VStack(spacing: 8) {
+                        Image(systemName: isPlaying ? "pause.circle" : "play.circle")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(musicService.color)
+                            .contentTransition(.symbolEffect(.replace))
+                    }
                 }
             }
             
@@ -66,16 +69,8 @@ struct SongCardView: View {
 }
 
 #Preview {
-    SongCardView(song: DBSongMetadata(
-        id: UUID().uuidString,
-        title: "Song Title",
-        artist: "Song Artist",
-        album: "Song Album",
-        artworkURL: URL(string: "https://example.com/artwork.jpg"),
-        releaseDate: Date(),
-        genreNames: ["Pop", "Dance"],
-        isExplicit: false,
-        appleMusicID: "1234567890",
-        previewURL: nil
-    ), togglePlayback: {_ in }, isPlaying: false)
+    VStack {
+        SongCardView(song: DBSongMetadata.mockSong, togglePlayback: {_ in }, isPlaying: false)
+        SongCardView(song: DBSongMetadata.mockSong, togglePlayback: {_ in }, isPlaying: true)
+    }
 }
