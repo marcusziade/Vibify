@@ -2,6 +2,11 @@ import Foundation
 import MusicKit
 import os.log
 
+protocol PlaylistCriteria {
+    /// The prompt to be used for the OpenAI request
+    func toPrompt() -> String
+}
+
 enum PlaylistGeneratorError: Error {
     case urlSessionError(Error)
     case dataDecodingError(Error)
@@ -27,7 +32,7 @@ final class PlaylistGenerator {
     }
     
     func fetchPlaylistSuggestion(
-        criteria: SongSearchCriteria,
+        criteria: PlaylistCriteria,
         progressHandler: ((Int) -> Void)? = nil
     ) async throws -> [DBSongMetadata] {
         logger.info("Starting fetchPlaylistSuggestion with criteria: \(criteria.toPrompt())")
@@ -78,7 +83,7 @@ final class PlaylistGenerator {
 
 extension PlaylistGenerator {
     
-    private func buildOpenAIPrompt(with criteria: SongSearchCriteria) -> String {
+    private func buildOpenAIPrompt(with criteria: PlaylistCriteria) -> String {
         let defaultInstructions = "Generate a playlist and number the result based on the following criteria. Only list out the songs. Don't explain anything:"
         let criteriaPrompt = criteria.toPrompt()
         let combinedPrompt = "\(defaultInstructions)\n\n\(criteriaPrompt)"

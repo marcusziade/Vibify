@@ -81,7 +81,7 @@ final class PlaylistGeneratorVM {
         
         do {
             playlistSuggestion = try await playlistGenerator.fetchPlaylistSuggestion(
-                criteria: searchCriteria
+                criteria: textPrompt.isEmpty ? searchCriteria : textPrompt
             ) { [unowned self] newProgress in
                 progress = Double(newProgress) / 100.0
             }

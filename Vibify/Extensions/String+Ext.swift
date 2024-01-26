@@ -13,3 +13,10 @@ extension String {
         )
     }
 }
+
+extension String: PlaylistCriteria {
+    
+    func toPrompt() -> String {
+        self
+    }
+}

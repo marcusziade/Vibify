@@ -8,8 +8,18 @@ struct PlaylistGeneratorView: View {
     var body: some View {
         NavigationView {
             ZStack(alignment: .top) {
-                mainContentView
-                    .disabled(viewModel.isLoading)
+                ScrollView {
+                    VStack(spacing: 16) {
+                        searchView
+                        getSuggestionButton.padding(.top, 32)
+                        songCardListView
+                        addToAppleMusicButton
+                        addToSpotifyButton
+                        sharePlaylistButton
+                        surpriseMeButton
+                    }
+                }
+                .disabled(viewModel.isLoading)
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -61,20 +71,6 @@ struct PlaylistGeneratorView: View {
 }
 
 private extension PlaylistGeneratorView {
-    
-    var mainContentView: some View {
-        ScrollView {
-            VStack(spacing: 16) {
-                searchView
-                getSuggestionButton.padding(.top, 32)
-                songCardListView
-                addToAppleMusicButton
-                addToSpotifyButton
-                sharePlaylistButton
-                surpriseMeButton
-            }
-        }
-    }
     
     var searchView: some View {
         Group {

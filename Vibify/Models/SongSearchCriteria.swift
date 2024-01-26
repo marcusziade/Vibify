@@ -1,6 +1,6 @@
 import Foundation
 
-struct SongSearchCriteria {
+struct SongSearchCriteria: PlaylistCriteria {
     var genreProportions: [String: Double] = [:]
     var mood: String = ""
     var activity: String = ""
@@ -61,3 +61,4 @@ struct SongSearchCriteria {
         return promptComponents.joined(separator: "\n")
     }
 }
+
