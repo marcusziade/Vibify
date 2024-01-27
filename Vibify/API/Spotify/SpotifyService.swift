@@ -1,46 +1,90 @@
 import Foundation
+import SpotifyWebAPI
+import Observation
 
-final class SpotifyManager {
-    private let clientId: String
-    private let clientSecret: String
-    private var accessToken: String?
+/// This service manages:
+/// - Spotify API authentication
+/// - Spotify API requests
+/// - Spotify API responses
+/// - Spotify API errors
+@Observable final class SpotifyService {
+    /// The Spotify API access token.
+     var accessToken: String?
+    /// The Spotify API refresh token.
+     var refreshToken: String?
+    /// The Spotify API access token expiration date.
+     var accessTokenExpirationDate: Date?
+    /// The Spotify API access token is expired.
+     var isAccessTokenExpired = true
+    /// The Spotify API access token is refreshing.
+     var isRefreshingAccessToken = false
+    /// The Spotify API access token is refreshing.
+     var isRefreshingRefreshToken = false
+    /// The Spotify API access token is refreshing.
+     var isRefreshingTokens = false
+    /// The Spotify API access token is refreshing.
+     var isAuthorized = false
     
-    init(clientId: String, clientSecret: String) {
-        self.clientId = clientId
-        self.clientSecret = clientSecret
+    /// Authorizes the Spotify API.
+    func authorize(completion: @escaping (URL) -> Void) {
+        let url = URL(string: "https://accounts.spotify.com/authorize")!
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+        components.queryItems = [
+            URLQueryItem(name: "client_id", value: clientID),
+            URLQueryItem(name: "response_type", value: "code"),
+            URLQueryItem(name: "redirect_uri", value: redirectURI),
+            URLQueryItem(name: "scope", value: scopes.joined(separator: " "))
+        ]
+        completion(components.url!)
     }
     
-    func authenticate(completion: @escaping (Bool) -> Void) {
+    func exchangeCodeForToken(code: String) async throws {
         let url = URL(string: "https://accounts.spotify.com/api/token")!
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        let body = "grant_type=client_credentials".data(using: .utf8)!
-        request.httpBody = body
+        request.httpBody = [
+            "grant_type": "authorization_code",
+            "code": code,
+            "redirect_uri": redirectURI,
+            "client_id": clientID,
+            "client_secret": clientSecret
+        ].percentEncoded()
+//        request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         
-        let authValue = "\(clientId):\(clientSecret)".data(using: .utf8)!.base64EncodedString()
-        request.addValue("Basic \(authValue)", forHTTPHeaderField: "Authorization")
-        
-        let task = URLSession.shared.dataTask(with: request) { [unowned self] data, response, error in
-            guard let data = data, error == nil else {
-                completion(false)
-                return
-            }
-            
-            if
-                let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                let token = json["access_token"] as? String
-            {
-                accessToken = token
-                completion(true)
+        let (data, response) = try await URLSession.shared.data(for: request)
+        if let httpResponse = response as? HTTPURLResponse {
+            if httpResponse.statusCode == 200 {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+                accessToken = json["access_token"] as? String
+                refreshToken = json["refresh_token"] as? String
+                accessTokenExpirationDate = Date(timeIntervalSinceNow: json["expires_in"] as! TimeInterval)
+                isAccessTokenExpired = false
+                isAuthorized = true
             } else {
-                completion(false)
+                throw NSError(domain: "SpotifyService", code: httpResponse.statusCode, userInfo: nil)
             }
         }
-        task.resume()
     }
     
-    func getAccessToken() -> String? {
-        return accessToken
+    // MARK: Private
+    
+    /// The Spotify API client ID.
+    private var clientID: String? {
+        ProcessInfo.processInfo.environment["SPOTIFY_CLIENT_ID"]
     }
+    
+    /// The Spotify API client secret.
+    private let clientSecret = ""
+    
+    /// The Spotify API redirect URI.
+    private let redirectURI = "vibify://spotify-login-callback"
+    
+    /// The Spotify API scopes.
+    private let scopes = [
+        "user-read-private",
+        "user-read-email",
+        "playlist-modify-public",
+        "playlist-modify-private"
+    ]
 }

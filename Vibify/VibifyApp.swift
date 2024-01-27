@@ -3,9 +3,24 @@ import SwiftUI
 @main
 struct VibifyApp: App {
     
+    @State private var spotifyService = SpotifyService()
+    
     var body: some Scene {
         WindowGroup {
-            PlaylistGeneratorView(viewModel: initialize())
+            SpotifyAuthView()
+                .environment(spotifyService)
+                .onOpenURL { url in
+                    if url.scheme == "com.marcusz.vibify" && url.host == "spotify-login-callback" {
+                        if let code = url.queryItemValue(forKey: "code") {
+                            Task {
+                                try await spotifyService.exchangeCodeForToken(code: code)
+                            }
+                        } else if let error = url.queryItemValue(forKey: "error") {
+                            print("Error during authentication: \(error)")
+                        }
+                    }
+                }
+            //            PlaylistGeneratorView(viewModel: initialize())
         }
     }
     
