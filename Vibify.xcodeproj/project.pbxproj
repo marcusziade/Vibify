@@ -105,6 +105,7 @@
 		5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfSongsCounterView.swift; sourceTree = "<group>"; };
 		5A7C48852B5DBE1D0002A61E /* dalle-sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dalle-sample.png"; sourceTree = "<group>"; };
 		5A7C66492B66BC0400B43A32 /* SpotifyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyService.swift; sourceTree = "<group>"; };
+		5A7C664E2B66C65500B43A32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicImporter.swift; sourceTree = "<group>"; };
 		5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		5AA3AC702B5CB09400B3BAC7 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
@@ -226,6 +227,7 @@
 		5A1CD9742B3D1CA200AF0192 /* Vibify */ = {
 			isa = PBXGroup;
 			children = (
+				5A7C664E2B66C65500B43A32 /* Info.plist */,
 				5A1CD9752B3D1CA200AF0192 /* VibifyApp.swift */,
 				5A0047622B60B57A00FFD0A6 /* DatabaseManaging.swift */,
 				5AC0B7D72B4506EA00971FF9 /* DatabaseManager.swift */,
@@ -584,6 +586,7 @@
 				DEVELOPMENT_TEAM = P4DQK6SRKR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Vibify/Info.plist;
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "We need access to your Apple Music account to add new playlists";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -614,6 +617,7 @@
 				DEVELOPMENT_TEAM = P4DQK6SRKR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Vibify/Info.plist;
 				INFOPLIST_KEY_NSAppleMusicUsageDescription = "We need access to your Apple Music account to add new playlists";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

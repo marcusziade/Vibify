@@ -2,6 +2,7 @@ import Combine
 import Foundation
 import KeychainAccess
 import SpotifyWebAPI
+import SwiftUI
 
 @Observable final class SpotifyService {
     
@@ -73,23 +74,41 @@ import SpotifyWebAPI
         }
     }()
     
+    var authorizationURL: URL {
+        let url = api.authorizationManager.makeAuthorizationURL(
+            redirectURI: loginCallbackURL,
+            showDialog: true,
+            state: authorizationState,
+            scopes: [
+                .userReadPlaybackState,
+                .userModifyPlaybackState,
+                .playlistModifyPrivate,
+                .playlistModifyPublic,
+                .userLibraryRead,
+                .userLibraryModify,
+                .userReadRecentlyPlayed
+            ]
+        )!
+        
+        return url
+    }
+
+    
     func authorizationManagerDidChange() {
         
-        //        withAnimation(LoginView.animation) {
-        //            isAuthorized = api.authorizationManager.isAuthorized()
-        //        }
+        withAnimation() {
+            isAuthorized = api.authorizationManager.isAuthorized()
+        }
         
         debugPrint("Spotify.authorizationManagerDidChange: isAuthorized:", isAuthorized)
         
         self.retrieveCurrentUser()
         
         do {
-            // Encode the authorization information to data.
             let authManagerData = try JSONEncoder().encode(
                 api.authorizationManager
             )
             
-            // Save the data to the keychain.
             keychain[data: authorizationManagerKey] = authManagerData
             print("did save authorization manager to keychain")
             
@@ -105,9 +124,9 @@ import SpotifyWebAPI
     /// Removes `api.authorizationManager` from the keychain and sets `currentUser` to `nil`. This method is called every time `api.authorizationManager.deauthorize` is called.
     func authorizationManagerDidDeauthorize() {
         
-        //        withAnimation(LoginView.animation) {
-        //            self.isAuthorized = false
-        //        }
+        withAnimation() {
+            isAuthorized = false
+        }
         
         currentUser = nil
         

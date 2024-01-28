@@ -2,6 +2,9 @@ import CachedAsyncImage
 import SwiftUI
 
 struct PlaylistGeneratorView: View {
+    
+    @Environment(SpotifyService.self) var spotifyService
+    
     @Bindable var viewModel: PlaylistGeneratorVM
     @Bindable private var advancedSearchVM = AdvancedSearchCriteriaVM()
     
@@ -172,7 +175,7 @@ private extension PlaylistGeneratorView {
     
     var addToSpotifyButton: some View {
         Group {
-            if !viewModel.playlistSuggestion.isEmpty { // && viewModel.isAuthorizedForSpotify {
+            if !viewModel.playlistSuggestion.isEmpty && spotifyService.isAuthorized {
                 AsyncButton(
                     title: "Add to Spotify",
                     icon: "music.note.list",
@@ -181,6 +184,17 @@ private extension PlaylistGeneratorView {
                     colors: [.green, darkGreen],
                     progress: $viewModel.progress
                 )
+            } else if !viewModel.playlistSuggestion.isEmpty && !spotifyService.isAuthorized {
+                Link(destination: spotifyService.authorizationURL, label: {
+                    Text("Connect Spotify")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.green)
+                        .cornerRadius(8)
+                        .shadow(color: .secondary, radius: 8)
+                        .padding()
+                })
             }
         }
     }
