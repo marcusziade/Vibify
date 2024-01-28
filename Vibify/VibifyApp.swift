@@ -1,11 +1,20 @@
+import SpotifyWebAPI
 import SwiftUI
 
 @main
 struct VibifyApp: App {
     
+    @State private var spotify = SpotifyService()
+    
+    init() {
+        SpotifyAPILogHandler.bootstrap()
+    }
+    
     var body: some Scene {
         WindowGroup {
+#warning("Replace this with a root view.")
             PlaylistGeneratorView(viewModel: initialize())
+                .environment(spotify)
         }
     }
     
