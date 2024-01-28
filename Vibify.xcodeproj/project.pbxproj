@@ -47,6 +47,8 @@
 		5A7747AD2B4F764A00B26A2D /* NumberOfSongsCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */; };
 		5A7C48862B5DBE1D0002A61E /* dalle-sample.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A7C48852B5DBE1D0002A61E /* dalle-sample.png */; };
 		5A7C66472B66BBA400B43A32 /* SpotifyAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 5A7C66462B66BBA400B43A32 /* SpotifyAPI */; };
+		5A7C664A2B66BC0400B43A32 /* SpotifyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7C66492B66BC0400B43A32 /* SpotifyService.swift */; };
+		5A7C664D2B66C06100B43A32 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 5A7C664C2B66C06100B43A32 /* KeychainAccess */; };
 		5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */; };
 		5A8C28DD2B53116600BD12E6 /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */; };
 		5AA3AC712B5CB09400B3BAC7 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3AC702B5CB09400B3BAC7 /* Array+Ext.swift */; };
@@ -102,6 +104,7 @@
 		5A7747AA2B4F761200B26A2D /* DecadePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecadePickerView.swift; sourceTree = "<group>"; };
 		5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfSongsCounterView.swift; sourceTree = "<group>"; };
 		5A7C48852B5DBE1D0002A61E /* dalle-sample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dalle-sample.png"; sourceTree = "<group>"; };
+		5A7C66492B66BC0400B43A32 /* SpotifyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyService.swift; sourceTree = "<group>"; };
 		5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicImporter.swift; sourceTree = "<group>"; };
 		5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		5AA3AC702B5CB09400B3BAC7 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
@@ -121,6 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A7C664D2B66C06100B43A32 /* KeychainAccess in Frameworks */,
 				5AC0B7D42B45065C00971FF9 /* GRDB in Frameworks */,
 				5A7C66472B66BBA400B43A32 /* SpotifyAPI in Frameworks */,
 				5A1CAB4E2B4B66570063B102 /* CachedAsyncImage in Frameworks */,
@@ -256,11 +260,20 @@
 			children = (
 				5A74305B2B5A093F000FB9BA /* Endpoint.swift */,
 				5A7430592B5A00AE000FB9BA /* URLSessionNetworkService.swift */,
+				5A7C66482B66BBF300B43A32 /* Spotify */,
 				5A0047642B61DE9800FFD0A6 /* ServiceStatus */,
 				5AA5E5D02B5C2B070048FE2F /* Dalle */,
 				5AA5E5CF2B5C2AFE0048FE2F /* GPT */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		5A7C66482B66BBF300B43A32 /* Spotify */ = {
+			isa = PBXGroup;
+			children = (
+				5A7C66492B66BC0400B43A32 /* SpotifyService.swift */,
+			);
+			path = Spotify;
 			sourceTree = "<group>";
 		};
 		5AA5E5CF2B5C2AFE0048FE2F /* GPT */ = {
@@ -304,6 +317,7 @@
 				5AC0B7D32B45065C00971FF9 /* GRDB */,
 				5A1CAB4D2B4B66570063B102 /* CachedAsyncImage */,
 				5A7C66462B66BBA400B43A32 /* SpotifyAPI */,
+				5A7C664C2B66C06100B43A32 /* KeychainAccess */,
 			);
 			productName = Vibify;
 			productReference = 5A1CD9722B3D1CA200AF0192 /* Vibify.app */;
@@ -337,6 +351,7 @@
 				5AC0B7D22B45065C00971FF9 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
 				5A1CAB4C2B4B66570063B102 /* XCRemoteSwiftPackageReference "CachedAsyncImage" */,
 				5A7C66452B66BBA300B43A32 /* XCRemoteSwiftPackageReference "SpotifyAPI" */,
+				5A7C664B2B66C06100B43A32 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = 5A1CD9732B3D1CA200AF0192 /* Products */;
 			projectDirPath = "";
@@ -432,6 +447,7 @@
 				5A74305E2B5A0989000FB9BA /* DalleEndpoint.swift in Sources */,
 				5A4EC6712B4CF1FF00894E13 /* SharePlaylistButton.swift in Sources */,
 				5A4BFB2B2B4096EF00988D0E /* Date+Ext.swift in Sources */,
+				5A7C664A2B66BC0400B43A32 /* SpotifyService.swift in Sources */,
 				5AB8FC3B2B4332EE008AC7C4 /* SongSearchCriteria.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -658,6 +674,14 @@
 				minimumVersion = 2.2.4;
 			};
 		};
+		5A7C664B2B66C06100B43A32 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		5AC0B7D22B45065C00971FF9 /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/groue/GRDB.swift.git";
@@ -678,6 +702,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5A7C66452B66BBA300B43A32 /* XCRemoteSwiftPackageReference "SpotifyAPI" */;
 			productName = SpotifyAPI;
+		};
+		5A7C664C2B66C06100B43A32 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A7C664B2B66C06100B43A32 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 		5AC0B7D32B45065C00971FF9 /* GRDB */ = {
 			isa = XCSwiftPackageProductDependency;
