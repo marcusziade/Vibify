@@ -46,6 +46,7 @@
 		5A7747AB2B4F761200B26A2D /* DecadePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7747AA2B4F761200B26A2D /* DecadePickerView.swift */; };
 		5A7747AD2B4F764A00B26A2D /* NumberOfSongsCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7747AC2B4F764A00B26A2D /* NumberOfSongsCounterView.swift */; };
 		5A7C48862B5DBE1D0002A61E /* dalle-sample.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A7C48852B5DBE1D0002A61E /* dalle-sample.png */; };
+		5A7C66472B66BBA400B43A32 /* SpotifyAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 5A7C66462B66BBA400B43A32 /* SpotifyAPI */; };
 		5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */; };
 		5A8C28DD2B53116600BD12E6 /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */; };
 		5AA3AC712B5CB09400B3BAC7 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3AC702B5CB09400B3BAC7 /* Array+Ext.swift */; };
@@ -121,6 +122,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AC0B7D42B45065C00971FF9 /* GRDB in Frameworks */,
+				5A7C66472B66BBA400B43A32 /* SpotifyAPI in Frameworks */,
 				5A1CAB4E2B4B66570063B102 /* CachedAsyncImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,6 +303,7 @@
 			packageProductDependencies = (
 				5AC0B7D32B45065C00971FF9 /* GRDB */,
 				5A1CAB4D2B4B66570063B102 /* CachedAsyncImage */,
+				5A7C66462B66BBA400B43A32 /* SpotifyAPI */,
 			);
 			productName = Vibify;
 			productReference = 5A1CD9722B3D1CA200AF0192 /* Vibify.app */;
@@ -333,6 +336,7 @@
 			packageReferences = (
 				5AC0B7D22B45065C00971FF9 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
 				5A1CAB4C2B4B66570063B102 /* XCRemoteSwiftPackageReference "CachedAsyncImage" */,
+				5A7C66452B66BBA300B43A32 /* XCRemoteSwiftPackageReference "SpotifyAPI" */,
 			);
 			productRefGroup = 5A1CD9732B3D1CA200AF0192 /* Products */;
 			projectDirPath = "";
@@ -646,6 +650,14 @@
 				kind = branch;
 			};
 		};
+		5A7C66452B66BBA300B43A32 /* XCRemoteSwiftPackageReference "SpotifyAPI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Peter-Schorn/SpotifyAPI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.4;
+			};
+		};
 		5AC0B7D22B45065C00971FF9 /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/groue/GRDB.swift.git";
@@ -661,6 +673,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5A1CAB4C2B4B66570063B102 /* XCRemoteSwiftPackageReference "CachedAsyncImage" */;
 			productName = CachedAsyncImage;
+		};
+		5A7C66462B66BBA400B43A32 /* SpotifyAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A7C66452B66BBA300B43A32 /* XCRemoteSwiftPackageReference "SpotifyAPI" */;
+			productName = SpotifyAPI;
 		};
 		5AC0B7D32B45065C00971FF9 /* GRDB */ = {
 			isa = XCSwiftPackageProductDependency;
