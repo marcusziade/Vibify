@@ -36,6 +36,25 @@ import SwiftUI
         )
     )
     
+    var authorizationURL: URL {
+        let url = api.authorizationManager.makeAuthorizationURL(
+            redirectURI: loginCallbackURL,
+            showDialog: true,
+            state: authorizationState,
+            scopes: [
+                .userReadPlaybackState,
+                .userModifyPlaybackState,
+                .playlistModifyPrivate,
+                .playlistModifyPublic,
+                .userLibraryRead,
+                .userLibraryModify,
+                .userReadRecentlyPlayed
+            ]
+        )!
+        
+        return url
+    }
+    
     init() {
         api.apiRequestLogger.logLevel = .trace
         
@@ -50,8 +69,6 @@ import SwiftUI
             .store(in: &cancellables)
         
         retrieveTokensFromKeychainIfNeeded()
-        
-        
     }
     
     // MARK: Private
@@ -74,28 +91,7 @@ import SwiftUI
         }
     }()
     
-    var authorizationURL: URL {
-        let url = api.authorizationManager.makeAuthorizationURL(
-            redirectURI: loginCallbackURL,
-            showDialog: true,
-            state: authorizationState,
-            scopes: [
-                .userReadPlaybackState,
-                .userModifyPlaybackState,
-                .playlistModifyPrivate,
-                .playlistModifyPublic,
-                .userLibraryRead,
-                .userLibraryModify,
-                .userReadRecentlyPlayed
-            ]
-        )!
-        
-        return url
-    }
-
-    
     func authorizationManagerDidChange() {
-        
         withAnimation() {
             isAuthorized = api.authorizationManager.isAuthorized()
         }
@@ -118,12 +114,10 @@ import SwiftUI
                 "in keychain:\n\(error)"
             )
         }
-        
     }
     
     /// Removes `api.authorizationManager` from the keychain and sets `currentUser` to `nil`. This method is called every time `api.authorizationManager.deauthorize` is called.
     func authorizationManagerDidDeauthorize() {
-        
         withAnimation() {
             isAuthorized = false
         }
