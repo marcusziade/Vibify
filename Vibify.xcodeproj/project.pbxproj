@@ -51,6 +51,7 @@
 		5A7C664D2B66C06100B43A32 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 5A7C664C2B66C06100B43A32 /* KeychainAccess */; };
 		5A7C66502B68824A00B43A32 /* Color+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7C664F2B68824A00B43A32 /* Color+Ext.swift */; };
 		5A7C66522B68887900B43A32 /* Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7C66512B68887900B43A32 /* Modifiers.swift */; };
+		5A7C66542B6889D000B43A32 /* AlertItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7C66532B6889D000B43A32 /* AlertItem.swift */; };
 		5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */; };
 		5A8C28DD2B53116600BD12E6 /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */; };
 		5AA3AC712B5CB09400B3BAC7 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3AC702B5CB09400B3BAC7 /* Array+Ext.swift */; };
@@ -110,6 +111,7 @@
 		5A7C664E2B66C65500B43A32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5A7C664F2B68824A00B43A32 /* Color+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Ext.swift"; sourceTree = "<group>"; };
 		5A7C66512B68887900B43A32 /* Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifiers.swift; sourceTree = "<group>"; };
+		5A7C66532B6889D000B43A32 /* AlertItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertItem.swift; sourceTree = "<group>"; };
 		5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicImporter.swift; sourceTree = "<group>"; };
 		5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncButton.swift; sourceTree = "<group>"; };
 		5AA3AC702B5CB09400B3BAC7 /* Array+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ext.swift"; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				5A0158022B3F4BC800048E79 /* Buttonstyles.swift */,
 				5A00475E2B60B2FE00FFD0A6 /* UniqueURL.swift */,
 				5A7C66512B68887900B43A32 /* Modifiers.swift */,
+				5A7C66532B6889D000B43A32 /* AlertItem.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 				5A8C28DD2B53116600BD12E6 /* AsyncButton.swift in Sources */,
 				5A7C66502B68824A00B43A32 /* Color+Ext.swift in Sources */,
 				5A74305E2B5A0989000FB9BA /* DalleEndpoint.swift in Sources */,
+				5A7C66542B6889D000B43A32 /* AlertItem.swift in Sources */,
 				5A4EC6712B4CF1FF00894E13 /* SharePlaylistButton.swift in Sources */,
 				5A4BFB2B2B4096EF00988D0E /* Date+Ext.swift in Sources */,
 				5A7C664A2B66BC0400B43A32 /* SpotifyService.swift in Sources */,
