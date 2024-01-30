@@ -179,28 +179,18 @@ private extension PlaylistGeneratorView {
                 AsyncButton(
                     title: "Add to Spotify",
                     icon: "music.note.list",
-                    action: {},// viewModel.createAndAddPlaylistToSpotify,
-                    isLoading: $viewModel.isAddingToAppleMusic,
-                    colors: [.green, darkGreen],
+                    action: {},//viewModel.createAndAddPlaylistToSpotify,
+                    isLoading: .constant(false),//$viewModel.isAddingToSpotify,
+                    colors: [.green, .darkGreen],
                     progress: $viewModel.progress
                 )
             } else if !viewModel.playlistSuggestion.isEmpty && !spotifyService.isAuthorized {
                 Link(destination: spotifyService.authorizationURL, label: {
                     Text("Connect Spotify")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.green)
-                        .cornerRadius(8)
-                        .shadow(color: .secondary, radius: 8)
-                        .padding()
+                        .modifier(AsyncButtonModifier(colors: [.green, .darkGreen]))
                 })
             }
         }
-    }
-    
-    var darkGreen: Color {
-        Color(red: 0.0, green: 0.6, blue: 0.0)
     }
     
     var sharePlaylistButton: some View {
