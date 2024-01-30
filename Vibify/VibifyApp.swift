@@ -41,7 +41,6 @@ private extension VibifyApp {
     }
     
     /// Handle the URL that Spotify redirects to after the user Either authorizes or denies authorization for the application.
-    /// This method is called by the `onOpenURL(perform:)` view modifier directly above.
     /// - Warning: The simulator crashes with this.
     /// - Note: Arc Browse browser (released 2024) doesn't support callback URLs.
     func handleURL(_ url: URL) {
