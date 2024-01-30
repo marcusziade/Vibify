@@ -8,6 +8,7 @@ struct AsyncButton: View {
     @Binding var isLoading: Bool
     let colors: [Color]
     @Binding var progress: Double
+    var showLoadingBar: Bool = true
     
     var body: some View {
         Button {
@@ -18,25 +19,35 @@ struct AsyncButton: View {
             }
         } label: {
             if isLoading {
-                CustomProgressView(progress: Binding.constant(progress), title: title)
-                    .frame(maxWidth: .infinity)
-                    .background(LinearGradient(colors: colors, startPoint: .bottom, endPoint: .top))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .padding(.horizontal)
+                CustomProgressView(
+                    progress: $progress,
+                    title: title,
+                    showLoadingBar: showLoadingBar
+                )
             } else {
                 Label(title, systemImage: icon)
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(LinearGradient(colors: colors, startPoint: .bottom, endPoint: .top))
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .padding(.horizontal)
             }
         }
+        .buttonStyle(AsyncButtonStyle(colors: colors))
         .disabled(isLoading)
     }
 }
+
+struct AsyncButtonStyle: ButtonStyle {
+    let colors: [Color]
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(maxWidth: .infinity)
+            .font(.headline)
+            .foregroundColor(.white)
+            .padding()
+            .background(LinearGradient(colors: colors, startPoint: .bottom, endPoint: .top))
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .padding(.horizontal)
+    }
+}
+
 #Preview {
     VStack {
         AsyncButton(
@@ -44,7 +55,15 @@ struct AsyncButton: View {
             icon: "person",
             action: { },
             isLoading: .constant(false),
-            colors: [.purple, .pink], 
+            colors: [.purple, .pink],
+            progress: .constant(.zero)
+        )
+        AsyncButton(
+            title: "Add to Spotify",
+            icon: "music.note",
+            action: { },
+            isLoading: .constant(false),
+            colors: [.green, .darkGreen],
             progress: .constant(.zero)
         )
         AsyncButton(
@@ -52,7 +71,7 @@ struct AsyncButton: View {
             icon: "person",
             action: { },
             isLoading: .constant(false),
-            colors: [.orange, .red], 
+            colors: [.orange, .red],
             progress: .constant(.zero)
         )
         AsyncButton(
@@ -60,7 +79,7 @@ struct AsyncButton: View {
             icon: "person",
             action: { },
             isLoading: .constant(false),
-            colors: [.blue, .green], 
+            colors: [.blue, .green],
             progress: .constant(.zero)
         )
         
@@ -69,23 +88,23 @@ struct AsyncButton: View {
             icon: "person",
             action: { },
             isLoading: .constant(true),
-            colors: [.purple, .pink], 
+            colors: [.purple, .pink],
             progress: .constant(0.5)
         )
         AsyncButton(
-            title: "Share",
-            icon: "person",
+            title: "Add to Spotify",
+            icon: "music.note",
             action: { },
             isLoading: .constant(true),
-            colors: [.orange, .red], 
-            progress: .constant(0.3)
+            colors: [.green, .darkGreen],
+            progress: .constant(0.7)
         )
         AsyncButton(
             title: "Surprise Me",
             icon: "person",
             action: { },
             isLoading: .constant(true),
-            colors: [.blue, .green], 
+            colors: [.blue, .green],
             progress: .constant(0.8)
         )
         AsyncButton(
@@ -95,6 +114,15 @@ struct AsyncButton: View {
             isLoading: .constant(true),
             colors: [.purple, .pink],
             progress: .constant(1.0)
+        )
+        AsyncButton(
+            title: "Share",
+            icon: "person",
+            action: { },
+            isLoading: .constant(true),
+            colors: [.orange, .red],
+            progress: .constant(0.3),
+            showLoadingBar: false
         )
     }
 }
