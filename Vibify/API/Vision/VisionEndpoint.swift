@@ -10,11 +10,13 @@ struct VisionEndpoint: Endpoint {
     init(
         model: String,
         messages: [VisionRequest.Message],
-        apiKey: String
+        apiKey: String,
+        maxTokens: Int = 500
     ) {
         let bodyObject = VisionRequest(
             model: model,
-            messages: messages
+            messages: messages,
+            maxTokens: maxTokens
         )
         body = try? JSONEncoder().encode(bodyObject)
         headers = [
