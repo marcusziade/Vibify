@@ -21,7 +21,10 @@ struct VisionGeneratorPromptError: Error {
 
 final class VisionGenerator {
     private let networkService: NetworkService
-    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "Networking")
+    private let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: "Networking"
+    )
     
     init(networkService: NetworkService) {
         self.networkService = networkService
@@ -38,7 +41,18 @@ final class VisionGenerator {
         }
         
 #if targetEnvironment(simulator) && os(iOS)
-        return "Simulated response for image description."
+        return """
+1. "Holocene" by Bon Iver
+2. "Skinny Love" by Birdy
+3. "River" by Leon Bridges
+4. "The Night We Met" by Lord Huron
+5. "To Build a Home" by The Cinematic Orchestra
+6. "Georgia" by Vance Joy
+7. "The A Team" by Ed Sheeran
+8. "Into the Wild" by LP
+9. "Youth" by Daughter
+10. "Heartbeats" by José González
+"""
 #else
         logger.info("Sending vision request to GPT")
         
@@ -50,16 +64,15 @@ final class VisionGenerator {
         
         do {
             let response: VisionResponse = try await networkService.request(endpoint)
-            guard let description = response.choices.first?.message.content.first(where: { $0.type == "text" })?.text else {
+            guard let description = response.choices.first?.message.content else {
                 logger.error("Invalid response, missing image description.")
-                throw GPTVisionGeneratorError.invalidResponse
+                throw VisionGeneratorError.invalidResponse
             }
+            debugPrint(description)
             return description
-        } catch let error as? GPTVisionGeneratorPromptError {
-            // Handle custom error
         } catch {
-            logger.error("GPT Vision Generation error: \(error.localizedDescription)")
-            throw error
+            logger.error("Unknown Error: \(error.localizedDescription)")
+            throw PlaylistGeneratorError.unknownError
         }
 #endif
     }

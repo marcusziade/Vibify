@@ -15,12 +15,13 @@ struct VibifyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            PlaylistGeneratorView(viewModel: initialize())
-                .environment(spotify)
-                .alert(item: $alert) { alert in
-                    Alert(title: alert.title, message: alert.message)
-                }
-                .onOpenURL(perform: handleURL)
+            VisionGeneratorView()
+//            PlaylistGeneratorView(viewModel: initialize())
+//                .environment(spotify)
+//                .alert(item: $alert) { alert in
+//                    Alert(title: alert.title, message: alert.message)
+//                }
+//                .onOpenURL(perform: handleURL)
         }
     }
 }
