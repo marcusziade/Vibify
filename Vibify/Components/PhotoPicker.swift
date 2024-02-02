@@ -32,10 +32,12 @@ struct PhotoPicker: UIViewControllerRepresentable {
             
             guard let provider = results.first?.itemProvider else { return }
             if provider.canLoadObject(ofClass: UIImage.self) {
-                provider.loadObject(ofClass: UIImage.self) { image, _ in
-                    DispatchQueue.main.async {
+                provider.loadObject(ofClass: UIImage.self) { [unowned self] image, _ in
+                    DispatchQueue.main.async { [self] in
                         if let uiImage = image as? UIImage {
-                            self.parent.selectedImageData = uiImage.jpegData(compressionQuality: 1.0)
+                            withAnimation {
+                                parent.selectedImageData = uiImage.jpegData(compressionQuality: 1.0)
+                            }
                         }
                     }
                 }

@@ -15,13 +15,13 @@ struct VibifyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            VisionGeneratorView()
-//            PlaylistGeneratorView(viewModel: initialize())
-//                .environment(spotify)
-//                .alert(item: $alert) { alert in
-//                    Alert(title: alert.title, message: alert.message)
-//                }
-//                .onOpenURL(perform: handleURL)
+#warning("Replace this with a root view.")
+            PlaylistGeneratorView(viewModel: initialize())
+                .environment(spotify)
+                .alert(item: $alert) { alert in
+                    Alert(title: alert.title, message: alert.message)
+                }
+                .onOpenURL(perform: handleURL)
         }
     }
 }

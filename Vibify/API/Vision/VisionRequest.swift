@@ -11,13 +11,13 @@ struct VisionRequest: Codable {
     }
     
     struct Message: Codable {
-        let role: String
+        var role: String = "user"
         let content: [Content]
         
         struct Content: Codable {
-            let type: String
-            let text: String?
-            let imageURL: URL?
+            let type: String = "text"
+            let text: String? = Prompts.visionPrompt
+            let imageURL: URL? = nil
             let base64Image: String?
             let detail: String? = "low"
             

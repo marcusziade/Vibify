@@ -28,6 +28,8 @@ final class PlaylistGeneratorVM {
     var selectedTheme: String = "Default"
     var isConfiguringSearch: Bool = true
     var showAdvancedSearch: Bool = false
+    var selectedVisionImageData: Data?
+    var isVisionPickerPresented = false
     
     var selectedGenres: Set<String> = []
     
@@ -175,7 +177,38 @@ final class PlaylistGeneratorVM {
         }
         isGeneratingImage = false
     }
-
+    
+    func fetchPlaylistSuggestionBasedOnImage() async {
+        isFetchingPlaylist = true
+        progress = .zero
+        
+        guard let imageData = selectedVisionImageData else { return }
+        let base64String = imageData.toBase64()
+        let messages = [
+            VisionRequest.Message(
+                content: [
+                    VisionRequest.Message.Content(
+                        base64Image: base64String
+                    )
+                ]
+            )
+        ]
+        
+        do {
+            playlistSuggestion = try await playlistGenerator.fetchPlaylistBasedOnImage(
+                imageMessages: messages
+            ) { [unowned self] newProgress in
+                progress = Double(newProgress) / 100.0
+            }
+        } catch {
+            await MainActor.run {
+                presentAlert(with: "Failed to generate playlist from image: \(error.localizedDescription)")
+            }
+        }
+        
+        isFetchingPlaylist = false
+    }
+    
     @MainActor func requestAppleMusicAuthorization() async {
         isAuthorizedForAppleMusic = await appleMusicImporter.requestAppleMusicAccess()
     }
