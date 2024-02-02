@@ -23,16 +23,35 @@ struct PlaylistGeneratorView: View {
                     }
                 }
                 .disabled(viewModel.isLoading)
+                .scrollIndicators(.hidden)
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        viewModel.showAdvancedSearch.toggle()
-                        viewModel.isConfiguringSearch = true
-                    } label: {
-                        Image(systemName: "slider.horizontal.3")
-                            .foregroundColor(.primary)
+                    HStack {
+                        if viewModel.selectedVisionImageData != nil {
+                            Button {
+                                withAnimation {
+                                    viewModel.selectedVisionImageData = nil
+                                }
+                            } label: {
+                                Text("Reset")
+                            }
+                        }
+                        Button {
+                            viewModel.isVisionPickerPresented.toggle()
+                        } label: {
+                            Image(systemName: "cpu")
+                        }
+                        if viewModel.selectedVisionImageData == nil {
+                            Button {
+                                viewModel.showAdvancedSearch.toggle()
+                                viewModel.isConfiguringSearch = true
+                            } label: {
+                                Image(systemName: "slider.horizontal.3")
+                            }
+                        }
                     }
+                    .foregroundColor(.primary)
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     HStack {
@@ -67,8 +86,11 @@ struct PlaylistGeneratorView: View {
             .sheet(isPresented: $viewModel.showServiceStatus) {
                 ServiceStatusView()
             }
+            .sheet(isPresented: $viewModel.isVisionPickerPresented) {
+                PhotoPicker(selectedImageData: $viewModel.selectedVisionImageData)
+            }
             .alert(isPresented: $viewModel.showingAlert, content: alert)
-            .navigationTitle("Echo") // TODO: Remember to call gpt-vision "Vision"
+            .navigationTitle(viewModel.selectedVisionImageData == nil ? "Echo" : "Vision")
         }
     }
 }
@@ -78,34 +100,48 @@ private extension PlaylistGeneratorView {
     var searchView: some View {
         Group {
             if viewModel.isConfiguringSearch {
-                TextEditor(text: $viewModel.textPrompt)
-                    .frame(height: 100)
-                    .font(.body)
-                    .clipped()
-                    .cornerRadius(8)
-                    .shadow(color: .secondary, radius: 8)
-                    .padding()
-                
-                Text("What kind of playlist would you like to generate?")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .padding()
-                    .onTapGesture {
-                        hideKeyboard()
-                    }
-                
-                ForEach(viewModel.searchSuggestions, id: \.self) { suggestion in
-                    Button {
-                        viewModel.textPrompt = suggestion
-                    } label: {
-                        Text(suggestion)
-                            .font(.caption)
-                            .fontDesign(.rounded)
-                            .foregroundColor(.primary)
+                if
+                    let imageData = viewModel.selectedVisionImageData,
+                    let image = UIImage(data: imageData)
+                {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .padding(.vertical)
+                        .animation(.snappy, value: viewModel.selectedVisionImageData)
+                } else {
+                    Group {
+                        TextEditor(text: $viewModel.textPrompt)
+                            .frame(height: 100)
+                            .font(.body)
+                            .clipped()
+                            .cornerRadius(8)
+                            .shadow(color: .secondary, radius: 8)
+                            .padding()
                         
+                        Text("What kind of playlist would you like to generate?")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .padding()
+                            .onTapGesture {
+                                hideKeyboard()
+                            }
+                        
+                        ForEach(viewModel.searchSuggestions, id: \.self) { suggestion in
+                            Button {
+                                viewModel.textPrompt = suggestion
+                            } label: {
+                                Text(suggestion)
+                                    .font(.caption)
+                                    .fontDesign(.rounded)
+                                    .foregroundColor(.primary)
+                                
+                            }
+                        }
+                        .padding(.horizontal, 32)
                     }
+                    .animation(.snappy, value: viewModel.selectedVisionImageData)
                 }
-                .padding(.horizontal, 32)
             }
         }
     }
@@ -116,7 +152,9 @@ private extension PlaylistGeneratorView {
                 AsyncButton(
                     title: "Get Playlist Suggestion",
                     icon: "music.note.list",
-                    action: viewModel.fetchPlaylistSuggestion,
+                    action: viewModel.selectedVisionImageData == nil
+                    ? viewModel.fetchPlaylistSuggestion
+                    : viewModel.fetchPlaylistSuggestionBasedOnImage,
                     isLoading: $viewModel.isFetchingPlaylist,
                     colors: [.purple, .pink],
                     progress: $viewModel.progress

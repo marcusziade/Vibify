@@ -1,6 +1,7 @@
 import Foundation
 import MusicKit
 import os.log
+import SwiftUI
 
 final class DBSongMetadataParser {
     private let logger: Logger
@@ -28,7 +29,9 @@ final class DBSongMetadataParser {
                 DBSongMetadatas.append(DBSongMetadata)
             }
             let progress = (index + 1) * 100 / lines.count
-            progressHandler?(progress)
+            withAnimation {
+                progressHandler?(progress)
+            }
         }
         
         logger.info("Parsed song metadata successfully, count: \(DBSongMetadatas.count)")
