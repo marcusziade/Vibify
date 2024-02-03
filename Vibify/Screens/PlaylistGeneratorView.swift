@@ -28,15 +28,16 @@ struct PlaylistGeneratorView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {
-                        if viewModel.selectedVisionImageData != nil {
-                            Button {
-                                withAnimation {
-                                    viewModel.selectedVisionImageData = nil
-                                }
-                            } label: {
-                                Text("Reset")
+                        Button {
+                            withAnimation {
+                                viewModel.selectedVisionImageData = nil
+                                viewModel.playlistSuggestion = []
+                                viewModel.isConfiguringSearch = true
                             }
+                        } label: {
+                            Text("Reset")
                         }
+                        
                         Button {
                             viewModel.isVisionPickerPresented.toggle()
                         } label: {
@@ -48,6 +49,14 @@ struct PlaylistGeneratorView: View {
                                 viewModel.isConfiguringSearch = true
                             } label: {
                                 Image(systemName: "slider.horizontal.3")
+                            }
+                        } else {
+                            Button {
+                                withAnimation {
+                                    viewModel.selectedVisionImageData = nil
+                                }
+                            } label: {
+                                Image(systemName: "pencil")
                             }
                         }
                     }
@@ -99,49 +108,47 @@ private extension PlaylistGeneratorView {
     
     var searchView: some View {
         Group {
-            if viewModel.isConfiguringSearch {
-                if
-                    let imageData = viewModel.selectedVisionImageData,
-                    let image = UIImage(data: imageData)
-                {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFit()
-                        .padding(.vertical)
-                        .animation(.snappy, value: viewModel.selectedVisionImageData)
-                } else {
-                    Group {
-                        TextEditor(text: $viewModel.textPrompt)
-                            .frame(height: 100)
-                            .font(.body)
-                            .clipped()
-                            .cornerRadius(8)
-                            .shadow(color: .secondary, radius: 8)
-                            .padding()
-                        
-                        Text("What kind of playlist would you like to generate?")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                            .padding()
-                            .onTapGesture {
-                                hideKeyboard()
-                            }
-                        
-                        ForEach(viewModel.searchSuggestions, id: \.self) { suggestion in
-                            Button {
-                                viewModel.textPrompt = suggestion
-                            } label: {
-                                Text(suggestion)
-                                    .font(.caption)
-                                    .fontDesign(.rounded)
-                                    .foregroundColor(.primary)
-                                
-                            }
-                        }
-                        .padding(.horizontal, 32)
-                    }
+            if
+                let imageData = viewModel.selectedVisionImageData,
+                let image = UIImage(data: imageData)
+            {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                    .padding(.vertical)
                     .animation(.snappy, value: viewModel.selectedVisionImageData)
+            } else if viewModel.isConfiguringSearch {
+                Group {
+                    TextEditor(text: $viewModel.textPrompt)
+                        .frame(height: 100)
+                        .font(.body)
+                        .clipped()
+                        .cornerRadius(8)
+                        .shadow(color: .secondary, radius: 8)
+                        .padding()
+                    
+                    Text("What kind of playlist would you like to generate?")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .padding()
+                        .onTapGesture {
+                            hideKeyboard()
+                        }
+                    
+                    ForEach(viewModel.searchSuggestions, id: \.self) { suggestion in
+                        Button {
+                            viewModel.textPrompt = suggestion
+                        } label: {
+                            Text(suggestion)
+                                .font(.caption)
+                                .fontDesign(.rounded)
+                                .foregroundColor(.primary)
+                            
+                        }
+                    }
+                    .padding(.horizontal, 32)
                 }
+                .animation(.snappy, value: viewModel.selectedVisionImageData)
             }
         }
     }
