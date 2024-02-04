@@ -32,7 +32,11 @@ struct PhotoPicker: UIViewControllerRepresentable {
             
             guard let provider = results.first?.itemProvider else { return }
             if provider.canLoadObject(ofClass: UIImage.self) {
-                provider.loadObject(ofClass: UIImage.self) { [unowned self] image, _ in
+                provider.loadObject(ofClass: UIImage.self) { [unowned self] image, error in
+                    guard error == nil else {
+                        print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                        return
+                    }
                     DispatchQueue.main.async { [self] in
                         if let uiImage = image as? UIImage {
                             withAnimation {
