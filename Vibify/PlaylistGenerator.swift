@@ -123,8 +123,8 @@ extension PlaylistGenerator {
 }
 
 extension PlaylistGenerator {
-    // Method to generate a playlist based on an image.
-    // Assumes an image is processed to obtain a descriptive prompt for playlist generation.
+    /// Method to generate a playlist based on an image.
+    /// Assumes an image is processed to obtain a descriptive prompt for playlist generation.
     func fetchPlaylistBasedOnImage(
         imageMessages: [VisionRequest.Message],
         progressHandler: ((Int) -> Void)? = nil
