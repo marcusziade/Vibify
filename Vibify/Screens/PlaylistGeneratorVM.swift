@@ -74,6 +74,17 @@ final class PlaylistGeneratorVM {
         return currentlyPlayingSong?.title == song.title && isPlaying
     }
     
+    private func addPlaylistToDatabase(title: String, songs: [DBSongMetadata]) throws {
+        let playlist = DBPlaylist(
+            title: title,
+            playlistID: UUID().uuidString,
+            createdAt: Date.now,
+            songs: songs
+        )
+        try databaseManager.insert(playlist: playlist)
+        currentPlaylistID = playlist.id
+    }
+    
     func fetchPlaylistSuggestion() async {
         playlistSuggestion = []
         playlistArtworkURL = nil
@@ -91,14 +102,7 @@ final class PlaylistGeneratorVM {
             isConfiguringSearch = false
             
             let primaryGenre = searchCriteria.genreProportions.max(by: { $0.value < $1.value })?.key ?? "No Genre"
-            let playlist = DBPlaylist(
-                title: primaryGenre,
-                playlistID: UUID().uuidString,
-                createdAt: Date.now,
-                songs: playlistSuggestion
-            )
-            try databaseManager.insert(playlist: playlist)
-            currentPlaylistID = playlist.id
+            try addPlaylistToDatabase(title: primaryGenre, songs: playlistSuggestion)
         } catch let error as PlaylistGeneratorError {
             await MainActor.run {
                 switch error {
@@ -200,6 +204,7 @@ final class PlaylistGeneratorVM {
             ) { [unowned self] newProgress in
                 progress = Double(newProgress) / 100.0
             }
+            try addPlaylistToDatabase(title: "–", songs: playlistSuggestion)
         } catch {
             await MainActor.run {
                 presentAlert(with: "Failed to generate playlist from image: \(error.localizedDescription)")
