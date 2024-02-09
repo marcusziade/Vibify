@@ -204,6 +204,7 @@ final class PlaylistGeneratorVM {
             ) { [unowned self] newProgress in
                 progress = Double(newProgress) / 100.0
             }
+            debugPrint(playlistSuggestion.map(\.artworkURL))
             try addPlaylistToDatabase(title: "–", songs: playlistSuggestion)
         } catch {
             await MainActor.run {
