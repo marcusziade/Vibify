@@ -1,5 +1,6 @@
 import CachedAsyncImage
 import Foundation
+import UIKit
 import SwiftUI
 
 struct PlaylistRowView: View {
@@ -8,11 +9,14 @@ struct PlaylistRowView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             playlistTitleView
-            creationDateView
             totalPlaytimeView
+            creationDateView
             artworkGrid
-            coverImage
         }
+        .padding()
+        .background(Color.black.opacity(0.7))
+        .cornerRadius(8)
+        .padding(.horizontal)
     }
 }
 
@@ -30,8 +34,7 @@ private extension PlaylistRowView {
     
     var creationDateView: some View {
         Text("Created at \(playlist.createdAt.formatted(date: .abbreviated, time: .shortened))")
-            .font(.subheadline)
-            .foregroundColor(.secondary)
+            .font(.caption)
             .accessibilityLabel(Text("Created on \(playlist.createdAt.formatted(date: .abbreviated, time: .shortened))"))
     }
     
@@ -42,8 +45,14 @@ private extension PlaylistRowView {
     }
     
     var artworkGrid: some View {
-        LazyVGrid(columns: columns, spacing: .zero) {
-            ForEach(playlist.songArtworkURLs.enumerated().map({ UniqueURL(id: $0.offset, url: $0.element) }), id: \.id) { uniqueURL in
+        LazyVGrid(columns: columns, spacing: 8) {
+            ForEach(
+                playlist.songArtworkURLs
+                    .suffix(15)
+                    .enumerated()
+                    .map { UniqueURL(id: $0.offset, url: $0.element) },
+                id: \.id
+            ) { uniqueURL in
                 artworkImage(for: uniqueURL.url)
             }
         }
@@ -54,16 +63,6 @@ private extension PlaylistRowView {
             .aspectRatio(1, contentMode: .fill)
             .clipped()
             .accessibilityLabel(Text("Album artwork"))
-    }
-    
-    var coverImage: some View {
-        Group {
-            if let urlString = playlist.artworkURL, let url = URL(string: urlString) {
-                CachedAsyncImage(url: url)
-                    .frame(width: 150, height: 150)
-                    .scaledToFit()
-            }
-        }
     }
     
     var columns: [GridItem] {
