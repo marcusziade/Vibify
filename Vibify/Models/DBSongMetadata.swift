@@ -4,7 +4,7 @@ import GRDB
 struct DBSongMetadata: Codable, FetchableRecord, MutablePersistableRecord {
 
     enum Columns: String, ColumnExpression {
-        case id, title, artist, album, artworkURL, releaseDate, genreNames, isExplicit,
+        case id, title, artist, album, artworkName, releaseDate, genreNames, isExplicit,
             appleMusicID, previewURL, playlistID, duration
     }
 
@@ -14,7 +14,7 @@ struct DBSongMetadata: Codable, FetchableRecord, MutablePersistableRecord {
     var title: String
     var artist: String
     var album: String
-    var artworkURL: URL?
+    var artworkName: URL?
     var releaseDate: Date?
     var genreNames: [String]
     var isExplicit: Bool
@@ -36,7 +36,7 @@ extension DBSongMetadata {
             title: "Song 1",
             artist: "Artist 1",
             album: "Album 1",
-            artworkURL: image,
+            artworkName: image,
             releaseDate: nil,
             genreNames: ["Genre 1"],
             isExplicit: false,
@@ -56,7 +56,7 @@ extension DBSongMetadata {
                 title: "Song \(index)",
                 artist: "Artist \(index)",
                 album: "Album \(index)",
-                artworkURL: image,
+                artworkName: image,
                 releaseDate: nil,
                 genreNames: ["Genre \(index)"],
                 isExplicit: false,

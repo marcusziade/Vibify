@@ -35,7 +35,7 @@ protocol DatabaseManaging {
     ///
     /// - Parameters:
     ///   - playlistID: A `String` representing the unique identifier of the playlist.
-    ///   - artworkURL: A `String` representing the new artwork URL to be associated with the playlist.
+    ///   - artworkName: A `String` representing the new artwork URL to be associated with the playlist.
     /// - Throws: An error if the artwork URL cannot be updated for the specified playlist.
-    func updatePlaylistArtworkURL(playlistID: String, artworkURL: String) throws
+    func updatePlaylistArtworkName(playlistID: String, artworkName: String) throws
 }

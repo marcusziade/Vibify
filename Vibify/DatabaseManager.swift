@@ -24,7 +24,7 @@ final class DatabaseManager: DatabaseManaging {
                     t.column("title", .text)
                     t.column("artist", .text)
                     t.column("album", .text)
-                    t.column("artworkURL", .text)
+                    t.column("artworkName", .text)
                     t.column("releaseDate", .date)
                     t.column("genreNames", .text)
                     t.column("isExplicit", .boolean)
@@ -38,7 +38,7 @@ final class DatabaseManager: DatabaseManaging {
                     t.column("id", .text).primaryKey()
                     t.column("createdAt", .date)
                     t.column("title", .text)
-                    t.column("artworkURL", .text)
+                    t.column("artworkName", .text)
                 }
             }
         } catch {
@@ -98,11 +98,11 @@ extension DatabaseManager {
 
 extension DatabaseManager {
     
-    func updatePlaylistArtworkURL(playlistID: String, artworkURL: String) throws {
+    func updatePlaylistArtworkName(playlistID: String, artworkName: String) throws {
         do {
             try dbQueue.write { db in
                 let request = DBPlaylist.filter(DBPlaylist.Columns.playlistID == playlistID)
-                try request.updateAll(db, [DBPlaylist.Columns.artworkURL.set(to: artworkURL)])
+                try request.updateAll(db, [DBPlaylist.Columns.artworkName.set(to: artworkName)])
                 logger.info("Updated artwork URL for playlist with id: \(playlistID)")
             }
         } catch {

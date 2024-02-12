@@ -4,7 +4,7 @@ final class Mock_DatabaseManager: DatabaseManaging {
     
     var didCallInsert = false
     var didCallFetchPlaylistHistory = false
-    var didCallUpdatePlaylistArtworkURL = false
+    var didCallUpdatePlaylistArtworkName = false
     
     func insert(playlist: DBPlaylist) throws {
         didCallInsert = true
@@ -16,8 +16,8 @@ final class Mock_DatabaseManager: DatabaseManaging {
         return DBPlaylist.mockPlaylists
     }
     
-    func updatePlaylistArtworkURL(playlistID: String, artworkURL: String) throws {
-        didCallUpdatePlaylistArtworkURL = true
+    func updatePlaylistArtworkName(playlistID: String, artworkName: String) throws {
+        didCallUpdatePlaylistArtworkName = true
         // Mock behavior
     }
 }

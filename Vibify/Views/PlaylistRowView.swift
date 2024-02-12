@@ -47,7 +47,7 @@ private extension PlaylistRowView {
     var artworkGrid: some View {
         LazyVGrid(columns: columns, spacing: 8) {
             ForEach(
-                playlist.songArtworkURLs
+                playlist.songArtworkNames
                     .suffix(15)
                     .enumerated()
                     .map { UniqueURL(id: $0.offset, url: $0.element) },

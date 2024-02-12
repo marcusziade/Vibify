@@ -182,7 +182,7 @@ private extension PlaylistGeneratorView {
                         )
                     }
                     
-                    if let url = viewModel.playlistArtworkURL {
+                    if let url = viewModel.playlistArtworkName {
                         CachedAsyncImage(url: url)
                             .frame(width: 300, height: 300)
                             .cornerRadius(8)

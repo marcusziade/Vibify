@@ -11,7 +11,7 @@ struct SongCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                CachedAsyncImage(url: song.artworkURL)
+                CachedAsyncImage(url: song.artworkName)
                     .frame(width: 60, height: 60)
                     .aspectRatio(contentMode: .fit)
                     .cornerRadius(8)
