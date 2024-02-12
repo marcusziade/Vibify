@@ -12,7 +12,7 @@ final class PlaylistGeneratorVM {
     var textPrompt: String = ""
     var isPlaying: Bool = false
     var playlistSuggestion: [DBSongMetadata] = []
-    var playlistArtworkURL: URL?
+    var playlistArtworkName: URL?
     var isFetchingPlaylist: Bool = false
     var isAddingToAppleMusic: Bool = false
     var isSharingPlaylist: Bool = false
@@ -87,7 +87,7 @@ final class PlaylistGeneratorVM {
     
     func fetchPlaylistSuggestion() async {
         playlistSuggestion = []
-        playlistArtworkURL = nil
+        playlistArtworkName = nil
         currentPlaylistID = nil
         isFetchingPlaylist = true
         progress = .zero
@@ -137,18 +137,18 @@ final class PlaylistGeneratorVM {
         debugPrint("Prompt: \(prompt)")
         
         do {
-            let generatedArtworkURL = try await dalleGenerator.image(prompt: prompt, style: "natural")
+            let generatedArtworkName = try await dalleGenerator.image(prompt: prompt, style: "natural")
             
-            let localArtworkURL = try await downloadAndSaveImage(from: generatedArtworkURL)
+            let localArtworkName = try await downloadAndSaveImage(from: generatedArtworkName)
             
             if let playlistID = currentPlaylistID {
-                try databaseManager.updatePlaylistArtworkURL(
+                try databaseManager.updatePlaylistArtworkName(
                     playlistID: playlistID,
-                    artworkURL: localArtworkURL.absoluteString
+                    artworkName: localArtworkName
                 )
             }
 
-            playlistArtworkURL = generatedArtworkURL
+            playlistArtworkName = generatedArtworkName
         } catch let error as DalleGeneratorError {
             await MainActor.run {
                 switch error {
@@ -204,7 +204,7 @@ final class PlaylistGeneratorVM {
             ) { [unowned self] newProgress in
                 progress = Double(newProgress) / 100.0
             }
-            debugPrint(playlistSuggestion.map(\.artworkURL))
+            debugPrint(playlistSuggestion.map(\.artworkName))
             try addPlaylistToDatabase(title: "–", songs: playlistSuggestion)
         } catch {
             await MainActor.run {
@@ -287,7 +287,7 @@ final class PlaylistGeneratorVM {
     private let dalleGenerator: DalleGenerator
     private let player: AVPlayer
     
-    private func downloadAndSaveImage(from url: URL) async throws -> URL {
+    private func downloadAndSaveImage(from url: URL) async throws -> String {
         let (data, _) = try await URLSession.shared.data(from: url)
         guard let image = UIImage(data: data) else {
             throw NSError(
@@ -308,7 +308,8 @@ final class PlaylistGeneratorVM {
             )
         }
         
-        let fileURL = documentsDirectory.appendingPathComponent("\(UUID().uuidString).png")
+        let filename = "\(UUID().uuidString).png"
+        let fileURL = documentsDirectory.appendingPathComponent(filename)
         guard let imageData = image.pngData() else {
             throw NSError(
                 domain: "ImageConversionError",
@@ -318,7 +319,7 @@ final class PlaylistGeneratorVM {
         }
         
         try imageData.write(to: fileURL)
-        return fileURL
+        return filename
     }
 
     private func presentAlert(with message: String) {

@@ -123,7 +123,7 @@ final class DBSongMetadataParser {
             
             if let song = response.songs.first {
                 let uniqueID = UUID().uuidString
-                let artworkURL = song.artwork?.url(width: 300, height: 300)
+                let artworkName = song.artwork?.url(width: 300, height: 300)
                 let album = song.albumTitle ?? "Unknown Album"
                 let releaseDate = song.releaseDate
                 let genreNames = song.genreNames
@@ -137,7 +137,7 @@ final class DBSongMetadataParser {
                     title: song.title,
                     artist: song.artistName,
                     album: album,
-                    artworkURL: artworkURL,
+                    artworkName: artworkName,
                     releaseDate: releaseDate,
                     genreNames: genreNames,
                     isExplicit: isExplicit,

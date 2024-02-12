@@ -15,7 +15,7 @@ import Foundation
 /// In the `ForEach` loop, use `UniqueURL` instances created from an array of URLs to ensure each item is unique.
 /// Example:
 /// ```
-/// ForEach(playlist.songArtworkURLs.enumerated().map({ UniqueURL(id: $0.offset, url: $0.element) }), id: \.id) { uniqueURL in
+/// ForEach(playlist.songArtworkNames.enumerated().map({ UniqueURL(id: $0.offset, url: $0.element) }), id: \.id) { uniqueURL in
 ///     // Your view code here
 /// }
 /// ```

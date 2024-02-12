@@ -10,15 +10,10 @@ struct PlaylistHistoryView: View {
         NavigationView {
             List(viewModel.playlistHistory) { playlist in
                 ZStack {
-                    if
-                        let urlString = playlist.artworkURL,
-                        let url = URL(string: urlString)
-                    {
-                        CachedAsyncImage(url: url)
-                            .scaledToFit()
-                            .ignoresSafeArea()
-                            .clipped()
-                    }
+                    CachedAsyncImage(url: try? playlist.artworkImageURL())
+                        .scaledToFit()
+                        .ignoresSafeArea()
+                        .clipped()
                     VStack {
                         PlaylistRowView(playlist: playlist)
                             .foregroundStyle(.white)
