@@ -1,4 +1,6 @@
+import CoreLocation
 import Foundation
+import MapKit
 import SwiftUI
 
 struct AdvancedSearchCriteriaView: View {
@@ -55,6 +57,18 @@ struct AdvancedSearchCriteriaView: View {
                         )
                     }
                     .padding(.horizontal, 16)
+                    
+                    if viewModel.isLocationAuthorized {
+                        Map(coordinateRegion: $viewModel.mapRegion, showsUserLocation: true)
+                            .frame(height: 200)
+                            .cornerRadius(8)
+                            .clipped()
+                            .padding()
+                    } else {
+                        Button("Allow location access") {
+                            viewModel.requestLocationPermission()
+                        }
+                    }
                     
                     FavoriteArtistTextField(favoriteArtist: $viewModel.searchCriteria.favoriteArtist)
                         .padding(.bottom)

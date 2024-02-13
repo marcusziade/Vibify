@@ -1,8 +1,10 @@
 import Foundation
 import Combine
+import CoreLocation
+import MapKit
 import Observation
 
-@Observable final class AdvancedSearchCriteriaVM {
+@Observable final class AdvancedSearchCriteriaVM: NSObject {
     var decade: Double = 1980
     var numberOfSongs: Double = 10
     var selectedGenres: Set<String> = []
@@ -11,6 +13,13 @@ import Observation
     var favoriteArtist: String = ""
     var specificPreferences: String = ""
     var searchCriteria = SongSearchCriteria()
+    var selectedLocation: CLLocationCoordinate2D?
+    var mapRegion: MKCoordinateRegion = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
+        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+    )
+    var locationManager = CLLocationManager()
+    var isLocationAuthorized = false
     
     let genreList = [
         "Rock",
@@ -60,6 +69,9 @@ import Observation
     ]
 
     init(from existingCriteria: SongSearchCriteria? = nil) {
+        super.init()
+        locationManager.delegate = self
+        
         if let criteria = existingCriteria {
             self.decade = criteria.decade
             self.numberOfSongs = criteria.numberOfSongs
@@ -86,6 +98,52 @@ import Observation
             selectedGenres.remove(genre)
         } else {
             selectedGenres.insert(genre)
+        }
+    }
+    
+    private func updateMapRegion() {
+        if let location = selectedLocation {
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            mapRegion = MKCoordinateRegion(center: location, span: span)
+        }
+    }
+}
+
+extension AdvancedSearchCriteriaVM: CLLocationManagerDelegate {
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            isLocationAuthorized = true
+            manager.startUpdatingLocation()
+        default:
+            isLocationAuthorized = false
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last?.coordinate {
+            self.selectedLocation = location
+            let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+            mapRegion = MKCoordinateRegion(center: location, span: span)
+        }
+    }
+
+    func checkLocationAuthorizationStatus() -> CLAuthorizationStatus {
+        return locationManager.authorizationStatus
+    }
+    
+    internal func requestLocationPermission() {
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func getCurrentLocation() {
+        locationManager.startUpdatingLocation()
+    }
+    
+    func updateSearchCriteriaWithLocation() {
+        if let location = locationManager.location?.coordinate {
+            searchCriteria.locationCoordinate = location
         }
     }
 }

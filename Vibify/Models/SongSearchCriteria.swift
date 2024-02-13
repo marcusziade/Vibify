@@ -1,3 +1,4 @@
+import CoreLocation
 import Foundation
 
 struct SongSearchCriteria: PlaylistCriteria {
@@ -12,6 +13,22 @@ struct SongSearchCriteria: PlaylistCriteria {
     var includeVocals: Bool = true
     var bpmRange: ClosedRange<Double> = 60...200
     var languagePreference: String = "English"
+    
+    var locationCoordinate: CLLocationCoordinate2D?
+    var location: String {
+        get {
+            guard let coordinate = locationCoordinate else { return "" }
+            return "\(coordinate.latitude),\(coordinate.longitude)"
+        }
+        set {
+            let components = newValue.split(separator: ",").compactMap { Double($0) }
+            if components.count == 2 {
+                locationCoordinate = CLLocationCoordinate2D(latitude: components[0], longitude: components[1])
+            } else {
+                locationCoordinate = nil
+            }
+        }
+    }
     
     var selectedGenres: Set<String> {
         get {
@@ -56,6 +73,9 @@ struct SongSearchCriteria: PlaylistCriteria {
         promptComponents.append("BPM range: \(Int(bpmRange.lowerBound))-\(Int(bpmRange.upperBound))")
         if !languagePreference.isEmpty {
             promptComponents.append("Language: \(languagePreference)")
+        }
+        if !location.isEmpty {
+            promptComponents.append("Location: \(location)")
         }
         
         return promptComponents.joined(separator: "\n")
