@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -56,6 +56,7 @@
 		5A7C66542B6889D000B43A32 /* AlertItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7C66532B6889D000B43A32 /* AlertItem.swift */; };
 		5A8979922B3E3944002FEEF6 /* AppleMusicImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8979912B3E3944002FEEF6 /* AppleMusicImporter.swift */; };
 		5A8C28DD2B53116600BD12E6 /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8C28DC2B53116600BD12E6 /* AsyncButton.swift */; };
+		5A8F52C92B802E8000F666DF /* SwiftMLCashier in Frameworks */ = {isa = PBXBuildFile; productRef = 5A8F52C82B802E8000F666DF /* SwiftMLCashier */; };
 		5AA3AC712B5CB09400B3BAC7 /* Array+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA3AC702B5CB09400B3BAC7 /* Array+Ext.swift */; };
 		5AA5E5D22B5C2B530048FE2F /* GPTResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA5E5D12B5C2B530048FE2F /* GPTResponse.swift */; };
 		5AA5E5D42B5C2B570048FE2F /* GPTRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA5E5D32B5C2B570048FE2F /* GPTRequest.swift */; };
@@ -149,6 +150,7 @@
 				5AC0B7D42B45065C00971FF9 /* GRDB in Frameworks */,
 				5A7C66472B66BBA400B43A32 /* SpotifyAPI in Frameworks */,
 				5A1CAB4E2B4B66570063B102 /* CachedAsyncImage in Frameworks */,
+				5A8F52C92B802E8000F666DF /* SwiftMLCashier in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,6 +360,7 @@
 				5A1CAB4D2B4B66570063B102 /* CachedAsyncImage */,
 				5A7C66462B66BBA400B43A32 /* SpotifyAPI */,
 				5A7C664C2B66C06100B43A32 /* KeychainAccess */,
+				5A8F52C82B802E8000F666DF /* SwiftMLCashier */,
 			);
 			productName = Vibify;
 			productReference = 5A1CD9722B3D1CA200AF0192 /* Vibify.app */;
@@ -392,6 +395,7 @@
 				5A1CAB4C2B4B66570063B102 /* XCRemoteSwiftPackageReference "CachedAsyncImage" */,
 				5A7C66452B66BBA300B43A32 /* XCRemoteSwiftPackageReference "SpotifyAPI" */,
 				5A7C664B2B66C06100B43A32 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				5A8F52C72B802E8000F666DF /* XCLocalSwiftPackageReference "SwiftMLCashier" */,
 			);
 			productRefGroup = 5A1CD9732B3D1CA200AF0192 /* Products */;
 			projectDirPath = "";
@@ -709,6 +713,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		5A8F52C72B802E8000F666DF /* XCLocalSwiftPackageReference "SwiftMLCashier" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = SwiftMLCashier;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		5A1CAB4C2B4B66570063B102 /* XCRemoteSwiftPackageReference "CachedAsyncImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -759,6 +770,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5A7C664B2B66C06100B43A32 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
+		};
+		5A8F52C82B802E8000F666DF /* SwiftMLCashier */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftMLCashier;
 		};
 		5AC0B7D32B45065C00971FF9 /* GRDB */ = {
 			isa = XCSwiftPackageProductDependency;
