@@ -38,11 +38,13 @@ struct PhotoPicker: UIViewControllerRepresentable {
                         return
                     }
                     DispatchQueue.main.async { [self] in
+                        #if os(iOS)
                         if let uiImage = image as? UIImage {
                             withAnimation {
                                 parent.selectedImageData = uiImage.jpegData(compressionQuality: 1.0)
                             }
                         }
+                        #endif
                     }
                 }
             }
