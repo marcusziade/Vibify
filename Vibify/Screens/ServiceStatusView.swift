@@ -66,11 +66,11 @@ struct ServiceStatusView: View {
     }
     
     private func status() async {
-        guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
+        guard let openAIKey else {
             fatalError("No API key")
         }
         
-        let endpoint = EnginesEndpoint(apiKey: apiKey)
+        let endpoint = EnginesEndpoint(apiKey: openAIKey)
         guard let request = endpoint.urlRequest else {
             fatalError("Invalid request")
         }
@@ -101,10 +101,12 @@ struct ServiceStatusView: View {
     }
 
     private var openAIKey: String? {
+        var result: String?
 #if targetEnvironment(simulator)
-        return EnvironmentItem.openAIKey.rawValue
+        result = EnvironmentItem.openAIKey.rawValue
 #endif
-        return ProcessInfo.processInfo.environment["API_KEY"]
+        result = ProcessInfo.processInfo.environment["API_KEY"]
+        return result
     }
 }
 

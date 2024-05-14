@@ -77,10 +77,12 @@ final class PlaylistGenerator {
     }
     
     private var openAIKey: String? {
+        var result: String?
 #if targetEnvironment(simulator)
-        return EnvironmentItem.openAIKey.rawValue
+        result = EnvironmentItem.openAIKey.rawValue
 #endif
-        return ProcessInfo.processInfo.environment["API_KEY"]
+        result = ProcessInfo.processInfo.environment["API_KEY"]
+        return result
     }
 }
 
