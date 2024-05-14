@@ -2,4 +2,5 @@
 Vibify.xcodeproj/xcshareddata/
 .nvim/
 BuildServer.json
+Vibify/Resources/Environment.swift
 

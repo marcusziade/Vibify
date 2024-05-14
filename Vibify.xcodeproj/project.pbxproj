@@ -72,6 +72,7 @@
 		5AE3F65E2B4E51F600EA8329 /* AdvancedSearchCriteriaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE3F65D2B4E51F600EA8329 /* AdvancedSearchCriteriaView.swift */; };
 		5AE3F6602B4E520900EA8329 /* AdvancedSearchCriteriaVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE3F65F2B4E520900EA8329 /* AdvancedSearchCriteriaVM.swift */; };
 		5AFBF0CC2B5768FA006CF79E /* TagCapsuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFBF0CB2B5768FA006CF79E /* TagCapsuleView.swift */; };
+		DE1FF493EA0647B4367072E8 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6280279249D9D8D7F700A56E /* Environment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -138,6 +139,7 @@
 		5AE3F65D2B4E51F600EA8329 /* AdvancedSearchCriteriaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSearchCriteriaView.swift; sourceTree = "<group>"; };
 		5AE3F65F2B4E520900EA8329 /* AdvancedSearchCriteriaVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSearchCriteriaVM.swift; sourceTree = "<group>"; };
 		5AFBF0CB2B5768FA006CF79E /* TagCapsuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCapsuleView.swift; sourceTree = "<group>"; };
+		6280279249D9D8D7F700A56E /* Environment.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,6 +282,7 @@
 				5A00475C2B60B1FA00FFD0A6 /* song-artwork-url.jpeg */,
 				5A7C48852B5DBE1D0002A61E /* dalle-sample.png */,
 				5A1CD9792B3D1CA300AF0192 /* Assets.xcassets */,
+				6280279249D9D8D7F700A56E /* Environment.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 				5A4BFB2B2B4096EF00988D0E /* Date+Ext.swift in Sources */,
 				5A7C664A2B66BC0400B43A32 /* SpotifyService.swift in Sources */,
 				5AB8FC3B2B4332EE008AC7C4 /* SongSearchCriteria.swift in Sources */,
+				DE1FF493EA0647B4367072E8 /* Environment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

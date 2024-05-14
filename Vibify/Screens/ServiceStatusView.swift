@@ -99,6 +99,13 @@ struct ServiceStatusView: View {
         let created = dateFormatter.string(from: date)
         return created
     }
+
+    private var openAIKey: String? {
+#if targetEnvironment(simulator)
+        return EnvironmentItem.openAIKey.rawValue
+#endif
+        return ProcessInfo.processInfo.environment["API_KEY"]
+    }
 }
 
 #Preview {

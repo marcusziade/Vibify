@@ -76,6 +76,9 @@ import SwiftUI
     private var cancellables = Set<AnyCancellable>()
     
     private static let clientID: String = {
+#if targetEnvironment(simulator)
+        return EnvironmentItem.spotifyClientID.rawValue
+#endif
         if let id = ProcessInfo.processInfo.environment["SPOTIFY_CLIENT_ID"] {
             return id
         } else {
@@ -84,6 +87,9 @@ import SwiftUI
     }()
     
     private static let clientSecret: String = {
+#if targetEnvironment(simulator)
+        return EnvironmentItem.spotifyClientSecret.rawValue
+#endif
         if let secret = ProcessInfo.processInfo.environment["SPOTIFY_CLIENT_SECRET"] {
             return secret
         } else {

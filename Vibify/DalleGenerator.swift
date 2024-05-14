@@ -120,6 +120,9 @@ final class DalleGenerator {
 
     
     private var openAIKey: String? {
-        ProcessInfo.processInfo.environment["API_KEY"]
+#if targetEnvironment(simulator)
+        return EnvironmentItem.openAIKey.rawValue
+#endif
+        return ProcessInfo.processInfo.environment["API_KEY"]
     }
 }
