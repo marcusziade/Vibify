@@ -6,47 +6,83 @@ final class DatabaseManager: DatabaseManaging {
     private let dbQueue: DatabaseQueue
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "DatabaseManager")
     
-    init() {
+    init(databaseURL: URL? = nil) {
         do {
-            let databaseURL = try FileManager.default
-                .url(
-                    for: .applicationSupportDirectory,
-                    in: .userDomainMask,
-                    appropriateFor: nil,
-                    create: true
-                )
-                .appendingPathComponent("playlistDatabase.sqlite")
-            dbQueue = try DatabaseQueue(path: databaseURL.path)
-            
-            try dbQueue.write { db in
-                try db.create(table: "songs", ifNotExists: true) { t in
-                    t.column("id", .text).primaryKey()
-                    t.column("title", .text)
-                    t.column("artist", .text)
-                    t.column("album", .text)
-                    t.column("artworkName", .text)
-                    t.column("releaseDate", .date)
-                    t.column("genreNames", .text)
-                    t.column("isExplicit", .boolean)
-                    t.column("appleMusicID", .text)
-                    t.column("previewURL", .text)
-                    t.column("playlistID", .text)
-                    t.column("duration", .double)
-                }
-                
-                try db.create(table: "playlists", ifNotExists: true) { t in
-                    t.column("id", .text).primaryKey()
-                    t.column("createdAt", .date)
-                    t.column("title", .text)
-                    t.column("artworkName", .text)
-                }
-            }
+            let dbURL = databaseURL ?? DatabaseManager.defaultDatabaseURL()
+            dbQueue = try DatabaseQueue(path: dbURL.path)
+            try setupDatabase()
         } catch {
             logger.error("Database initialization failed: \(error.localizedDescription)")
             fatalError("Database initialization failed: \(error.localizedDescription)")
         }
     }
+    
+    // MARK: - Private Methods
+    
+    private func setupDatabase() throws {
+        try dbQueue.write { db in
+            try createTables(in: db)
+        }
+    }
+    
+    private func createTables(in db: Database) throws {
+        try db.create(table: "songs", ifNotExists: true) { t in
+            t.column(Columns.id, .text).primaryKey()
+            t.column(Columns.title, .text)
+            t.column(Columns.artist, .text)
+            t.column(Columns.album, .text)
+            t.column(Columns.artworkName, .text)
+            t.column(Columns.releaseDate, .date)
+            t.column(Columns.genreNames, .text)
+            t.column(Columns.isExplicit, .boolean)
+            t.column(Columns.appleMusicID, .text)
+            t.column(Columns.previewURL, .text)
+            t.column(Columns.playlistID, .text)
+            t.column(Columns.duration, .double)
+        }
+        
+        try db.create(table: "playlists", ifNotExists: true) { t in
+            t.column(Columns.id, .text).primaryKey()
+            t.column(Columns.createdAt, .date)
+            t.column(Columns.title, .text)
+            t.column(Columns.artworkName, .text)
+        }
+    }
+    
+    private static func defaultDatabaseURL() -> URL {
+        do {
+            let url = try FileManager.default.url(
+                for: .applicationSupportDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: true
+            ).appendingPathComponent("playlistDatabase.sqlite")
+            return url
+        } catch {
+            fatalError("Failed to create database URL: \(error.localizedDescription)")
+        }
+    }
+    
+    // MARK: - Columns
+    
+    private struct Columns {
+        static let id = "id"
+        static let title = "title"
+        static let artist = "artist"
+        static let album = "album"
+        static let artworkName = "artworkName"
+        static let releaseDate = "releaseDate"
+        static let genreNames = "genreNames"
+        static let isExplicit = "isExplicit"
+        static let appleMusicID = "appleMusicID"
+        static let previewURL = "previewURL"
+        static let playlistID = "playlistID"
+        static let duration = "duration"
+        static let createdAt = "createdAt"
+    }
 }
+
+// MARK: - Database Operations
 
 extension DatabaseManager {
     
@@ -70,9 +106,6 @@ extension DatabaseManager {
             throw error
         }
     }
-}
-
-extension DatabaseManager {
     
     func fetchPlaylistHistory() throws -> [DBPlaylist] {
         var history: [DBPlaylist] = []
@@ -94,9 +127,6 @@ extension DatabaseManager {
         }
         return history
     }
-}
-
-extension DatabaseManager {
     
     func updatePlaylistArtworkName(playlistID: String, artworkName: String) throws {
         do {
