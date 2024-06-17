@@ -11,7 +11,7 @@ final class AppleMusicImporter {
     /// Requests authorization for accessing Apple Music.
     func requestAppleMusicAccess() async -> Bool {
         logger.info("Requesting Apple Music access")
-        let status = await SKCloudServiceController.requestAuthorization()
+        let status = await MusicAuthorization.request()
         let status2 = await MPMediaLibrary.requestAuthorization()
         logger.info("Apple Music access authorization status: \(String(describing: status))")
         return status == .authorized && status2 == .authorized
@@ -33,18 +33,18 @@ final class AppleMusicImporter {
         }
     }
     
-    /// Adds songs to a given Apple Music playlist and updates progress.
-    func addSongsToPlaylist(
+    /// Adds tracks to a given Apple Music playlist and updates progress.
+    func addTracksToPlaylist(
         playlist: MPMediaPlaylist,
-        songs: [DBSongMetadata],
+        tracks: [DBTrack],
         progressHandler: @escaping (Double) -> Void
     ) async -> Result<Void, Error> {
         logger.info("Starting to add songs to the playlist, Playlist ID: \(playlist.persistentID)")
         do {
-            let totalSongs = Double(songs.count)
+            let totalSongs = Double(tracks.count)
             var processedSongs = 0.0
             
-            for song in songs {
+            for song in tracks {
                 logger.debug("Searching for song: \(song.title), Artist: \(song.artist)")
                 let request = MusicCatalogSearchRequest(term: "\(song.title) \(song.artist)", types: [Song.self])
                 let response = try await request.response()
@@ -77,7 +77,7 @@ final class AppleMusicImporter {
 /// Extension to provide a utility method for matching `Song` with `DBSongMetadata`.
 extension Song {
     /// Determines if a `Song` instance matches a given `DBSongMetadata`.
-    func matchesMetadata(_ metadata: DBSongMetadata) -> Bool {
+    func matchesMetadata(_ metadata: DBTrack) -> Bool {
         let normalizedTitle = self.title.normalizedForSearch()
         let normalizedArtist = self.artistName.normalizedForSearch()
         let normalizedAlbum = self.albumTitle?.normalizedForSearch() ?? ""

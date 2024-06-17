@@ -4,14 +4,17 @@ import StoreKit
 import MediaPlayer
 import MusicKit
 import Observation
+import SwiftData
 import SwiftUI
 
 @Observable
 final class PlaylistGeneratorVM {
+    typealias Playlist = (title: String, list: [DBTrack])
+    typealias PlaylistArtwork = (name: String, url: String)
     
     var textPrompt: String = ""
     var isPlaying: Bool = false
-    var playlistSuggestion: [DBSongMetadata] = []
+    var playlistSuggestion: [DBTrack] = []
     var playlistArtworkName: URL?
     var isFetchingPlaylist: Bool = false
     var isAddingToAppleMusic: Bool = false
@@ -50,18 +53,15 @@ final class PlaylistGeneratorVM {
         isFetchingPlaylist || isAddingToAppleMusic || isSharingPlaylist || isGeneratingRandomPlaylist
     }
     
-    let databaseManager: DatabaseManaging
     private(set) var appleMusicImporter: AppleMusicImporter
     
     init(
         networkService: NetworkService,
-        databaseManager: DatabaseManaging,
         playlistGenerator: PlaylistGenerator,
         appleMusicImporter: AppleMusicImporter,
         dalleGenerator: DalleGenerator,
         player: AVPlayer = AVPlayer()
     ) {
-        self.databaseManager = databaseManager
         self.playlistGenerator = playlistGenerator
         self.appleMusicImporter = appleMusicImporter
         self.dalleGenerator = dalleGenerator
@@ -70,22 +70,11 @@ final class PlaylistGeneratorVM {
         Task { await requestAppleMusicAuthorization() }
     }
     
-    func isCurrentlyPlaying(song: DBSongMetadata) -> Bool {
+    func isCurrentlyPlaying(song: DBTrack) -> Bool {
         return currentlyPlayingSong?.title == song.title && isPlaying
     }
     
-    private func addPlaylistToDatabase(title: String, songs: [DBSongMetadata]) throws {
-        let playlist = DBPlaylist(
-            title: title,
-            playlistID: UUID().uuidString,
-            createdAt: Date.now,
-            songs: songs
-        )
-        try databaseManager.insert(playlist: playlist)
-        currentPlaylistID = playlist.id
-    }
-    
-    func fetchPlaylistSuggestion() async {
+    func fetchPlaylistSuggestion() async -> Playlist {
         playlistSuggestion = []
         playlistArtworkName = nil
         currentPlaylistID = nil
@@ -93,7 +82,7 @@ final class PlaylistGeneratorVM {
         progress = .zero
         
         do {
-            playlistSuggestion = try await playlistGenerator.fetchPlaylistSuggestion(
+            let list = try await playlistGenerator.fetchPlaylistSuggestion(
                 criteria: textPrompt.isEmpty ? searchCriteria : textPrompt
             ) { [unowned self] newProgress in
                 progress = Double(newProgress) / 100.0
@@ -102,7 +91,9 @@ final class PlaylistGeneratorVM {
             isConfiguringSearch = false
             
             let primaryGenre = searchCriteria.genreProportions.max(by: { $0.value < $1.value })?.key ?? "No Genre"
-            try addPlaylistToDatabase(title: primaryGenre, songs: playlistSuggestion)
+            
+            isFetchingPlaylist = false
+            return Playlist(primaryGenre, list)
         } catch let error as PlaylistGeneratorError {
             await MainActor.run {
                 switch error {
@@ -127,9 +118,10 @@ final class PlaylistGeneratorVM {
         }
         
         isFetchingPlaylist = false
+        return Playlist("Error generating playlist", [])
     }
     
-    func generateDalleImage() async {
+    func generateDalleImage() async -> PlaylistArtwork {
         isGeneratingImage = true
         
         let prompt = await dalleGenerator.dallePrompt(forInfo: playlistSuggestion.dallePrompt)
@@ -141,14 +133,10 @@ final class PlaylistGeneratorVM {
             
             let localArtworkName = try await downloadAndSaveImage(from: generatedArtworkName)
             
-            if let playlistID = currentPlaylistID {
-                try databaseManager.updatePlaylistArtworkName(
-                    playlistID: playlistID,
-                    artworkName: localArtworkName
-                )
-            }
-
             playlistArtworkName = generatedArtworkName
+            if let playlistID = currentPlaylistID {
+                return PlaylistArtwork(playlistID, localArtworkName)
+            }
         } catch let error as DalleGeneratorError {
             await MainActor.run {
                 switch error {
@@ -180,13 +168,17 @@ final class PlaylistGeneratorVM {
             }
         }
         isGeneratingImage = false
+        return PlaylistArtwork("Error", "Dalle-3 generator error")
     }
     
-    func fetchPlaylistSuggestionBasedOnImage() async {
+    func fetchPlaylistSuggestionBasedOnImage() async -> Playlist {
         isFetchingPlaylist = true
         progress = .zero
         
-        guard let imageData = selectedVisionImageData else { return }
+        guard let imageData = selectedVisionImageData else {
+            return Playlist("Error generating playlist", [])
+        }
+        
         let base64String = imageData.toBase64()
         let messages = [
             VisionRequest.Message(
@@ -199,13 +191,12 @@ final class PlaylistGeneratorVM {
         ]
         
         do {
-            playlistSuggestion = try await playlistGenerator.fetchPlaylistBasedOnImage(
+            let list = try await playlistGenerator.fetchPlaylistBasedOnImage(
                 imageMessages: messages
             ) { [unowned self] newProgress in
                 progress = Double(newProgress) / 100.0
             }
-            debugPrint(playlistSuggestion.map(\.artworkName))
-            try addPlaylistToDatabase(title: "–", songs: playlistSuggestion)
+            return Playlist("–", list)
         } catch {
             await MainActor.run {
                 presentAlert(with: "Failed to generate playlist from image: \(error.localizedDescription)")
@@ -213,6 +204,7 @@ final class PlaylistGeneratorVM {
         }
         
         isFetchingPlaylist = false
+        return Playlist("Error generating playlist", [])
     }
     
     @MainActor func requestAppleMusicAuthorization() async {
@@ -230,9 +222,9 @@ final class PlaylistGeneratorVM {
         do {
             let playlistName = "Playlist \(Date.now.formatted(date: .abbreviated, time: .shortened))"
             let playlist = try await appleMusicImporter.createPlaylist(named: playlistName)
-            let result = await appleMusicImporter.addSongsToPlaylist(
+            let result = await appleMusicImporter.addTracksToPlaylist(
                 playlist: playlist,
-                songs: playlistSuggestion,
+                tracks: playlistSuggestion,
                 progressHandler: { [unowned self] newProgress in
                     progress = newProgress
                 }
@@ -261,15 +253,15 @@ final class PlaylistGeneratorVM {
         
         isGeneratingRandomPlaylist = false
     }
-
+    
     func sharePlaylist() async {
         guard !isSharingPlaylist else { return }
         isSharingPlaylist = true
         // Perform share action here
         isSharingPlaylist = false
     }
-
-    func togglePlayback(for song: DBSongMetadata) {
+    
+    func togglePlayback(for song: DBTrack) {
         if isCurrentlyPlaying(song: song) {
             player.pause()
             isPlaying = false
@@ -280,7 +272,7 @@ final class PlaylistGeneratorVM {
     
     // MARK: Private
     
-    private var currentlyPlayingSong: DBSongMetadata?
+    private var currentlyPlayingSong: DBTrack?
     private var currentPlaylistID: String?
     
     private let playlistGenerator: PlaylistGenerator
@@ -327,7 +319,7 @@ final class PlaylistGeneratorVM {
         showingAlert = true
     }
     
-    private func playSong(_ song: DBSongMetadata) {
+    private func playSong(_ song: DBTrack) {
         guard let url = song.previewURL else { return }
         if player.rate != 0 {
             player.pause()

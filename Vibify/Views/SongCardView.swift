@@ -3,9 +3,9 @@ import CachedAsyncImage
 import SwiftUI
 
 struct SongCardView: View {
-    let song: DBSongMetadata
+    let song: DBTrack
     let musicService: MusicServiceType = .appleMusic
-    var togglePlayback: (DBSongMetadata) -> Void
+    var togglePlayback: (DBTrack) -> Void
     var isPlaying: Bool
     
     var body: some View {
@@ -70,7 +70,7 @@ struct SongCardView: View {
 
 #Preview {
     VStack {
-        SongCardView(song: DBSongMetadata.mockSong, togglePlayback: {_ in }, isPlaying: false)
-        SongCardView(song: DBSongMetadata.mockSong, togglePlayback: {_ in }, isPlaying: true)
+        SongCardView(song: DBTrack.mockSong, togglePlayback: {_ in }, isPlaying: false)
+        SongCardView(song: DBTrack.mockSong, togglePlayback: {_ in }, isPlaying: true)
     }
 }

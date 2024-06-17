@@ -1,6 +1,6 @@
 import Foundation
 
-extension Array where Element == DBSongMetadata {
+extension Array<DBTrack> {
     
     var dallePrompt: String {
         let songNames = self

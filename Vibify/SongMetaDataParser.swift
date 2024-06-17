@@ -14,14 +14,14 @@ final class DBSongMetadataParser {
         from playlistString: String,
         playlistID: String,
         progressHandler: ((Int) -> Void)? = nil
-    ) async throws -> [DBSongMetadata] {
+    ) async throws -> [DBTrack] {
         logger.info("Parsing song metadata from string")
         let lines = playlistString.components(separatedBy: .newlines)
-        var DBSongMetadatas: [DBSongMetadata] = []
+        var DBSongMetadatas: [DBTrack] = []
         
         for (index, line) in lines.enumerated() {
             guard let (artist, title) = parseLine(line) else { continue }
-            if let DBSongMetadata = await fetchDBSongMetadata(
+            if let DBSongMetadata = await fetchTrackMetadata(
                 artist: artist,
                 title: title,
                 playlistID: playlistID
@@ -106,11 +106,11 @@ final class DBSongMetadataParser {
         : (String(components[1]), String(components[0]))
     }
     
-    private func fetchDBSongMetadata(
+    private func fetchTrackMetadata(
         artist: String,
         title: String,
         playlistID: String
-    ) async -> DBSongMetadata? {
+    ) async -> DBTrack? {
         logger.debug("Fetching song metadata for title: \(title), artist: \(artist)")
         let searchRequest = MusicCatalogSearchRequest(
             term: "\(artist) \(title)",
@@ -132,7 +132,7 @@ final class DBSongMetadataParser {
                 let previewURL = song.previewAssets?.first?.url
                 let duration = song.duration
                 
-                let DBSongMetadata = DBSongMetadata(
+                let DBSongMetadata = DBTrack(
                     id: uniqueID,
                     title: song.title,
                     artist: song.artistName,

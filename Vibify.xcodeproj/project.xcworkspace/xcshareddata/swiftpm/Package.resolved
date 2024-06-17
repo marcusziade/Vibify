@@ -1,4 +1,5 @@
 {
+  "originHash" : "f5445fd372fb542ee70e635f10521d803c1fed51b47f0f46ef838192c3269163",
   "pins" : [
     {
       "identity" : "cachedasyncimage",
@@ -7,15 +8,6 @@
       "state" : {
         "branch" : "master",
         "revision" : "9aaf4602ff0efa88d06f5998cf3e433cd7928467"
-      }
-    },
-    {
-      "identity" : "grdb.swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/groue/GRDB.swift.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "d1ff0912f184f92103985e31ed9f99babf6dea9e"
       }
     },
     {
@@ -73,5 +65,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

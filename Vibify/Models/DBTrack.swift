@@ -1,15 +1,7 @@
 import Foundation
-import GRDB
+import SwiftData
 
-struct DBSongMetadata: Codable, FetchableRecord, MutablePersistableRecord {
-
-    enum Columns: String, ColumnExpression {
-        case id, title, artist, album, artworkName, releaseDate, genreNames, isExplicit,
-            appleMusicID, previewURL, playlistID, duration
-    }
-
-    static var databaseTableName = "songs"
-
+@Model final class DBTrack {
     var id: String
     var title: String
     var artist: String
@@ -22,16 +14,45 @@ struct DBSongMetadata: Codable, FetchableRecord, MutablePersistableRecord {
     var previewURL: URL?
     var playlistID: String?
     var duration: TimeInterval?
+    var playlist: DBPlaylist?
+
+    init(
+        id: String,
+        title: String,
+        artist: String,
+        album: String,
+        artworkName: URL? = nil,
+        releaseDate: Date? = nil,
+        genreNames: [String],
+        isExplicit: Bool,
+        appleMusicID: String,
+        previewURL: URL? = nil,
+        playlistID: String? = nil,
+        duration: TimeInterval? = nil
+    ) {
+        self.id = id
+        self.title = title
+        self.artist = artist
+        self.album = album
+        self.artworkName = artworkName
+        self.releaseDate = releaseDate
+        self.genreNames = genreNames
+        self.isExplicit = isExplicit
+        self.appleMusicID = appleMusicID
+        self.previewURL = previewURL
+        self.playlistID = playlistID
+        self.duration = duration
+    }
 }
 
 // MARK: Mock
 
-extension DBSongMetadata {
-
+extension DBTrack {
+    
     /// One mocked song.
-    static var mockSong: DBSongMetadata {
+    static var mockSong: DBTrack {
         let image = Bundle.main.url(forResource: "song-artwork-url", withExtension: "jpeg")!
-        return DBSongMetadata(
+        return .init(
             id: "1",
             title: "Song 1",
             artist: "Artist 1",
@@ -46,12 +67,12 @@ extension DBSongMetadata {
             duration: nil
         )
     }
-
+    
     /// Unique mocked songs with their own identifying metadata.
-    static var mockSongs: [DBSongMetadata] {
+    static var mockSongs: [DBTrack] {
         let image = Bundle.main.url(forResource: "song-artwork-url", withExtension: "jpeg")!
         let songs = (1...15).map { index in
-            DBSongMetadata(
+            DBTrack(
                 id: "\(index)",
                 title: "Song \(index)",
                 artist: "Artist \(index)",
@@ -66,7 +87,7 @@ extension DBSongMetadata {
                 duration: nil
             )
         }
-
+        
         return songs
     }
 }

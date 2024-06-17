@@ -1,99 +1,71 @@
 import Foundation
-import GRDB
+import SwiftData
 
-struct DBPlaylist: FetchableRecord, MutablePersistableRecord, Identifiable {
-    static var databaseTableName = "playlists"
-
-    var title: String
-    var playlistID: String
-    var createdAt: Date
-    var songs: [DBSongMetadata]?
-    var artworkName: String?
-
-    var songsCount: Int {
-        songs?.count ?? 0
+@Model final class DBPlaylist: Identifiable {
+    var title: String = ""
+    var playlistID: String = ""
+    var createdAt: Date = Date.now
+    @Relationship(deleteRule: .cascade, inverse: \DBTrack.playlist)
+    var tracks: [DBTrack]? = []
+    var artworkFileName: String? = nil
+    
+    var trackCount: Int {
+        tracks?.count ?? 0
     }
-
-    var songTitles: [String] {
-        songs?.compactMap { $0.title } ?? []
+    
+    var trackTitles: [String] {
+        tracks?.compactMap(\.title) ?? []
     }
-
-    var songArtworkNames: [URL] {
-        songs?.compactMap(\.artworkName) ?? []
+    
+    var songArtworks: [URL] {
+        tracks?.compactMap { $0.artworkName } ?? []
     }
-
+    
     var duration: TimeInterval {
-        songs?.reduce(0) { $0 + ($1.duration ?? .zero) } ?? 0
+        tracks?.reduce(.zero) { $0 + ($1.duration ?? .zero) } ?? .zero
     }
-
+    
     var topTwoGenres: [String] {
-        let genreCounts =
-            songs?.flatMap { $0.genreNames }
+        let genreCounts = tracks?
+            .flatMap { $0.genreNames }
             .filter { $0 != "Music" }
             .reduce(into: [:]) { counts, genre in
                 counts[genre, default: 0] += 1
             } ?? [:]
-
+        
         return Array(genreCounts.sorted { $0.value > $1.value }.prefix(2).map { $0.key })
-    }
-
-    enum Columns: String, ColumnExpression {
-        case title
-        case playlistID = "id"
-        case createdAt
-        case artworkName
     }
 
     init(
         title: String,
-        playlistID: String,
-        createdAt: Date,
-        songs: [DBSongMetadata]?,
+        playlistID: String = UUID().uuidString,
+        createdAt: Date = Date.now,
+        tracks: [DBTrack]? = nil,
         artworkName: String? = nil
     ) {
         self.title = title
         self.playlistID = playlistID
         self.createdAt = createdAt
-        self.songs = songs
-        self.artworkName = artworkName
+        self.tracks = tracks
+        self.artworkFileName = artworkName
     }
-
-    init(row: Row) {
-        title = row[Columns.title]
-        playlistID = row[Columns.playlistID]
-        createdAt = row[Columns.createdAt]
-        artworkName = row[Columns.artworkName]
-        songs = nil
-    }
-
-    func encode(to container: inout PersistenceContainer) {
-        container[Columns.title] = title
-        container[Columns.playlistID] = playlistID
-        container[Columns.createdAt] = createdAt
-        container[Columns.artworkName] = artworkName
-        // Do not encode 'songs' as it's not part of the database schema
-    }
-
-    var id: String { playlistID }
 }
 
 extension DBPlaylist {
-
+    
     func artworkImageURL() throws -> URL? {
-        guard let artworkFilename = artworkName else { return nil }
-
-        let documentsDirectory = try FileManager.default.url(
+        guard let filename = artworkFileName else { return nil }
+        let dir = try FileManager.default.url(
             for: .documentDirectory,
             in: .userDomainMask,
             appropriateFor: nil,
             create: false
         )
-        let fileURL = documentsDirectory.appendingPathComponent(artworkFilename)
-
-        if FileManager.default.fileExists(atPath: fileURL.path) {
-            return fileURL
+        let url = dir.appending(path: filename)
+        if FileManager.default.fileExists(atPath: url.path) {
+            return url
         }
-
+        
         return nil
     }
 }
@@ -101,20 +73,20 @@ extension DBPlaylist {
 // MARK: Mock
 
 extension DBPlaylist {
-
+    
     static var mock: DBPlaylist {
         let filename = UUID().uuidString + ".png"
         saveDataToDocumentsDirectory(filename: filename)
-
+        let id = UUID().uuidString
         return DBPlaylist(
             title: "My Playlist",
             playlistID: UUID().uuidString,
             createdAt: Date(),
-            songs: DBSongMetadata.mockSongs,
+            tracks: DBTrack.mockSongs,
             artworkName: filename
         )
     }
-
+    
     /// Five unique mocked playlists with their own identifying metadata.
     static var mockPlaylists: [DBPlaylist] {
         let filename = UUID().uuidString + ".png"
@@ -122,44 +94,44 @@ extension DBPlaylist {
         let playlists = [
             DBPlaylist(
                 title: "Playlist 1",
-                playlistID: "1",
+                playlistID: UUID().uuidString,
                 createdAt: Date(),
-                songs: DBSongMetadata.mockSongs,
+                tracks: [],
                 artworkName: filename
             ),
             DBPlaylist(
                 title: "Playlist 2",
-                playlistID: "2",
+                playlistID: UUID().uuidString,
                 createdAt: Date(),
-                songs: DBSongMetadata.mockSongs,
+                tracks: [],
                 artworkName: filename
             ),
             DBPlaylist(
                 title: "Playlist 3",
-                playlistID: "3",
+                playlistID: UUID().uuidString,
                 createdAt: Date(),
-                songs: DBSongMetadata.mockSongs,
+                tracks: [],
                 artworkName: filename
             ),
             DBPlaylist(
                 title: "Playlist 4",
-                playlistID: "4",
+                playlistID: UUID().uuidString,
                 createdAt: Date(),
-                songs: DBSongMetadata.mockSongs,
+                tracks: [],
                 artworkName: filename
             ),
             DBPlaylist(
                 title: "Playlist 5",
-                playlistID: "5",
+                playlistID: UUID().uuidString,
                 createdAt: Date(),
-                songs: DBSongMetadata.mockSongs,
+                tracks: [],
                 artworkName: filename
             ),
         ]
-
+        
         return playlists
     }
-
+    
     /// Saves data to the specified filename within the documents directory.
     private static func saveDataToDocumentsDirectory(filename: String) {
         let url = Bundle.main.url(forResource: "dalle-sample", withExtension: "png")!
@@ -173,9 +145,9 @@ extension DBPlaylist {
             print("Failed to locate documents directory")
             return
         }
-
+        
         let fileURL = documentsDirectory.appendingPathComponent(filename)
-
+        
         do {
             try data.write(to: fileURL)
             print("File saved: \(fileURL.absoluteString)")

@@ -23,6 +23,7 @@ struct VibifyApp: App {
                 }
                 .onOpenURL(perform: handleURL)
         }
+        .modelContainer(for: [DBPlaylist.self, DBTrack.self])
     }
 }
 
@@ -32,7 +33,6 @@ private extension VibifyApp {
         let networkService = URLSessionNetworkService()
         let playlistGenerator = PlaylistGeneratorVM(
             networkService: networkService,
-            databaseManager: DatabaseManager(),
             playlistGenerator: PlaylistGenerator(networkService: networkService),
             appleMusicImporter: AppleMusicImporter(),
             dalleGenerator: DalleGenerator(networkService: networkService)

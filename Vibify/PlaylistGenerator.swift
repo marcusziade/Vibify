@@ -34,7 +34,7 @@ final class PlaylistGenerator {
     func fetchPlaylistSuggestion(
         criteria: PlaylistCriteria,
         progressHandler: ((Int) -> Void)? = nil
-    ) async throws -> [DBSongMetadata] {
+    ) async throws -> [DBTrack] {
         logger.info("Starting fetchPlaylistSuggestion with criteria: \(criteria.toPrompt())")
         
         guard let apiKey = openAIKey else {
@@ -131,7 +131,7 @@ extension PlaylistGenerator {
     func fetchPlaylistBasedOnImage(
         imageMessages: [VisionRequest.Message],
         progressHandler: ((Int) -> Void)? = nil
-    ) async throws -> [DBSongMetadata] {
+    ) async throws -> [DBTrack] {
         logger.info("Starting fetchPlaylistBasedOnImage")
         
         let playlistSuggestion = try await generateVisionPlaylist(

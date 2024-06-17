@@ -1,14 +1,16 @@
 import CachedAsyncImage
 import Foundation
+import SwiftData
 import SwiftUI
 
 struct PlaylistHistoryView: View {
     
     @Bindable var viewModel: PlaylistHistoryViewModel
+    @Query(sort: \DBPlaylist.createdAt) var playlists: [DBPlaylist]
     
     var body: some View {
         NavigationView {
-            List(viewModel.playlistHistory) { playlist in
+            List(playlists) { playlist in
                 ZStack {
                     CachedAsyncImage(url: try? playlist.artworkImageURL())
                         .scaledToFit()
@@ -22,7 +24,7 @@ struct PlaylistHistoryView: View {
                             icon: "music.note.list",
                             action: { await viewModel.importPlaylistToAppleMusic(playlist: playlist) },
                             isLoading: Binding(
-                                get: { viewModel.importingState[playlist.id] ?? false },
+                                get: { viewModel.importingState[playlist.id.entityName] ?? false },
                                 set: { _ in }
                             ),
                             colors: [.purple, .pink],
@@ -43,7 +45,6 @@ struct PlaylistHistoryView: View {
 #Preview {
     PlaylistHistoryView(
         viewModel: PlaylistHistoryViewModel(
-            dbManager: Mock_DatabaseManager(),
             appleMusicImporter: AppleMusicImporter()
         )
     )

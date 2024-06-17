@@ -1,9 +1,12 @@
 import CachedAsyncImage
+import SwiftData
 import SwiftUI
 
 struct PlaylistGeneratorView: View {
     
     @Environment(SpotifyService.self) var spotifyService
+    @Environment(\.modelContext) var modelContext
+    @Query(sort: \DBPlaylist.createdAt) var playlists: [DBPlaylist]
     
     @Bindable var viewModel: PlaylistGeneratorVM
     @Bindable private var advancedSearchVM = AdvancedSearchCriteriaVM()
@@ -87,7 +90,6 @@ struct PlaylistGeneratorView: View {
             .sheet(isPresented: $viewModel.showHistory) {
                 PlaylistHistoryView(
                     viewModel: PlaylistHistoryViewModel(
-                        dbManager: viewModel.databaseManager, 
                         appleMusicImporter: viewModel.appleMusicImporter
                     )
                 )
@@ -159,9 +161,11 @@ private extension PlaylistGeneratorView {
                 AsyncButton(
                     title: "Get Playlist Suggestion",
                     icon: "music.note.list",
-                    action: viewModel.selectedVisionImageData == nil
-                    ? viewModel.fetchPlaylistSuggestion
-                    : viewModel.fetchPlaylistSuggestionBasedOnImage,
+                    action: {
+                        Task {
+                            await fetchPlaylistSuggestion()
+                        }
+                    },
                     isLoading: $viewModel.isFetchingPlaylist,
                     colors: [.purple, .pink],
                     progress: $viewModel.progress
@@ -192,7 +196,13 @@ private extension PlaylistGeneratorView {
                         AsyncButton(
                             title: "Generate Dalle Image",
                             icon: "photo",
-                            action: viewModel.generateDalleImage,
+                            action: {
+                                let (id, artwork) = await viewModel.generateDalleImage()
+                                guard let list = playlists.first(where: { $0.playlistID == id }) else {
+                                    return
+                                }
+                                list.artworkFileName = artwork
+                            },
                             isLoading: $viewModel.isGeneratingImage,
                             colors: [.blue, .cyan],
                             progress: $viewModel.progress
@@ -264,6 +274,20 @@ private extension PlaylistGeneratorView {
                     colors: [.blue, .cyan], progress: $viewModel.progress
                 )
             }
+        }
+    }
+    
+    func fetchPlaylistSuggestion() async {
+        let (title, tracks) = await {
+            return viewModel.selectedVisionImageData == nil
+            ? await viewModel.fetchPlaylistSuggestion()
+            : await viewModel.fetchPlaylistSuggestionBasedOnImage()
+        }()
+        
+        await MainActor.run {
+            viewModel.playlistSuggestion = tracks
+            let playlist = DBPlaylist(title: title, tracks: tracks)
+            modelContext.insert(playlist)
         }
     }
     

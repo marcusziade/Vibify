@@ -1,35 +1,24 @@
 import Foundation
 import Observation
 import os.log
+import SwiftData
+import SwiftUI
 
 @Observable
 final class PlaylistHistoryViewModel {
     
-    var playlistHistory: [DBPlaylist] = []
     var importProgress: Double = 0.0
     var importingState: [String: Bool] = [:]
     private let appleMusicImporter: AppleMusicImporter
-    private let databaseManager: DatabaseManaging
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: "PlaylistHistoryViewModel")
     
-    init(dbManager: DatabaseManaging, appleMusicImporter: AppleMusicImporter) {
-        self.databaseManager = dbManager
+    init(appleMusicImporter: AppleMusicImporter) {
         self.appleMusicImporter = appleMusicImporter
-        fetchPlaylistHistory()
-    }
-    
-    func fetchPlaylistHistory() {
-        do {
-            playlistHistory = try databaseManager.fetchPlaylistHistory()
-            logger.info("Fetched playlist history: \(self.playlistHistory.map(\.songs))")
-        } catch {
-            print("Error fetching playlist history: \(error)")
-        }
     }
     
     func importPlaylistToAppleMusic(playlist: DBPlaylist) async {
         logger.info("Starting to import playlist to Apple Music: \(playlist.title)")
-        importingState[playlist.id] = true
+        importingState[playlist.id.entityName] = true
         importProgress = 0.0
         
         guard await appleMusicImporter.requestAppleMusicAccess() else {
@@ -37,16 +26,16 @@ final class PlaylistHistoryViewModel {
             return
         }
         
-        guard let songs = playlist.songs else {
+        guard let songs = playlist.tracks else {
             logger.error("No songs in playlist")
             return
         }
         
         do {
             let createdPlaylist = try await appleMusicImporter.createPlaylist(named: playlist.title)
-            let result = await appleMusicImporter.addSongsToPlaylist(
+            let result = await appleMusicImporter.addTracksToPlaylist(
                 playlist: createdPlaylist,
-                songs: songs,
+                tracks: songs,
                 progressHandler: { [unowned self] newProgress in
                     importProgress = newProgress
                 }
@@ -61,7 +50,7 @@ final class PlaylistHistoryViewModel {
             logger.error("Failed to import playlist: \(error.localizedDescription)")
         }
         
-        importingState[playlist.id] = false
+        importingState[playlist.id.entityName] = false
         importProgress = 0.0
     }
 }
